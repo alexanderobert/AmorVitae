@@ -7,7 +7,7 @@ private:
 public:
     int init(struct Congfig);
     int drawMap(char *mapCode, int state);
-    int drawPlayer(struct playerData);
+    int drawPlayer(struct player);
     int drawProjectile(struct projectileData);
 
     void displayMainMenu(struct Config);
