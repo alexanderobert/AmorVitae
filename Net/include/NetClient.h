@@ -4,13 +4,7 @@
 
 #ifndef NEW_NETCLIENT_H
 #define NEW_NETCLIENT_H
-
-struct Message {
-    int ID_user;
-    string type_event;
-    json parametrs_event;
-};
-
+#include <PacketManager.h>
 
 
 class NetClient {

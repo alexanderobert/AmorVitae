@@ -4,12 +4,7 @@
 
 #ifndef NEW_NETSERVER_H
 #define NEW_NETSERVER_H
-
-struct Message {
-    int ID_user;
-    string type_event;
-    json parametrs_event;
-};
+#include <PacketManager.h>
 
 
 class NetServer {
@@ -17,17 +12,16 @@ public:
     NetServer(int port);
     ~NetServer();
 
-    Message accept_users(int player_count);
+    Users accept_users(int player_count);
 
     void notify_all_users(Object object);
 
-    Message get_client_actions();
+    Message get_client_action(User);
 
 private:
     int port;
     PacketManager packet_manager;
     Object object;
-
 };
 
 

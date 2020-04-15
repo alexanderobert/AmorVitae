@@ -6,7 +6,6 @@
 #define NEW_USER_H
 
 #include <sys/socket.h>
-#include <boost/asio.hpp>
 
 
 
@@ -17,7 +16,7 @@ public:
 
     int get_username();
 
-    void send_packet(Packet& packet);
+    void send_packet(sf::Packet& packet);
 
     bool receive_packet(sf::Packet& packet);
 

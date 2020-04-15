@@ -5,10 +5,11 @@
 #ifndef NEW_PACKETMANAGER_H
 #define NEW_PACKETMANAGER_H
 
+#include <string>
 
 struct Message {
     int ID_user;
-    string type_event;
+    std::string type_event;
     json parametrs_event;
 };
 
