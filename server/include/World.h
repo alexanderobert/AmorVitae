@@ -16,31 +16,36 @@ public:
     void game_start();
 
 private:
+
     ObjectManager objectManager;
     EventManager eventManager;
     NetServer netServer;
 
     std::vector<Object> calc_frame();
     std::vector<Object> calc_event(Event);
+    Object init_user(User);
+    void serve_user(User);
 
 };
 
 void World::game_start() {
-     players_init = EventManager.Serve_Event(Netserver.Accept_users(player_count);
-    for(const auto& event: players_init) {
-        ObjectManager.update_objects(calc_event(event));
-    }
-
-    while(true) {
-        Message = NetServer.Get_clients_actions();
-        if(!Message.empty()) {
-            Event event = EventManger.serve_Event(Message);
-            ObjectManager.update_objects(calc_event(event));
-        }
-
-        NetServer.Notify_all_users(calc_frame());
+    Users players_init = Netserver.Accept_users(player_count);
+    for (const auto& usr: players_init) {
+        ObjectManager.update_objects(init_user(usr));
+       serve_user(usr); // в потоке
     }
 }
 
+void World::serve_user(User) {
+    while(true) {
+        Message = NetServer.Get_client_action(User);
+        if (!Message.empty()) {
+            Event event = EventManger.serve_Event(Message);
+            ObjectManager.update_objects(calc_event(event));
+            NetServer.Notify_all_users(calc_frame());
+        }
+    }
+
+}
 
 #endif //AVM_WORLD_H

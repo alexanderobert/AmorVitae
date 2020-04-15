@@ -11,7 +11,7 @@
 class Event {
 public:
     Event() = default;
-    virtual void set_fields(IniciatorID, parametrs) = 0;
+    virtual void set_fields(int IniciatorID, parametrs) = 0;
     virtual void proccess(Object obj);
     virtual ~Event() = 0;
     int IniciatorID;
