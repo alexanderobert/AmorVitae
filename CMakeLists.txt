@@ -3,4 +3,4 @@ project(skeleton)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(skeleton main.cpp clientManager.cpp clientManager.h player.cpp player.h position.cpp position.h clickProcessing.cpp clickProcessing.h requestManager.cpp requestManager.h responseManager.cpp responseManager.h displayObject.cpp displayObject.h)
+add_executable(skeleton main.cpp event.cpp event.h actionManager.cpp actionManager.h clientConnection.cpp clientConnection.h actionServer.cpp actionServer.h displayManager.cpp displayManager.h)
