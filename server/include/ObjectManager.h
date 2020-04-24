@@ -8,18 +8,21 @@
 
 #include <map>
 #include <vector>
+#include <thread>
+#include <mutex>
 #include "Object.h"
 
 class ObjectManager {
 public:
     ObjectManager() = default;
-    void update_objects(std::vector<Object> changed_objects);
-    Object get_object_by_id(int id);
-    const std::map<int, Object>& get_objects();
+    void update_objects(const std::vector<Object>& changed_objects); // захватываем мьютекс перед обновление базы
+    Object const* get_object_by_id(int id);
+    const std::map<int, Object>& get_objects() const;
 
 
 private:
     std::map<int, Object> objects;
+    std::mutex m;
 
 };
 

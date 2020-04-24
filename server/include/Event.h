@@ -11,10 +11,16 @@
 class Event {
 public:
     Event() = default;
-    virtual void set_fields(int IniciatorID, parametrs) = 0;
-    virtual void proccess(Object obj);
+    virtual Object& proccess(Object& obj);
     virtual ~Event() = 0;
     int IniciatorID;
+};
+
+class Move: public Event {
+public:
+    Move(int inic_id, int speed, Direction direction);
+    Object& proccess(Object& obj) override;
+
 };
 
 

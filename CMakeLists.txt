@@ -41,11 +41,12 @@ set(
         server/include/Event.h
         server/include/EventManager.h
         server/include/World.h
+        server/include/User.h
+        server/include/PacketManager.h
 )
 
 set(
         SERVER_SRCS
-        server/src/main.cpp
         server/src/ObjectManager.cpp
         server/src/Object.cpp
         server/src/Event.cpp
@@ -66,7 +67,10 @@ include_directories(cmake-build-debug/googletest-src/googletest/include)
 set (SERVER ${SERVER_HDRS} ${SERVER_SRCS})
 set (TEST_SERVER ${SERVER_HDRS} ${TEST_SERVER_SRC})
 
-add_executable(AmorVitae  ${SERVER})
+add_library(server_lib STATIC ${SERVER})
+
+add_executable(AmorVitaeServer server/src/main.cpp)
 add_executable(server_test ${TEST_SERVER})
 
+target_link_libraries(AmorVitaeServer server_lib)
 target_link_libraries(server_test gtest gtest_main)

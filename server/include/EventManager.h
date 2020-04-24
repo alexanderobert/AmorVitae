@@ -6,11 +6,12 @@
 #define AVM_EVENTMANAGER_H
 
 #include "Event.h"
+#include "PacketManager.h"
 
 class EventManager {
-
+public:
     EventManager() = default;
-    Event serve_event(Message message);
+    Event* serve_event(Message& message);
 };
 
 
