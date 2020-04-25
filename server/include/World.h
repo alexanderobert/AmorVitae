@@ -6,6 +6,7 @@
 #define AVM_WORLD_H
 
 #include <vector>
+#include <thread>
 #include "ObjectManager.h"
 #include "User.h"
 #include "PacketManager.h"
@@ -24,7 +25,7 @@ private:
     NetServer netServer;
     int player_count;
 
-    std::vector<Object> calc_frame();
+    void calc_frame();
     std::vector<Object> calc_event(Event*);
     Object init_user(User& user);
     void serve_user(User& user);
@@ -35,7 +36,13 @@ void World::game_start() {
     std::vector<User> players_init = Netserver.Accept_users(player_count);
     for (const auto& usr: players_init) {
         objectManager.update_objects(init_user(usr));
-        serve_user(usr); // в потоке
+        std::thread th([&](){
+            this->serve_user(usr);
+        });
+        th.detach();
+    }
+    while(/*Время раунда не кончилось*/ true) {
+        calc_frame();
     }
 }
 
@@ -46,7 +53,7 @@ void World::serve_user(User& user) {
             Event* event = eventManager.serve_event(message);
             objectManager.update_objects(calc_event(event)); // перед изменение обьектов
                                                             // в методе update_objects мы захватываем мьютекс
-            NetServer.Notify_all_users(calc_frame());
+            NetServer.Notify_all_users(objectManager.get_objects_by_array());
         }
     }
 
