@@ -7,15 +7,19 @@
 
 #include <vector>
 #include <thread>
+#include <chrono>
 #include "ObjectManager.h"
 #include "User.h"
 #include "PacketManager.h"
 #include "EventManager.h"
+
 //#include "NetServer.h"
+const int SECONDS_PER_MINUTE = 60;
+const int FRAMES_PER_SECOND = 25;
 
 class World {
 public:
-    World(int player_count, int round_duration_sec, int port);
+    World(int player_count, int round_duration_minute, int port);
     void game_start();
 
 private:
@@ -23,6 +27,7 @@ private:
     ObjectManager objectManager;
     EventManager eventManager;
     NetServer netServer;
+    int round_duration;
     int player_count;
 
     void calc_frame();
@@ -41,8 +46,15 @@ void World::game_start() {
         });
         th.detach();
     }
-    while(/*Время раунда не кончилось*/ true) {
-        calc_frame();
+    auto round_start = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration;
+    while (duration.count() < round_duration) {
+        if (/*прошло нужное колво тиков*/ true) {
+            calc_frame();
+        }
+        NetServer.Notify_all_users(objectManager.get_objects_by_array());
+        auto curr_time = std::chrono::high_resolution_clock::now();
+        duration = curr_time - round_start;
     }
 }
 
@@ -53,10 +65,8 @@ void World::serve_user(User& user) {
             Event* event = eventManager.serve_event(message);
             objectManager.update_objects(calc_event(event)); // перед изменение обьектов
                                                             // в методе update_objects мы захватываем мьютекс
-            NetServer.Notify_all_users(objectManager.get_objects_by_array());
         }
     }
-
 }
 
 #endif //AVM_WORLD_H
