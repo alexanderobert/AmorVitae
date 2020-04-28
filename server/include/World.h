@@ -39,12 +39,13 @@ private:
 
 void World::game_start() {
     std::vector<User> players_init = Netserver.Accept_users(player_count);
-    for (const auto& usr: players_init) {
+    std::vector<std::thread> threads;
+    for (auto& usr: players_init) {
         objectManager.update_objects(init_user(usr));
         std::thread th([&](){
             this->serve_user(usr);
         });
-        th.detach();
+        threads.push_back(th);
     }
     auto round_start = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration;
@@ -56,10 +57,13 @@ void World::game_start() {
         auto curr_time = std::chrono::high_resolution_clock::now();
         duration = curr_time - round_start;
     }
+    for (auto& th: threads) {
+        th.join();
+    }
 }
 
 void World::serve_user(User& user) {
-    while(true) {
+    while(user.is_connected()) {
         Message message = NetServer.Get_client_action(user);
         if (!Message.empty()) {
             std::shared_ptr<Event> event = eventManager.serve_event(message);

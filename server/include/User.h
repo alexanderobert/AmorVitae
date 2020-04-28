@@ -13,9 +13,10 @@ public:
 
     bool receive_packet(sf::Packet& packet);
 
+    bool is_connected();
+
 private:
     int ID_user;
-    bool status;
     boost::asio::io_service io_service;
     boost::asio::ip::tcp::socket sock(io_service);
 };
