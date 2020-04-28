@@ -31,7 +31,7 @@ private:
     int player_count;
 
     void calc_frame();
-    std::vector<Object> calc_event(Event*);
+    std::vector<Object> calc_event(std::shared_ptr<Event>);
     Object init_user(User& user);
     void serve_user(User& user);
 
@@ -62,9 +62,9 @@ void World::serve_user(User& user) {
     while(true) {
         Message message = NetServer.Get_client_action(user);
         if (!Message.empty()) {
-            Event* event = eventManager.serve_event(message);
+            std::shared_ptr<Event> event = eventManager.serve_event(message);
             objectManager.update_objects(calc_event(event)); // перед изменение обьектов
-                                                            // в методе update_objects мы захватываем мьютекс
+                                                              // в методе update_objects мы захватываем мьютекс
         }
     }
 }

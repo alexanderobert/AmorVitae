@@ -5,17 +5,17 @@
 #ifndef AVM_OBJECT_H
 #define AVM_OBJECT_H
 
+#include <memory>
+
 struct Point {
-    int x, y;
-    Point(int xpos, int ypos): x(xpos), y(ypos) {}
+    double x, y;
+    Point(double xpos, double ypos): x(xpos), y(ypos) {}
 };
 
-struct Direction {
+struct Vector {
     Point from, to;
-    Direction(Point f, Point t):from(f), to(t){}
+    Vector(Point f, Point t):from(f), to(t){}
 };
-
-
 
 class Object {
 public:
@@ -30,20 +30,34 @@ public:
         ID = id;
     };
     void change_position(Point new_pos);
-    void change_directoin(Direction new_dir);
+    void change_directoin(Vector new_dir);
     ~Player() override = default ;
 
     Point position;
-    Direction sight;
+    Vector sight;
+    int speed;
     int pts;
 };
 
 class Obstruction : public  Object {
+public:
     Obstruction(int id, Point pos, int h, int w): position(pos), width(w), height(h){
         ID = id;
     }
     Point position;
     int width, height;
+};
+
+class Bim: public Object {
+
+public:
+    Bim(int id, Point pos, Vector direct): position(pos), direction(direction){
+        ID = id;
+    }
+
+    Point position;
+    Vector direction;
+    double width;
 };
 
 #endif //AVM_OBJECT_H

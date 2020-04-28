@@ -8,6 +8,12 @@
 
 #include "Object.h"
 
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
 class Event {
 public:
     Event() = default;
@@ -18,7 +24,16 @@ public:
 
 class Move: public Event {
 public:
-    Move(int inic_id, int speed, Direction direction);
+
+    Move(std::shared_ptr<Player> object, Direction direction);
+    Object& proccess(Object& obj) override;
+
+};
+
+class Blink: public Event {
+public:
+
+    Blink(std::shared_ptr<Player> object, Direction direction);
     Object& proccess(Object& obj) override;
 
 };
