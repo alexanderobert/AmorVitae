@@ -14,15 +14,14 @@
 
 class ObjectManager {
 public:
-    ObjectManager() = default;
-    void update_objects(const std::vector<Object>& changed_objects); // захватываем мьютекс перед обновление базы
-    Object const* get_object_by_id(int id);
-    const std::vector<Object>& get_objects_by_array() const;
-    const std::map<int, Object>& get_objects_by_map() const;
+    ObjectManager() = default; // захватываем мьютекс перед обновление базы
+    void update_objects(const Object& changed_objects);
+    std::shared_ptr<Object> get_object_by_id(int id);
+    std::map<int, std::shared_ptr<Object>>& get_objects_by_map() const;
 
 
 private:
-    std::map<int, Object> objects;
+    std::map<int, std::shared_ptr<Object>> objects;
     std::mutex m;
 
 };

@@ -5,7 +5,6 @@
 #ifndef AVM_EVENT_H
 #define AVM_EVENT_H
 
-
 #include "Object.h"
 
 enum Direction {
@@ -24,8 +23,7 @@ public:
 
 class Move: public Event {
 public:
-
-    Move(std::shared_ptr<Player> object, Direction direction);
+    Move(int Player_ID, Direction direction);
     Object& proccess(Object& obj) override;
 
 };
@@ -33,10 +31,9 @@ public:
 class Blink: public Event {
 public:
 
-    Blink(std::shared_ptr<Player> object, Direction direction);
+    Blink(int Player_ID);
     Object& proccess(Object& obj) override;
 
 };
-
 
 #endif //AVM_EVENT_H

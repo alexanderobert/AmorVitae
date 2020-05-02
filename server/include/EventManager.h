@@ -11,7 +11,8 @@
 class EventManager {
 public:
     EventManager() = default;
-    std::shared_ptr<Event> serve_event(Message& message);
+    std::unique_ptr<Event> serve_event(Message& message);
+
 };
 
 

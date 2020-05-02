@@ -8,6 +8,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <queue>
 #include "ObjectManager.h"
 #include "User.h"
 #include "PacketManager.h"
@@ -26,19 +27,23 @@ private:
 
     ObjectManager objectManager;
     EventManager eventManager;
+    std::vector<std::unique_ptr<Event>> queque_event;
     NetServer netServer;
     int round_duration;
     int player_count;
 
     void calc_frame();
-    std::vector<Object> calc_event(std::shared_ptr<Event>);
+    void calc_event(Event& event);
     Object init_user(User& user);
     void serve_user(User& user);
-
+    std::mutex events;
+    bool need_update;
 };
 
+void World::calc_frame()    {};// При наличии флага обнавления вызывает update у всех обьектов, иначе исполняет Event
+
 void World::game_start() {
-    std::vector<User> players_init = Netserver.Accept_users(player_count);
+    std::vector<User> players_init = netServer.Accept_users(player_count);
     std::vector<std::thread> threads;
     for (auto& usr: players_init) {
         objectManager.update_objects(init_user(usr));
@@ -47,13 +52,17 @@ void World::game_start() {
         });
         threads.push_back(th);
     }
+    std::thread th([&](){
+        this->calc_frame();
+    });
+    threads.push_back(th);
     auto round_start = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration;
     while (duration.count() < round_duration) {
         if (/*прошло нужное колво тиков*/ true) {
-            calc_frame();
+            need_update = true;
+            netServer.Notify_all_users(objectManager.get_objects_by_map());
         }
-        NetServer.Notify_all_users(objectManager.get_objects_by_array());
         auto curr_time = std::chrono::high_resolution_clock::now();
         duration = curr_time - round_start;
     }
@@ -64,11 +73,10 @@ void World::game_start() {
 
 void World::serve_user(User& user) {
     while(user.is_connected()) {
-        Message message = NetServer.Get_client_action(user);
+        Message message = netServer.Get_client_action(user);
         if (!Message.empty()) {
-            std::shared_ptr<Event> event = eventManager.serve_event(message);
-            objectManager.update_objects(calc_event(event)); // перед изменение обьектов
-                                                              // в методе update_objects мы захватываем мьютекс
+            std::unique_ptr<Event> event = eventManager.serve_event(message);
+            queque_event.push_back(event);
         }
     }
 }
