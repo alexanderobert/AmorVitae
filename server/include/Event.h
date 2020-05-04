@@ -16,15 +16,25 @@ enum Direction {
 class Event {
 public:
     Event() = default;
-    virtual Object& proccess(Object& obj);
+    virtual Object proccess(std::shared_ptr<Object>);
     virtual ~Event() = 0;
     int IniciatorID;
 };
 
 class Move: public Event {
 public:
-    Move(int Player_ID, Direction direction);
-    Object& proccess(Object& obj) override;
+    Move(int Player_ID, Direction dir):direction(dir) {}
+    Object proccess(std::shared_ptr<Object> obj) override {
+        switch (direction) {
+            case UP:
+            case DOWN:
+            case LEFT:
+            case RIGHT:
+                break;
+        }
+        //obj.get()->position.;
+    }
+    Direction direction;
 
 };
 
@@ -32,8 +42,9 @@ class Blink: public Event {
 public:
 
     Blink(int Player_ID);
-    Object& proccess(Object& obj) override;
+    Object proccess(std::shared_ptr<Object> obj) override {
 
+    }
 };
 
 #endif //AVM_EVENT_H

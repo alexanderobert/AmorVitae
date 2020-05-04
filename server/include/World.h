@@ -27,26 +27,53 @@ private:
 
     ObjectManager objectManager;
     EventManager eventManager;
-    std::vector<std::unique_ptr<Event>> queque_event;
+    std::queue<std::unique_ptr<Event>> queque_event;
     NetServer netServer;
     int round_duration;
     int player_count;
 
     void calc_frame();
-    void calc_event(Event& event);
     Object init_user(User& user);
     void serve_user(User& user);
-    std::mutex events;
+    std::mutex events_m;
     bool need_update;
 };
 
-void World::calc_frame()    {};// При наличии флага обнавления вызывает update у всех обьектов, иначе исполняет Event
+void World::calc_frame() {
+    while(true/*пока идет раунд*/) {
+        std::map<int, std::shared_ptr<Object>>& objects = objectManager.get_objects_by_map();
+        if (need_update) {
+            for (auto& object: objects) {
+                if (object.second.get()->type != Object::STATIC_OBJECT) {
+                    object.second.get()->update();
+                    std::vector<std::shared_ptr<Object>&> collisions =
+                            objectManager.collisionSolver.check_object_collisions(objects, object.second);
+                    for (auto& collision: collisions) {
+                        objectManager.collisionSolver.resolve_collision(object, collision);
+                    }
+                }
+            }
+            need_update = false;
+        } else {
+            std::lock_guard<std::mutex> lock(events_m);
+            std::unique_ptr<Event> event = move(queque_event.front());
+            queque_event.pop();
+            auto object = objectManager.get_object_by_id(event.get()->IniciatorID);
+            //Object new_state_object = event.get()->proccess(object); получаем новое стстояние обекиа
+            if(!objectManager.collisionSolver.is_object_collision(objects, object)) { //проверяем есть ли коллиизиb
+                                                                                    //с новым состоянием
+
+            }
+            //обрабатываем ивент из очереди
+        }
+    }
+};// При наличии флага обнавления вызывает update у всех обьектов, иначе исполняет Event
 
 void World::game_start() {
     std::vector<User> players_init = netServer.Accept_users(player_count);
     std::vector<std::thread> threads;
     for (auto& usr: players_init) {
-        objectManager.update_objects(init_user(usr));
+        objectManager.update_objects(std::make_shared<Player>(init_user(usr)));
         std::thread th([&](){
             this->serve_user(usr);
         });
@@ -59,7 +86,7 @@ void World::game_start() {
     auto round_start = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration;
     while (duration.count() < round_duration) {
-        if (/*прошло нужное колво тиков*/ true) {
+        if (/*прошло нужное колво времени*/ true) {
             need_update = true;
             netServer.Notify_all_users(objectManager.get_objects_by_map());
         }
@@ -76,7 +103,8 @@ void World::serve_user(User& user) {
         Message message = netServer.Get_client_action(user);
         if (!Message.empty()) {
             std::unique_ptr<Event> event = eventManager.serve_event(message);
-            queque_event.push_back(event);
+            std::lock_guard<std::mutex> lock(events_m);
+            queque_event.push(event);
         }
     }
 }

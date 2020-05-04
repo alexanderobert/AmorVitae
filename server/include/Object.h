@@ -25,9 +25,17 @@ struct Model {
 
 class Object {
 public:
-    Object() = default;
+    enum Type {
+        STATIC_OBJECT,
+        PLAYER_OBJECT,
+        BULLET_OBJECT
+    };
+    Object(Type t, int id, Point pos, Model mod):type(t), ID(id), position(pos), model(mod) {}
     virtual void update() {}
     virtual ~Object() = 0;
+    Point position;
+    Model model;
+    Type type;
     int ID;
 };
 
@@ -64,15 +72,12 @@ private:
 
 class Player : public Object {
 public:
-    Player(int id, Point pos): position(pos), sight({0,0}, {0,0}), model(30, 30) {
-        ID = id;
-    };
+    Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(30,30)),
+                               sight({0,0}, {0,0}), speed(50) {};
     void update() override;//обновление в зависимости от state
     ~Player() override = default ;
-    Point position;
     Vector sight;
     PlayerState state_;
-    Model model;
     int speed;
 };
 
@@ -82,7 +87,6 @@ public:
     void update() override; //Добавляет очки, меняет зону
     void next_stage();
     int layers_count;
-    Point position;
     double ring_radius;
     std::map<int, int> players_pts;
     std::map<int, int> pts_table;
@@ -91,15 +95,10 @@ public:
 
 class Obstruction : public  Object {
 public:
-    Obstruction(int id, Point pos, int h, int w): position(pos), model(h, w){
-        ID = id;
-    }
-    Point position;
-    Model model;
+    Obstruction(int id, Point pos, int h, int w): Object(Type::STATIC_OBJECT, id, pos, Model(30,30)) {};
 };
-
+/*
 class Bim: public Object {
-
 public:
     Bim(int id, Point pos, Vector direct): position(pos), direction(direction){
         ID = id;
@@ -108,6 +107,6 @@ public:
     Point position;
     Vector direction;
     double width;
-};
+};*/
 
 #endif //AVM_OBJECT_H

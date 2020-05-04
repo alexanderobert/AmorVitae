@@ -64,7 +64,7 @@ include_directories(cmake-build-debug/googletest-src/googlemock/include)
 include_directories(cmake-build-debug/googletest-src/googletest/include)
 #include_directories(${SERVER_HDRS})
 
-set (SERVER ${SERVER_HDRS} ${SERVER_SRCS})
+set (SERVER ${SERVER_HDRS} ${SERVER_SRCS} server/include/CollisionManager.h)
 set (TEST_SERVER ${SERVER_HDRS} ${TEST_SERVER_SRC})
 
 add_library(server_lib STATIC ${SERVER})
