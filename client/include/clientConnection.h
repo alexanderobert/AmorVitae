@@ -1,18 +1,44 @@
-#ifndef SKELETON_CLIENTCONNECTION_H
-#define SKELETON_CLIENTCONNECTION_H
+#ifndef CLIENT_CLIENTCONNECTION_H
+#define CLIENT_CLIENTCONNECTION_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <ifaddrs.h>
+#include <cstring>
+
+#include <iostream>
+
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 class clientConnection {
-public:
-    clientConnection() = default;
-    virtual ~clientConnection() = 0;
-
-    bool connectClient(long, int);
-    void closeConnectClient();
 private:
-    long ip;
-    int port;
-    struct message;
-    bool statusOfConnection;
+    std::string addr_server;
+    json message;
+
+
+public:
+    void checkHostName(int hostname);
+    void checkHostEntry(struct hostent * hostentry);
+    void checkIPbuffer(char *IPbuffer);
+    void getIP();
+    std::string getIPAddress();
+
+    bool connectClient();
+    void closeConnectClient();
+
+    json getServer();
 };
 
-#endif //SKELETON_CLIENTCONNECTION_H
+
+
+#endif //CLIENT_CLIENTCONNECTION_H

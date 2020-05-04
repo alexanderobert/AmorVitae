@@ -1,20 +1,31 @@
-#ifndef SKELETON_ACTIONSERVER_H
-#define SKELETON_ACTIONSERVER_H
+#ifndef CLIENT_ACTIONSERVER_H
+#define CLIENT_ACTIONSERVER_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <ifaddrs.h>
+#include <cstring>
+
+#include <iostream>
+
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 class actionServer {
-public:
-    actionServer() = default;
-    virtual ~actionServer() = 0;
 
-    struct event getEvent();
-    struct action getAction();
-    struct message makeMessage(action, event);
-private:
-    int eventType;
-    //eventParametrs;
-    struct event;
-    struct action;
-    struct message;
+public:
+    void getActionKey(std::string);
+    void getActionMousePos(int, int);
 };
 
-#endif //SKELETON_ACTIONSERVER_H
+
+#endif //CLIENT_ACTIONSERVER_H
