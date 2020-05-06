@@ -20,6 +20,11 @@
 
 using json = nlohmann::json;
 
+struct Model {
+    int height;
+    int width;
+};
+
 struct Point {
     int x;
     int y;
@@ -29,6 +34,65 @@ struct Vector {
     Point from, to;
 };
 
+//тип отображаемого объекта
+enum typeOfObject {
+    player,
+    map,
+    obstruction
+};
+
+struct PlayerState {
+    enum State {
+        STATE_STANDING,
+        STATE_FLYING
+    };
+    int flying_tick;
+    State state_;
+};
+
+struct Player {
+    Vector sight;
+    PlayerState state_;
+    int speed;
+
+    PlayerState playerState;
+};
+
+struct Map {
+    int layers_count;
+    double ring_radius;
+};
+
+struct Obstruction {
+
+};
+
+//категория объекта
+enum Type {
+    STATIC_OBJECT,
+    PLAYER_OBJECT,
+    BULLET_OBJECT
+};
+
+//Объект получаемый от сервера
+struct Object {
+
+    Point position;
+    Model model;
+    Type type;
+
+    Player player;
+    Map map;
+    Obstruction obstruction;
+};
+
+//сообщение от сервера
+struct MessageFromServer {
+    typeOfObject type;
+    Object object;
+};
+
+
 class displayManager {
 
 private:
@@ -36,10 +100,10 @@ private:
     Vector sight;
 
 public:
-    void playerDataToGraph(json);
-    void projectFileDataToGraph(json);
-    void mapCodeToGraph(json);
-    void configToGraph(json);
+    void playerDataToGraph(struct MessageFromServer);
+    void projectFileDataToGraph(struct MessageFromServer);
+    void mapCodeToGraph(struct MessageFromServer);
+    void configToGraph(struct MessageFromServer);
 };
 
 #endif //CLIENT_DISPLAYMANAGER_H

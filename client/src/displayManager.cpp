@@ -1,14 +1,14 @@
 #include "displayManager.h"
 
-void displayManager::playerDataToGraph(json){
+void displayManager::playerDataToGraph(struct MessageFromServer){
 
 }
-void displayManager::projectFileDataToGraph(json){
+void displayManager::projectFileDataToGraph(struct MessageFromServer){
 
 }
-void displayManager::mapCodeToGraph(json){
+void displayManager::mapCodeToGraph(struct MessageFromServer){
 
 }
-void displayManager::configToGraph(json){
+void displayManager::configToGraph(struct MessageFromServer){
 
 }
