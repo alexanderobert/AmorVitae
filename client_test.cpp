@@ -1,7 +1,11 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include <NetClient.h>
+
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    NetClient net;
+
+
     return 0;
 }

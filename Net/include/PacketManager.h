@@ -6,25 +6,28 @@
 #define NEW_PACKETMANAGER_H
 
 #include <string>
+#include <Object.h>
+#include <memory>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <message_client.h>
+#include <message_server.h>
 
-struct Message {
-    int ID_user;
-    std::string type_event;
-    json parametrs_event;
-};
 
+using boost::property_tree::ptree;
+using boost::property_tree::read_json;
+using boost::property_tree::write_json;
 
 
 class PacketManager {
 public:
-    PacketManager();
-    ~PacketManager();
-    sf::Packet packet_handle(Object object);
-    Message packet_adaptation(sf::Packet& packet);
+    PacketManager() = default;
+    ~PacketManager() = default;
+    std::string packet_handle_server(Object& object);
+    std::string packet_handle_client(struct MessageToServer& event);
+    Message packet_adaptation_server(ptree& root);
+    struct MessageFromServe packet_adaptation_client(ptree& root);
 
-private:
-    sf::Packet packet;
-    Object object
 };
 
 

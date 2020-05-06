@@ -5,24 +5,31 @@
 #ifndef NEW_NETCLIENT_H
 #define NEW_NETCLIENT_H
 #include <PacketManager.h>
+#include <string>
+#include <boost/asio.hpp>
+#include <iostream>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <message_client.h>
 
 
 class NetClient {
-public:
-    NetClient();
-    ~NetClient();
 
-    bool connect_to_server(string addr_server);
-    void send_user_action(Object object);
+public:
+    NetClient() = default;
+    ~NetClient() = default;
+
+    void connect_to_server(std::string addr_server, int port);
+    void send_user_action(struct MessageToServer& mes);
     Message get_server_message();
 
 private:
-    bool send_packet(sf::Packet& packet);
-    bool status;
+    boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
+
+    //bool send_packet(sf::Packet& packet);
+  //  void send(Object& object, socket_ptr sock);
     boost::asio::io_service io_service;
-    boost::asio::ip::tcp::socket sock(io_service);
     PacketManager packet_manager;
-    Object object
 };
 
 #endif //NEW_NETCLIENT_H

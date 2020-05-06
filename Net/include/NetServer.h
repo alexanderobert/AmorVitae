@@ -5,23 +5,33 @@
 #ifndef NEW_NETSERVER_H
 #define NEW_NETSERVER_H
 #include <PacketManager.h>
+#include <boost/asio.hpp>
+#include <User.h>
+#include <vector>
+#include <iostream>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <Object.h>
+#include <message_client.h>
+
 
 
 class NetServer {
 public:
-    NetServer(int port);
-    ~NetServer();
+    explicit NetServer(int port) {}
+    ~NetServer() = default;
 
-    Users accept_users(int player_count);
+    std::vector<User> accept_users(int player_count);
 
-    void notify_all_users(Object object);
+    void notify_all_users(Object& object);
 
-    Message get_client_action(User);
+    Message get_client_action(User& user);
 
 private:
-    int port;
+    int port{};
+    std::vector<User> users;
+    boost::asio::io_service io_service;
     PacketManager packet_manager;
-    Object object;
 };
 
 

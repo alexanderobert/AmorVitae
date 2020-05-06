@@ -3,3 +3,38 @@
 //
 
 #include "NetClient.h"
+
+using namespace boost::asio;
+using boost::property_tree::ptree;
+using boost::property_tree::read_json;
+using boost::property_tree::write_json;
+
+
+void NetClient::connect_to_server(std::string addr_server, int port) {
+    ip::tcp::endpoint ep( ip::address::from_string(addr_server), port);
+    boost::shared_ptr<boost::asio::ip::tcp::socket> sock(new ip::tcp::socket(io_service));
+    socket_ptr = sock;
+    sock->connect(ep);
+}
+
+
+Message NetClient::get_server_message() {
+    char buf[1024];
+    ptree root;
+
+    socket_ptr->read_some(buffer(buf));
+
+    std::string json = std::string(buf);
+    std::stringstream stream(json);
+    read_json(stream, root);
+
+    return packet_manager.packet_adaptation_client(root);
+}
+
+
+
+void NetClient::send_user_action(struct MessageToServer& mes) {
+    std::string buf = packet_manager.packet_handle_client(mes);
+    socket_ptr->write_some(buffer(buf));
+}
+

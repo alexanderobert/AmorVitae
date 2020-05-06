@@ -13,6 +13,9 @@ execute_process(COMMAND "${CMAKE_COMMAND}" --build .
 # when building with Visual Studio
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
+find_package(Boost 1.57.0 COMPONENTS system filesystem REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 # Add googletest directly to our build. This adds the following targets:
 # gtest, gtest_main, gmock and gmock_main
 add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
@@ -39,35 +42,58 @@ include_directories(
         Net/include/NetServer.h
         Net/include/PacketManager.h
         Net/include/User.h
+        Net/include/Object.h
         Net/src
         Net/src/NetClient.cpp
         Net/src/NetServer.cpp
         Net/src/PacketManager.cpp
         Net/src/User.cpp
+        Net/include/message_client.h
+        Net/include/message_server.h
 )
 
 
 set(
-        NET_SRC
+        NET_SRC_SERVER
 
-        Net/src/NetClient.cpp
         Net/src/NetServer.cpp
         Net/src/PacketManager.cpp
         Net/src/User.cpp
 )
-
 set(
-        NET_HDRS
+        NET_SRC_CLIENT
 
-        Net/include/NetClient.h
+        Net/src/NetClient.cpp
+        Net/src/PacketManager.cpp
+)
+set(
+        NET_HDRS_SERVER
+
         Net/include/NetServer.h
         Net/include/PacketManager.h
         Net/include/User.h
+        Net/include/Object.h
+        Net/include/message_server.h
+)
+set(
+        NET_HDRS_CLIENT
+
+        Net/include/NetClient.h
+        Net/include/PacketManager.h
+        Net/include/Object.h
+        Net/include/message_client.h
 )
 
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(AmorVitae main.cpp ${NET_SRC} ${NET_HDRS})
-add_executable(test Net/tests/packet_test.cpp Net/tests/bind_test.cpp ${NET_SRC} ${NET_HDRS})
+add_executable(client client_test.cpp ${NET_SRC_CLIENT} ${NET_HDRS_CLIENT})
+add_executable(server server_test.cpp ${NET_SRC_SERVER} ${NET_HDRS_SERVER})
+target_link_libraries(client ${Boost_LIBRARIES})
+target_link_libraries(server ${Boost_LIBRARIES})
+
+
+
+
+add_executable(test Net/tests/packet_test.cpp Net/tests/bind_test.cpp ${NET_SRC_SERVER} ${NET_HDRS_SERVER})
 target_link_libraries(test gtest gtest_main)
