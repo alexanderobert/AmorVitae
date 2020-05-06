@@ -37,6 +37,7 @@ private:
     void serve_user(User& user);
     std::mutex events_m;
     bool need_update;
+    int current_id;
 };
 
 void World::calc_frame() {

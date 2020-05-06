@@ -67,7 +67,6 @@ public:
             state_ = State::STATE_FLYING;
         }
     }
-
 private:
     void next_flying_tick() {
         flying_tick++;
@@ -85,7 +84,11 @@ class Player : public Object {
 public:
     Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(30,30)),
                                sight(1, 0), speed(50) {};
-    void update() override;//обновление в зависимости от state
+    void update() override {
+        if (state_.get_state() == PlayerState::STATE_FLYING) {
+            position = position +  sight * speed;
+        }
+    }//обновление в зависимости от state
     ~Player() override = default ;
     PlayerState state_;
     Point sight;
@@ -93,8 +96,8 @@ public:
     Point normalize(const Vector& vec) {
         double t1 = vec.to.x - vec.from.x;
         double t2 = vec.to.y - vec.from.y;
-        double l = sqrt(t1*t1 + t2*t2);
-        return {t1/l, t2/l};
+        double l = sqrt(t1 * t1 + t2 * t2);
+        return {t1 / l, t2 / l};
     }
 };
 
