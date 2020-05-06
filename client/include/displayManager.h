@@ -20,7 +20,20 @@
 
 using json = nlohmann::json;
 
+struct Point {
+    int x;
+    int y;
+};
+
+struct Vector {
+    Point from, to;
+};
+
 class displayManager {
+
+private:
+    Point position;
+    Vector sight;
 
 public:
     void playerDataToGraph(json);

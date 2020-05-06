@@ -66,19 +66,13 @@ std::string clientConnection::getIPAddress(){
     return ipAddress;
 }
 
-
 bool clientConnection::connectClient(){
     //return bool connect_to_server(std::string addr_server); from NetClient
     return true;
 }
 
 void clientConnection::closeConnectClient(){
-    json closeMessage;
-    closeMessage["eventType"] = "connection";
-    closeMessage["eventParameters"] = "end";
-    //параметры определить с Владом
-
-    // send_action(closeMessage); from NetClient
+    //функция разрыва соединения
 }
 
 json clientConnection::getServer(){

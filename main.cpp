@@ -59,22 +59,28 @@ int main() {
                 if (event.key.code == sf::Keyboard::W) {
                     //std::cout << "W was pressed" << std::endl;
                     //сигнал нажатия W
-                    action.getActionKey("UP");
+                    action.sendActionMove(UP);
                 }
                 if (event.key.code == sf::Keyboard::A) {
                     //std::cout << "a was pressed" << std::endl;
                     //сигнал нажатия A
-                    action.getActionKey("LEFT");
+                    action.sendActionMove(LEFT);
                 }
                 if (event.key.code == sf::Keyboard::D) {
                     //std::cout << "d was pressed" << std::endl;
                     //сигнал нажатия D
-                    action.getActionKey("RIGHT");
+                    action.sendActionMove(RIGHT);
+
                 }
                 if (event.key.code == sf::Keyboard::S) {
                     //std::cout << "s was pressed" << std::endl;
                     //сигнал нажатия S
-                    action.getActionKey("DOWN");
+                    action.sendActionMove(DOWN);
+                }
+                if (event.key.code == sf::Keyboard::Space) {
+                    //std::cout << "space was pressed" << std::endl;
+                    //сигнал нажатия Пробел
+                    action.sendActionBlink();
                 }
             }
 
@@ -82,13 +88,13 @@ int main() {
                 //std::cout << "new mouse x: " << event.mouseMove.x << std::endl;
                 //std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
                 //посылать новые коориднаты мыши
-                action.getActionMousePos(event.mouseMove.x, event.mouseMove.y );
+                action.sendActionChangeSight(event.mouseMove.x, event.mouseMove.y);
             }
 
             ///получение данных от сервера
-            json currentMessage = clientCon.getServer();
+            MessageFromServer currentMessage = action.getMessage();
 
-            //std::cout<<currentMessage;
+            //std::cout<<currentMessage.type;
 
             ///отображение графики от части графики
         }
