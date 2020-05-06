@@ -7,10 +7,20 @@
 
 #include <memory>
 #include <map>
+#include <cmath>
 
 struct Point {
     double x, y;
     Point(double xpos, double ypos): x(xpos), y(ypos) {}
+    Point operator+ (const Point& rhs) {
+        return {this->x + rhs.x, this->y + rhs.y};
+    }
+    Point operator- (const Point& rhs) {
+        return {this->x - rhs.x, this->y - rhs.y};
+    }
+    Point operator* (int value) {
+        return {this->x * value, this->y * value};
+    }
 };
 
 struct Vector {
@@ -64,6 +74,7 @@ private:
         if (flying_tick > 60) {
             state_ = State::STATE_STANDING;
             flying_tick = 0;
+
         }
     };
     int flying_tick;
@@ -73,12 +84,18 @@ private:
 class Player : public Object {
 public:
     Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(30,30)),
-                               sight({0,0}, {0,0}), speed(50) {};
+                               sight(1, 0), speed(50) {};
     void update() override;//обновление в зависимости от state
     ~Player() override = default ;
-    Vector sight;
     PlayerState state_;
+    Point sight;
     int speed;
+    Point normalize(const Vector& vec) {
+        double t1 = vec.to.x - vec.from.x;
+        double t2 = vec.to.y - vec.from.y;
+        double l = sqrt(t1*t1 + t2*t2);
+        return {t1/l, t2/l};
+    }
 };
 
 class Map : public  Object {

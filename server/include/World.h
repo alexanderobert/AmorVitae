@@ -15,8 +15,8 @@
 #include "EventManager.h"
 
 //#include "NetServer.h"
-const int SECONDS_PER_MINUTE = 60;
-const int FRAMES_PER_SECOND = 25;
+const static int SECONDS_PER_MINUTE = 60;
+const static int FRAMES_PER_SECOND = 25;
 
 class World {
 public:
@@ -60,9 +60,10 @@ void World::calc_frame() {
             queque_event.pop();
             auto object = objectManager.get_object_by_id(event.get()->IniciatorID);
             //Object new_state_object = event.get()->proccess(object); получаем новое стстояние обекиа
-            if(!objectManager.collisionSolver.is_object_collision(objects, object)) { //проверяем есть ли коллиизиb
+            auto New_state =event.get()->proccess(object);
+            if(!objectManager.collisionSolver.is_object_collided(objects, New_state)) { //проверяем есть ли коллиизиb
                                                                                     //с новым состоянием
-
+                object = New_state;
             }
             //обрабатываем ивент из очереди
         }
