@@ -16,15 +16,9 @@
 
 #include <iostream>
 
-#include "json.hpp"
-
-using json = nlohmann::json;
-
-class clientConnection {
+class clientConnectionInterface {
 private:
     std::string addr_server;
-    json message;
-
 
 public:
 
@@ -38,8 +32,6 @@ public:
 
     int connectClient();
     void closeConnectClient();
-
-    json getServer();
 };
 
 

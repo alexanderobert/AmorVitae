@@ -1,29 +1,6 @@
-#include "actionServer.h"
+#include "../include/actionServer.h"
 
-void actionServer::getActionKey(std::string key){
-    json actionMessage;
-
-    actionMessage["eventType"] = "action";
-    actionMessage["action"] = {{"move", key}};
-
-
-    //std::cout<<actionMessage; //проверка
-
-    // send_action(actionMessage); from NetClient
-}
-
-void actionServer::getActionMousePos(int x, int y){
-    json actionMessage;
-
-    actionMessage["eventType"] = "action";
-    actionMessage["mouse_coordinate"] = {{"x", x}, {"y", y}};
-
-    //std::cout<<actionMessage;
-
-    // send_action(actionMessage); from NetClient
-}
-
-void actionServer::sendActionMove(Direction direction){
+void actionServerInterface::sendActionMove(Direction direction){
 
     Move event;
     event.type = move;
@@ -37,7 +14,7 @@ void actionServer::sendActionMove(Direction direction){
     // Send_action(event); from NetClient
 }
 
-void actionServer::sendActionBlink(){
+void actionServerInterface::sendActionBlink(){
 
     Blink event;
     event.type = blink;
@@ -48,13 +25,13 @@ void actionServer::sendActionBlink(){
     // Send_action(event); from NetClient
 }
 
-void actionServer::updatePosition(){
+void actionServerInterface::updatePosition(){
 
     myPosition.x = 500;
     myPosition.y = 500;
 }
 
-void actionServer::updateSight(int x, int y){
+void actionServerInterface::updateSight(int x, int y){
 
     Point mouse;
     mouse.x = x;
@@ -68,11 +45,11 @@ void actionServer::updateSight(int x, int y){
 }
 
 
-Object actionServer::getMessage(){
+ObjectInterface actionServerInterface::getMessage(){
 
     // return Get_servet_action(); from NetClient
 
-    Object object;
+    ObjectInterface object;
     object.type = STATIC_OBJECT;
 
     return object;

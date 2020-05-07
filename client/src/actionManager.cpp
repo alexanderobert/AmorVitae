@@ -1,6 +1,7 @@
-#include "actionManager.h"
+#include "../include/actionManager.h"
+#include "../include/clientConnection.h"
 
-void actionManager::pollEvent(sf::RenderWindow &window, clientConnection &clientCon, actionServer &action, bool &startGameButtonPressed){
+void actionManagerInterface::pollEvent(sf::RenderWindow &window, clientConnectionInterface &clientCon, actionServerInterface &action, bool &startGameButtonPressed){
 
     startGameButtonPressed = true;
 
@@ -22,7 +23,7 @@ void actionManager::pollEvent(sf::RenderWindow &window, clientConnection &client
                 {
                     startGameButtonPressed = true;
                     // запустить функцию подключения
-                    bool isCon = clientCon.connectClient();
+                    clientCon.myId = clientCon.connectClient();
                 }
             }
 
@@ -63,7 +64,7 @@ void actionManager::pollEvent(sf::RenderWindow &window, clientConnection &client
             }
 
             ///получение данных от сервера
-            Object currentMessage = action.getMessage();
+            ObjectInterface currentMessage = action.getMessage();
 
             //std::cout<<currentMessage.type;
 

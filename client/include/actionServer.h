@@ -16,11 +16,6 @@
 
 #include <iostream>
 
-#include "json.hpp"
-
-using json = nlohmann::json;
-
-
 //блок формирования сообщения для отправки
 enum EventType {
     move,
@@ -54,23 +49,16 @@ struct Vector {
     Point from, to;
 };
 
-
-//struct MessageToServer  {
-//    EventType type; //move, blink, change sight
-//    Direction direction;
-//    MousePosition newSight;
-//};
-
-struct Event {
+struct EventInterface {
     EventType type; //move, blink
     Vector sight;
 };
 
-struct Move: Event{
+struct Move: EventInterface{
     Direction direction;
 };
 
-struct Blink: Event{
+struct Blink: EventInterface{
 
 };
 
@@ -78,9 +66,7 @@ struct Blink: Event{
 
 //блок формирования получения сообщения
 
-
 //тип отображаемого объекта
-
 //категория объекта
 enum Type {
     STATIC_OBJECT,
@@ -89,7 +75,7 @@ enum Type {
 };
 
 //Объект получаемый от сервера
-struct Object {
+struct ObjectInterface {
 
     Point position;
     Model model;
@@ -97,7 +83,7 @@ struct Object {
     int ID;
 };
 
-struct Player:Object {
+struct Player:ObjectInterface {
     Vector sight;
     int speed;
 };
@@ -111,34 +97,32 @@ struct PlayerState:Player {
     State state_;
 };
 
-struct Map:Object {
+struct Map:ObjectInterface {
     int layers_count;
     double ring_radius;
 };
 
-struct Obstruction:Object {
+struct Obstruction:ObjectInterface {
 
 };
 
 //конец блока формирования получения сообщения
 
 //класс для отправки и получения
-class actionServer {
+class actionServerInterface {
 
 private:
     Point myPosition;
     Vector mySight;
 
 public:
-    void getActionKey(std::string);
-    void getActionMousePos(int, int);
 
     void sendActionMove(Direction);
     void sendActionBlink();
     void updatePosition();
     void updateSight(int, int);
 
-    Object getMessage();
+    ObjectInterface getMessage();
 };
 
 #endif //CLIENT_ACTIONSERVER_H

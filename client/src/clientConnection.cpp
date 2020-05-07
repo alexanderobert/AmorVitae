@@ -1,10 +1,10 @@
-#include "clientConnection.h"
+#include "../include/clientConnection.h"
 
 struct IPv4 {
     unsigned char b1, b2, b3, b4;
 };
 
-void clientConnection::checkHostName(int hostname){
+void clientConnectionInterface::checkHostName(int hostname){
     if (hostname == -1)
     {
         perror("gethostname");
@@ -12,7 +12,7 @@ void clientConnection::checkHostName(int hostname){
     }
 }
 
-void clientConnection::checkHostEntry(struct hostent * hostentry){
+void clientConnectionInterface::checkHostEntry(struct hostent * hostentry){
     if (hostentry == NULL)
     {
         perror("gethostbyname");
@@ -20,7 +20,7 @@ void clientConnection::checkHostEntry(struct hostent * hostentry){
     }
 }
 
-void clientConnection::checkIPbuffer(char *IPbuffer){
+void clientConnectionInterface::checkIPbuffer(char *IPbuffer){
     if (NULL == IPbuffer)
     {
         perror("inet_ntoa");
@@ -28,7 +28,7 @@ void clientConnection::checkIPbuffer(char *IPbuffer){
     }
 }
 
-void clientConnection::getIP(){
+void clientConnectionInterface::getIP(){
     char hostbuffer[256];
     char *IPbuffer;
     struct hostent *host_entry;
@@ -45,7 +45,7 @@ void clientConnection::getIP(){
     printf("Host IP: %s", IPbuffer);
 }
 
-std::string clientConnection::getIPAddress(){
+std::string clientConnectionInterface::getIPAddress(){
     std::string ipAddress="Unable to get IP Address";
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
@@ -66,21 +66,13 @@ std::string clientConnection::getIPAddress(){
     return ipAddress;
 }
 
-int clientConnection::connectClient(){
+int clientConnectionInterface::connectClient(){
     //return bool connect_to_server(std::string addr_server); from NetClient
     // myId = id от сетей
     myId = 1;
     return myId;
 }
 
-void clientConnection::closeConnectClient(){
+void clientConnectionInterface::closeConnectClient(){
     //функция разрыва соединения
-}
-
-json clientConnection::getServer(){
-    // get_server_action(); from NetClient
-    json pass;
-    pass["key"] = "test";
-
-    return pass;
 }

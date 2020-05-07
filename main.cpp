@@ -1,15 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#include "clientConnection.h"
-#include "actionServer.h"
-#include "actionManager.h"
+#include "../include/clientConnection.h"
+#include "../include/actionServer.h"
+#include "../include/actionManager.h"
 
 int main() {
 
-    clientConnection clientCon;
-    actionServer action;
-    actionManager launch;
+    clientConnectionInterface clientCon;
+    actionServerInterface action;
+    actionManagerInterface launch;
 
     bool startGameButtonPressed = false;
 
