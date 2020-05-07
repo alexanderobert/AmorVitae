@@ -62,6 +62,10 @@ set(
 )
 include_directories(cmake-build-debug/googletest-src/googlemock/include)
 include_directories(cmake-build-debug/googletest-src/googletest/include)
+
+find_package(Boost 1.57.0 COMPONENTS system filesystem REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 #include_directories(${SERVER_HDRS})
 
 set (SERVER ${SERVER_HDRS} ${SERVER_SRCS} server/include/CollisionManager.h)

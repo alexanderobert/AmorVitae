@@ -17,7 +17,7 @@ class ObjectManager {
 public:
     ObjectManager() = default; // захватываем мьютекс перед обновление базы
     void update_objects(std::shared_ptr<Object> changed_object) {
-        objects[changed_object.get()->ID] = changed_object;
+        objects[changed_object->ID] = changed_object;
     }
     std::shared_ptr<Object>& get_object_by_id(int id) {
         return objects[id];

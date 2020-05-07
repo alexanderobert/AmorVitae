@@ -15,7 +15,7 @@ public:
 private:
     bool is_collided(std::shared_ptr<Object> lhs_obj, std::shared_ptr<Object> rhs_obj);
     void resolve_collision(std::shared_ptr<Player> player, std::shared_ptr<Obstruction> obstruct) {
-        player.get()->position = player.get()->position -  player.get()->sight * player.get()->speed;
+        player->position = player->position -  player->sight * player->speed;
     }
 
     /*

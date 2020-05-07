@@ -45,8 +45,8 @@ void World::calc_frame() {
         std::map<int, std::shared_ptr<Object>>& objects = objectManager.get_objects_by_map();
         if (need_update) {
             for (auto& object: objects) {
-                if (object.second.get()->type != Object::STATIC_OBJECT) {
-                    object.second.get()->update();
+                if (object.second->type != Object::STATIC_OBJECT) {
+                    object.second->update();
                     std::vector<std::shared_ptr<Object>&> collisions =
                             objectManager.collisionSolver.check_object_collisions(objects, object.second);
                     for (auto& collision: collisions) {
@@ -59,9 +59,9 @@ void World::calc_frame() {
             std::lock_guard<std::mutex> lock(events_m);
             std::unique_ptr<Event> event = move(queque_event.front());
             queque_event.pop();
-            auto object = objectManager.get_object_by_id(event.get()->IniciatorID);
+            auto object = objectManager.get_object_by_id(event->IniciatorID);
             //Object new_state_object = event.get()->proccess(object); получаем новое стстояние обекиа
-            auto New_state =event.get()->proccess(object);
+            auto New_state =event->proccess(object);
             if(!objectManager.collisionSolver.is_object_collided(objects, New_state)) { //проверяем есть ли коллиизиb
                                                                                     //с новым состоянием
                 object = New_state;
