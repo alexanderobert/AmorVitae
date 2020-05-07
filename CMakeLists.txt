@@ -36,18 +36,22 @@ endif()
 
 set(
         SERVER_HDRS
+        server
+        server/include
         server/include/ObjectManager.h
+        server/include/CollisionManager.h
         server/include/Object.h
         server/include/Event.h
         server/include/EventManager.h
         server/include/World.h
-        server/include/User.h
-        server/include/PacketManager.h
 )
 
 set(
         SERVER_SRCS
+        server
+        server/src
         server/src/ObjectManager.cpp
+        server/src/CollisionManager.h
         server/src/Object.cpp
         server/src/Event.cpp
         server/src/EventManager.cpp
@@ -55,23 +59,58 @@ set(
 )
 
 set(
-        TEST_SERVER_SRC
-        server/tests/EventTest.cpp
-        server/tests/ObjectTest.cpp
-        server/tests/main.cpp
+        NET_SRC_SERVER
+        Net
+        Net/src
+        Net/src/NetServer.cpp
+        Net/src/PacketManager.cpp
+        Net/src/User.cpp
 )
+set(
+        NET_SRC_CLIENT
+        Net/src
+        Net/src/NetClient.cpp
+        Net/src/PacketManager.cpp
+)
+set(
+        NET_HDRS_SERVER
+        Net
+        Net/include
+        Net/include/message_server.h
+        Net/include/NetServer.h
+        Net/include/PacketManager.h
+        Net/include/User.h
+        Net/include/message_server.h
+)
+set(
+        NET_HDRS_CLIENT
+        Net
+        Net/include
+        Net/include/message_client.h
+        Net/include/NetClient.h
+        Net/include/PacketManager.h
+        Net/include/message_client.h
+)
+
+
 include_directories(cmake-build-debug/googletest-src/googlemock/include)
 include_directories(cmake-build-debug/googletest-src/googletest/include)
 
 find_package(Boost 1.57.0 COMPONENTS system filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-#include_directories(${SERVER_HDRS})
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+find_package(SFML 2 REQUIRED network audio graphics window system)
+include_directories(${SFML_INCLUDE_DIR})
 
-set (SERVER ${SERVER_HDRS} ${SERVER_SRCS} server/include/CollisionManager.h)
+set (NET_SERVER ${NET_HDRS_SERVER} ${NET_SRC_SERVER})
+set (SERVER ${SERVER_HDRS} ${SERVER_SRCS})
 set (TEST_SERVER ${SERVER_HDRS} ${TEST_SERVER_SRC})
 
-add_library(server_lib STATIC ${SERVER})
+include_directories(
+        ${SERVER}
+        ${NET_SERVER}
+)
 
 add_executable(AmorVitaeServer server/src/main.cpp)
 add_executable(server_test ${TEST_SERVER})

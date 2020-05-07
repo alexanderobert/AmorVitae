@@ -9,12 +9,11 @@
 #include <thread>
 #include <chrono>
 #include <queue>
-#include "ObjectManager.h"
-#include "User.h"
-#include "PacketManager.h"
-#include "EventManager.h"
+#include <ObjectManager.h>
+#include <PacketManager.h>
+#include <EventManager.h>
+#include <NetServer.h>
 
-//#include "NetServer.h"
 const static int SECONDS_PER_MINUTE = 60;
 const static int FRAMES_PER_SECOND = 25;
 
@@ -27,7 +26,7 @@ private:
 
     ObjectManager objectManager;
     EventManager eventManager;
-    std::queue<std::unique_ptr<Event>> queque_event;
+    std::queue<std::shared_ptr<Event>> queque_event;
     NetServer netServer;
     int round_duration;
     int player_count;
@@ -57,7 +56,7 @@ void World::calc_frame() {
             need_update = false;
         } else {
             std::lock_guard<std::mutex> lock(events_m);
-            std::unique_ptr<Event> event = move(queque_event.front());
+            std::shared_ptr<Event> event = queque_event.front();
             queque_event.pop();
             auto object = objectManager.get_object_by_id(event->IniciatorID);
             //Object new_state_object = event.get()->proccess(object); получаем новое стстояние обекиа
@@ -72,7 +71,7 @@ void World::calc_frame() {
 };// При наличии флага обнавления вызывает update у всех обьектов, иначе исполняет Event
 
 void World::game_start() {
-    std::vector<User> players_init = netServer.Accept_users(player_count);
+    std::vector<User> players_init = netServer.accept_users(player_count);
     std::vector<std::thread> threads;
     for (auto& usr: players_init) {
         objectManager.update_objects(std::make_shared<Player>(init_user(usr)));
@@ -90,7 +89,7 @@ void World::game_start() {
     while (duration.count() < round_duration) {
         if (/*прошло нужное колво времени*/ true) {
             need_update = true;
-            netServer.Notify_all_users(objectManager.get_objects_by_map());
+            netServer.notify_all_users(objectManager.get_objects_by_map());
         }
         auto curr_time = std::chrono::high_resolution_clock::now();
         duration = curr_time - round_start;
@@ -102,9 +101,9 @@ void World::game_start() {
 
 void World::serve_user(User& user) {
     while(user.is_connected()) {
-        Message message = netServer.Get_client_action(user);
-        if (!Message.empty()) {
-            std::unique_ptr<Event> event = eventManager.serve_event(message);
+        Message message = netServer.get_client_action(user);
+        if (!message.empty()) {
+            std::shared_ptr<Event> event = eventManager.serve_event(message);
             std::lock_guard<std::mutex> lock(events_m);
             queque_event.push(event);
         }
