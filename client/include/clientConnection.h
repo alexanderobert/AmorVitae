@@ -27,13 +27,16 @@ private:
 
 
 public:
+
+    int myId;
+
     void checkHostName(int hostname);
     void checkHostEntry(struct hostent * hostentry);
     void checkIPbuffer(char *IPbuffer);
     void getIP();
     std::string getIPAddress();
 
-    bool connectClient();
+    int connectClient();
     void closeConnectClient();
 
     json getServer();

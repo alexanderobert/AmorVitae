@@ -3,112 +3,41 @@
 
 #include "clientConnection.h"
 #include "actionServer.h"
+#include "actionManager.h"
 
 int main() {
 
     clientConnection clientCon;
     actionServer action;
-
+    actionManager launch;
 
     bool startGameButtonPressed = false;
 
-    //создание фона кнопки старт
+    //создание окна, Дожна быть часть от Глеба
     sf::RenderWindow window(sf::VideoMode(1200, 800), "AmorVitae", sf::Style::Titlebar | sf::Style::Close);
-    sf::RectangleShape startGameButton(sf::Vector2f(120, 50));
-    startGameButton.setPosition(560, 350);
 
-    //подключение шрифта
-    sf::Font font;
-    if (!font.loadFromFile("ArialRegular.ttf"))
-    {
-        //нет шрифта
-    }
+    launch.pollEvent(window, clientCon, action, startGameButtonPressed);
 
-    //создание подписи кнопки старта
-    sf::Text labelStart;
-    labelStart.setFont(font);
-    labelStart.setString("Start game");
-    labelStart.setCharacterSize(20);
-    labelStart.setPosition(570, 360);
-    labelStart.setFillColor(sf::Color::Red);
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed){
-                clientCon.closeConnectClient();
-                window.close();
-            }
+    //создание фона кнопки старт
+//    sf::RectangleShape startGameButton(sf::Vector2f(120, 50));
+//    startGameButton.setPosactionManagerition(560, 350);
+//
+//    //подключение шрифта
+//    sf::Font font;
+//    if (!font.loadFromFile("ArialRegular.ttf"))
+//    {
+//        //нет шрифта
+//    }
+//
+//    //создание подписи кнопки старта
+//    sf::Text labelStart;
+//    labelStart.setFont(font);
+//    labelStart.setString("Start game");
+//    labelStart.setCharacterSize(20);
+//    labelStart.setPosition(570, 360);
+//    labelStart.setFillColor(sf::Color::Red);
 
 
-            ///////////////////////////////
-            if (event.type == sf::Event::MouseButtonPressed){
-                if ((event.mouseButton.button == sf::Mouse::Left) &&
-                ((sf::Mouse::getPosition(window).x >= 560)&&(sf::Mouse::getPosition(window).x <= 680)
-                &&(sf::Mouse::getPosition(window).y >= 350)&&(sf::Mouse::getPosition(window).y <= 400)))
-                {
-                    startGameButtonPressed = true;
-                    // запустить функцию подключения
-                    bool isCon = clientCon.connectClient();
-                }
-            }
-
-            if ((event.type == sf::Event::KeyPressed)&&(startGameButtonPressed)) {
-                if (event.key.code == sf::Keyboard::W) {
-                    //std::cout << "W was pressed" << std::endl;
-                    //сигнал нажатия W
-                    action.sendActionMove(UP);
-                }
-                if (event.key.code == sf::Keyboard::A) {
-                    //std::cout << "a was pressed" << std::endl;
-                    //сигнал нажатия A
-                    action.sendActionMove(LEFT);
-                }
-                if (event.key.code == sf::Keyboard::D) {
-                    //std::cout << "d was pressed" << std::endl;
-                    //сигнал нажатия D
-                    action.sendActionMove(RIGHT);
-
-                }
-                if (event.key.code == sf::Keyboard::S) {
-                    //std::cout << "s was pressed" << std::endl;
-                    //сигнал нажатия S
-                    action.sendActionMove(DOWN);
-                }
-                if (event.key.code == sf::Keyboard::Space) {
-                    //std::cout << "space was pressed" << std::endl;
-                    //сигнал нажатия Пробел
-                    action.sendActionBlink();
-                }
-            }
-
-            if ((event.type == sf::Event::MouseMoved)&&(startGameButtonPressed)){
-                //std::cout << "new mouse x: " << event.mouseMove.x << std::endl;
-                //std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
-                //посылать новые коориднаты мыши
-                action.sendActionChangeSight(event.mouseMove.x, event.mouseMove.y);
-            }
-
-            ///получение данных от сервера
-            MessageFromServer currentMessage = action.getMessage();
-
-            //std::cout<<currentMessage.type;
-
-            ///отображение графики от части графики
-        }
-
-        window.clear();
-
-        // метка входа в игру
-        if(!startGameButtonPressed) {
-            window.draw(startGameButton);
-            window.draw(labelStart);
-        }
-
-        window.display();
-    }
 
     return 0;
 }

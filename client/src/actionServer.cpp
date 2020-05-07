@@ -25,45 +25,55 @@ void actionServer::getActionMousePos(int x, int y){
 
 void actionServer::sendActionMove(Direction direction){
 
-    MessageToServer message;
-    message.type = move;
-    message.direction = direction;
+    Move event;
+    event.type = move;
+    event.direction = direction;
+    event.sight = mySight;
 
-    //std::cout<<message.direction<<"\n";
 
-    // Send_action(message); from NetClient
+    //std::cout<<event.sight.to.x<<"\n";
+    //std::cout<<event.sight.to.y<<"\n";
+
+    // Send_action(event); from NetClient
 }
 
 void actionServer::sendActionBlink(){
 
-    MessageToServer message;
-    message.type = blink;
+    Blink event;
+    event.type = blink;
+    event.sight = mySight;
 
-    // Send_action(message); from NetClient
+    //std::cout<<"Блинк"<<"\n";
+
+    // Send_action(event); from NetClient
 }
 
-void actionServer::sendActionChangeSight(int x, int y){
+void actionServer::updatePosition(){
 
-    MousePosition mouse;
+    myPosition.x = 500;
+    myPosition.y = 500;
+}
+
+void actionServer::updateSight(int x, int y){
+
+    Point mouse;
     mouse.x = x;
     mouse.y = y;
 
-    MessageToServer  message;
-    message.type = changeSight;
-    message.newSight = mouse;
+    myPosition.x = 500;
+    myPosition.y = 500;
 
-    //std::cout<<message.newSight.x<<" "<<message.newSight.y<<"\n";
-
-    // Send_action(message); from NetClient
+    mySight.from = myPosition;
+    mySight.to = mouse;
 }
 
 
-MessageFromServer actionServer::getMessage(){
+Object actionServer::getMessage(){
 
     // return Get_servet_action(); from NetClient
 
-    MessageFromServer message;
-    message.type = player;
+    Object object;
+    object.type = STATIC_OBJECT;
 
-    return message;
+    return object;
 }

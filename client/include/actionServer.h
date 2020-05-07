@@ -24,8 +24,7 @@ using json = nlohmann::json;
 //блок формирования сообщения для отправки
 enum EventType {
     move,
-    blink,
-    changeSight
+    blink
 };
 
 enum Direction {
@@ -56,48 +55,31 @@ struct Vector {
 };
 
 
-struct MessageToServer  {
-    EventType type; //move, blink, change sight
-    Direction direction;
-    MousePosition newSight;
+//struct MessageToServer  {
+//    EventType type; //move, blink, change sight
+//    Direction direction;
+//    MousePosition newSight;
+//};
+
+struct Event {
+    EventType type; //move, blink
+    Vector sight;
 };
+
+struct Move: Event{
+    Direction direction;
+};
+
+struct Blink: Event{
+
+};
+
 //конец блока формирования сообщения для отправки
 
 //блок формирования получения сообщения
 
 
 //тип отображаемого объекта
-enum typeOfObject {
-    player,
-    map,
-    obstruction
-};
-
-struct PlayerState {
-    enum State {
-        STATE_STANDING,
-        STATE_FLYING
-    };
-    int flying_tick;
-    State state_;
-};
-
-struct Player {
-    Vector sight;
-    PlayerState state_;
-    int speed;
-
-    PlayerState playerState;
-};
-
-struct Map {
-    int layers_count;
-    double ring_radius;
-};
-
-struct Obstruction {
-
-};
 
 //категория объекта
 enum Type {
@@ -112,16 +94,30 @@ struct Object {
     Point position;
     Model model;
     Type type;
-
-    Player player;
-    Map map;
-    Obstruction obstruction;
+    int ID;
 };
 
-//сообщение от сервера
-struct MessageFromServer {
-    typeOfObject type;
-    Object object;
+struct Player:Object {
+    Vector sight;
+    int speed;
+};
+
+struct PlayerState:Player {
+    enum State {
+        STATE_STANDING,
+        STATE_FLYING
+    };
+    int flying_tick;
+    State state_;
+};
+
+struct Map:Object {
+    int layers_count;
+    double ring_radius;
+};
+
+struct Obstruction:Object {
+
 };
 
 //конец блока формирования получения сообщения
@@ -129,15 +125,20 @@ struct MessageFromServer {
 //класс для отправки и получения
 class actionServer {
 
+private:
+    Point myPosition;
+    Vector mySight;
+
 public:
     void getActionKey(std::string);
     void getActionMousePos(int, int);
 
     void sendActionMove(Direction);
     void sendActionBlink();
-    void sendActionChangeSight(int, int);
+    void updatePosition();
+    void updateSight(int, int);
 
-    MessageFromServer getMessage();
+    Object getMessage();
 };
 
 #endif //CLIENT_ACTIONSERVER_H

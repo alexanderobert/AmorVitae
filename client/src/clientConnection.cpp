@@ -66,9 +66,11 @@ std::string clientConnection::getIPAddress(){
     return ipAddress;
 }
 
-bool clientConnection::connectClient(){
+int clientConnection::connectClient(){
     //return bool connect_to_server(std::string addr_server); from NetClient
-    return true;
+    // myId = id от сетей
+    myId = 1;
+    return myId;
 }
 
 void clientConnection::closeConnectClient(){
