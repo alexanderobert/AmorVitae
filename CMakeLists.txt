@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(AmorVitae)
 
 set(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
@@ -130,6 +131,7 @@ include_directories(cmake-build-debug/googletest-src/googletest/include)
 find_package(Boost 1.57.0 COMPONENTS system filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED network audio graphics window system)
 include_directories(${SFML_INCLUDE_DIR})
@@ -137,19 +139,29 @@ include_directories(${SFML_INCLUDE_DIR})
 set (NET_SERVER ${NET_HDRS_SERVER} ${NET_SRC_SERVER})
 set (SERVER ${SERVER_HDRS} ${SERVER_SRCS})
 set (TEST_SERVER ${SERVER_HDRS} ${TEST_SERVER_SRC})
-set(CLIENT ${CLIENT_SRC} ${CLIENT_HDRS})
-set(GRAPHICS ${GRAPHICS_HDRS} ${GRAPHICS_HDRS})
+set (CLIENT ${CLIENT_SRC} ${CLIENT_HDRS})
+set (GRAPHICS ${GRAPHICS_HDRS} ${GRAPHICS_HDRS})
 
 
 include_directories(
-        ${SERVER}
-        ${NET_SERVER}
-        ${CLIENT}
-        ${GRAPHICS}
+        server
+        server/include
+        server/src
+        Net
+        Net/include
+        Net/src
+        client
+        client/include
+        client/src
+        graphics
+        graphics/include
+        graphics/src
 )
 
 add_executable(AmorVitaeServer server/src/main.cpp ${SERVER} ${NET_SERVER})
 add_executable(server_test ${TEST_SERVER})
 add_executable(AmorVitaeClient client/src/main.cpp)
+
+target_link_libraries(AmorVitaeServer ${Boost_LIBRARIES})
 
 target_link_libraries(server_test gtest gtest_main)

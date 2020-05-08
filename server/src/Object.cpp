@@ -2,4 +2,4 @@
 // Created by moira-q on 14.04.20.
 //
 
-#include "../include/Object.h"
+#include <Object.h>

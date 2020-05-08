@@ -19,7 +19,8 @@ const static int FRAMES_PER_SECOND = 25;
 
 class World {
 public:
-    World(int player_count, int round_duration_minute, int port): netServer(port) {}
+    World(int player_count, int round_duration_minute, int port): netServer(port), player_count(player_count),
+                                                                  round_duration(round_duration_minute){}
     void game_start();
 
 private:
