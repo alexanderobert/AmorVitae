@@ -32,7 +32,7 @@ private:
     int player_count;
 
     void calc_frame();
-    Object init_user(User& user);
+    std::shared_ptr<Object> init_user(User& user);
     void serve_user(User& user);
     std::mutex events_m;
     bool need_update;
