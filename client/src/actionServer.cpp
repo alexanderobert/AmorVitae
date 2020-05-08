@@ -62,6 +62,6 @@ std::shared_ptr<ObjectInterface> actionServerInterface::getMessage(){
     ObjectInterface object;
     object.type = STATIC_OBJECT;
 */
-    return std::make_shared<ObjectInterface>();
+    return std::shared_ptr<ObjectInterface>();
 
 }

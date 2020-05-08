@@ -166,3 +166,4 @@ add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${GRAPHICS} ${NET_C
 target_link_libraries(AmorVitaeServer ${Boost_LIBRARIES})
 target_link_libraries(AmorVitaeClient ${SFML_LIBRARIES})
 target_link_libraries(server_test gtest gtest_main)
+target_link_libraries(AmorVitaeClient ${Boost_LIBRARIES})

@@ -5,8 +5,8 @@
 #ifndef AVM_EVENTMANAGER_H
 #define AVM_EVENTMANAGER_H
 
-#include "Event.h"
-#include "PacketManager.h"
+#include <Event.h>
+#include <PacketManager.h>
 
 class EventManager {
 public:

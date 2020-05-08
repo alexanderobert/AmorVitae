@@ -2,7 +2,7 @@
 // Created by moira-q on 07.05.20.
 //
 
-#include <include/CollisionManager.h>
+#include <CollisionManager.h>
 
 std::vector<std::shared_ptr<Object>>
 CollisionManager::check_object_collisions(const std::map<int, std::shared_ptr<Object>> &objects,

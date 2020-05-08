@@ -2,7 +2,7 @@
 #include <iostream>
 //#include "graphics/include/drawobject.h"
 
-int main() {
+void graph() { //main Глеба
     int windowWidth = 640;
     int windowHeight = 480;
 
@@ -35,6 +35,4 @@ int main() {
         window.draw(background);
         window.display();
     }
-
-    return 0;
 }
