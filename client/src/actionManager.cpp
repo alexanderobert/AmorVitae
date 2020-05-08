@@ -64,7 +64,7 @@ void actionManagerInterface::pollEvent(sf::RenderWindow &window, clientConnectio
             }
 
             ///получение данных от сервера
-            ObjectInterface currentMessage = action.getMessage();
+            std::shared_ptr<ObjectInterface> currentMessage = action.getMessage();
 
             //std::cout<<currentMessage.type;
 

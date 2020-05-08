@@ -36,10 +36,12 @@ struct EventInterface {
     };
     EventType type; //move, blink
     Vector sight;
+    EventInterface(EventType t, Vector s): type(t), sight(s) {}
 };
 
 struct MoveInterface: EventInterface{
     Direction direction;
+    MoveInterface(EventType t, Vector s, Direction dir):EventInterface(t, s), direction(dir) {}
 };
 
 struct BlinkInterface: EventInterface{
@@ -59,6 +61,8 @@ struct ObjectInterface {
     Model model;
     Type type;
     int ID;
+    ObjectInterface(Type t, int id, Point pos, Model mod):type(t), ID(id), position(pos), model(mod) {}
+
 };
 
 struct PlayerInterface:ObjectInterface {
@@ -69,6 +73,8 @@ struct PlayerInterface:ObjectInterface {
         STATE_FLYING
     };
     State state_;
+    PlayerInterface(Type t, int id, Point pos, Model mod): ObjectInterface(t, id, pos, mod),
+                                                            sight({1,1}, {0,0}), speed(50) {}
 
 };
 
@@ -101,7 +107,7 @@ public:
     void updatePosition();
     void updateSight(int, int);
 
-    ObjectInterface getMessage();
+    std::shared_ptr<ObjectInterface> getMessage();
 };
 
 #endif //CLIENT_ACTIONSERVER_H

@@ -27,6 +27,6 @@ public:
     void displayMainMenu(struct Config);
     void displayPauseScreen(struct Config);
 
-}
+};
 
 #endif
