@@ -19,7 +19,7 @@ const static int FRAMES_PER_SECOND = 25;
 
 class World {
 public:
-    World(int player_count, int round_duration_minute, int port);
+    World(int player_count, int round_duration_minute, int port): netServer(port) {}
     void game_start();
 
 private:
@@ -107,6 +107,10 @@ void World::serve_user(User& user) {
             queque_event.push(event);
         }
     }
+}
+
+std::shared_ptr<Player> World::init_user(User &user) {
+    return std::shared_ptr<Player>();
 }
 
 #endif //AVM_WORLD_H
