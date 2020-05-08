@@ -32,7 +32,7 @@ private:
     int player_count;
 
     void calc_frame();
-    Object init_user(User& user);
+    std::shared_ptr<Player> init_user(User& user);
     void serve_user(User& user);
     std::mutex events_m;
     bool need_update;
@@ -46,10 +46,9 @@ void World::calc_frame() {
             for (auto& object: objects) {
                 if (object.second->type != Object::STATIC_OBJECT) {
                     object.second->update();
-                    std::vector<std::shared_ptr<Object>&> collisions =
-                            objectManager.collisionSolver.check_object_collisions(objects, object.second);
+                    auto collisions = objectManager.collisionSolver.check_object_collisions(objects, object.second);
                     for (auto& collision: collisions) {
-                        objectManager.collisionSolver.resolve_collision(object, collision);
+                        objectManager.collisionSolver.resolve_collision(object.second, collision);
                     }
                 }
             }
@@ -74,16 +73,16 @@ void World::game_start() {
     std::vector<User> players_init = netServer.accept_users(player_count);
     std::vector<std::thread> threads;
     for (auto& usr: players_init) {
-        objectManager.update_objects(std::make_shared<Player>(init_user(usr)));
+        objectManager.update_objects(init_user(usr));
         std::thread th([&](){
             this->serve_user(usr);
         });
-        threads.push_back(th);
+        threads.push_back(move(th));
     }
     std::thread th([&](){
         this->calc_frame();
     });
-    threads.push_back(th);
+    threads.push_back(move(th));
     auto round_start = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration;
     while (duration.count() < round_duration) {

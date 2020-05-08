@@ -38,7 +38,6 @@ set(
         SERVER_HDRS
         server
         server/include
-        server/include/ObjectManager.h
         server/include/CollisionManager.h
         server/include/Object.h
         server/include/Event.h
@@ -51,7 +50,7 @@ set(
         server
         server/src
         server/src/ObjectManager.cpp
-        server/src/CollisionManager.h
+        server/src/CollisionManager.cpp
         server/src/Object.cpp
         server/src/Event.cpp
         server/src/EventManager.cpp
@@ -153,5 +152,4 @@ add_executable(AmorVitaeServer server/src/main.cpp)
 add_executable(server_test ${TEST_SERVER})
 add_executable(AmorVitaeClient client/src/main.cpp)
 
-target_link_libraries(AmorVitaeServer server_lib)
 target_link_libraries(server_test gtest gtest_main)

@@ -7,7 +7,7 @@
 class CollisionManager {
 public:
     CollisionManager() = default;
-    std::vector<std::shared_ptr<Object>&>check_object_collisions(const std::map<int, std::shared_ptr<Object>>& objects,
+    std::vector<std::shared_ptr<Object>>check_object_collisions(const std::map<int, std::shared_ptr<Object>>& objects,
                                                                 std::shared_ptr<Object> object);
     bool is_object_collided(const std::map<int, std::shared_ptr<Object>>& objects,
                              std::shared_ptr<Object> object) const;
