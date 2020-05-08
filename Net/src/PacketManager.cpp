@@ -4,8 +4,8 @@
 
 #include "PacketManager.h"
 
-std::string PacketManager::packet_handle_server(Object &object) {
-    Object::Type type = object.type;
+std::string PacketManager::packet_handle_server(std::map<int, std::shared_ptr<Object>>& object) {
+  /*  Object::Type type = object.type;
 
     if(type == Object::Type::PLAYER_OBJECT) {
         std::shared_ptr<Object> sh;
@@ -20,22 +20,22 @@ std::string PacketManager::packet_handle_server(Object &object) {
         std::stringstream buf;
         write_json (buf, root);
         return buf.str();
-    }
+    }*/
 
 }
 
-struct MessageFromServe PacketManager::packet_adaptation_client(ptree& root) {
-    struct MessageFromServe mes;
+struct ObjectInterface PacketManager::packet_adaptation_client(ptree& root) {
+   /* struct MessageFromServe mes;
     if (root.get("type", "") == "player") {
         mes.typeOfObject = typeOfObject.player;
         mes.object.position.x = root.get("x", 0);
         mes.object.position.y = root.get("y", 0);
         mes.object.player.speed = root.get("speed", 0);
     }
-    return mes;
+    return mes;*/
 }
 
-std::string PacketManager::packet_handle_client(struct MessageToServer& mes) {
+std::string PacketManager::packet_handle_client(std::shared_ptr<ObjectInterface> event) {
 
 }
 

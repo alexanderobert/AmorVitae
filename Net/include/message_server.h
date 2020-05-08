@@ -8,7 +8,7 @@
 class Message {
 public:
     Message() = default;
-    bool empty();
+    bool empty() { return true;}
 
 };
 

@@ -24,10 +24,10 @@ class PacketManager {
 public:
     PacketManager() = default;
     ~PacketManager() = default;
-    std::string packet_handle_server(Object& object);
+    std::string packet_handle_server(std::map<int, std::shared_ptr<Object>>& object);
     std::string packet_handle_client(std::shared_ptr<ObjectInterface> event);
     Message packet_adaptation_server(ptree& root);
-    struct MessageFromServe packet_adaptation_client(ptree& root);
+    struct ObjectInterface packet_adaptation_client(ptree& root);
 
 };
 

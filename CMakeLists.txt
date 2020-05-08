@@ -148,7 +148,7 @@ include_directories(
         ${GRAPHICS}
 )
 
-add_executable(AmorVitaeServer server/src/main.cpp)
+add_executable(AmorVitaeServer server/src/main.cpp ${SERVER} ${NET_SERVER})
 add_executable(server_test ${TEST_SERVER})
 add_executable(AmorVitaeClient client/src/main.cpp)
 
