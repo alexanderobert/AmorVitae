@@ -4,7 +4,6 @@
 
 #ifndef NEW_NETSERVER_H
 #define NEW_NETSERVER_H
-#include <PacketManager.h>
 #include <boost/asio.hpp>
 #include <User.h>
 #include <vector>
@@ -12,7 +11,9 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <Object.h>
-#include <message_client.h>
+#include <message_server.h>
+#include <PacketManager.h>
+
 
 
 
@@ -23,7 +24,7 @@ public:
 
     std::vector<User> accept_users(int player_count);
 
-    void notify_all_users(Object& object);
+    void notify_all_users(std::map<int, std::shared_ptr<Object>>&);
 
     Message get_client_action(User& user);
 
@@ -32,6 +33,7 @@ private:
     std::vector<User> users;
     boost::asio::io_service io_service;
     PacketManager packet_manager;
+    PacketManager qwe;
 };
 
 

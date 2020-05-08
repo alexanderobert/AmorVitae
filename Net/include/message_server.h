@@ -5,11 +5,11 @@
 #ifndef AMORVITAE_MESSAGE_SERVER_H
 #define AMORVITAE_MESSAGE_SERVER_H
 
-struct Message {
-    int ID;
-    int x;
-    int y;
-    int speed;
+class Message {
+public:
+    Message() = default;
+    bool empty();
+
 };
 
 

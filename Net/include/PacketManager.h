@@ -12,6 +12,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <message_client.h>
 #include <message_server.h>
+#include <actionServer.h>
 
 
 using boost::property_tree::ptree;
@@ -24,7 +25,7 @@ public:
     PacketManager() = default;
     ~PacketManager() = default;
     std::string packet_handle_server(Object& object);
-    std::string packet_handle_client(struct MessageToServer& event);
+    std::string packet_handle_client(std::shared_ptr<ObjectInterface> event);
     Message packet_adaptation_server(ptree& root);
     struct MessageFromServe packet_adaptation_client(ptree& root);
 
