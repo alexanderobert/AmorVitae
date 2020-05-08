@@ -2,31 +2,43 @@
 #define GRAPHIC_MANAGER_H
 
 #include <SFML/Graphics.hpp>
+#include "struct_Config.h"
 
-struct Config{
-    int windowWidth;
-    int windowHeight;
+class graphicsManager {
+public:
+    int init(struct Config);
 
-    sf::Keyboard::Key UP;
-    sf::Keyboard::Key DOWN;
-    sf::Keyboard::Key LEFT;
-    sf::Keyboard::Key RIGHT;
-};
+    void drawMap(const std::string &mapCode, int state);
 
-class graphicsManager{
+//    void drawPlayer(struct Player playerData);
+//
+//    void drawProjectile(struct ProjectileData projectileData);
+
+    explicit graphicsManager(struct Config config);
+
+    void handleEvent();
+
+    void displayMainMenu();
+
+    void displayPauseScreen();
+
+    bool isOpen();
+
+    void close();
+
+    void clear();
+
+    void display(){
+        window->display();
+    }
+
 private:
     sf::RenderWindow *window;
     struct Config config;
-public:
-    int init(struct Congfig);
-    int drawMap(char *mapCode, int state);
-    int drawPlayer(struct player);
-    int drawProjectile(struct projectileData);
+    bool open;
+    int mapStage;
+    std::vector<sf::Color> mapColors;
 
-    graphicsManager(sf::RenderWindow *_window);
-    void displayMainMenu(struct Config);
-    void displayPauseScreen(struct Config);
-
-}
+};
 
 #endif
