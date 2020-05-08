@@ -137,6 +137,7 @@ find_package(SFML 2 REQUIRED network audio graphics window system)
 include_directories(${SFML_INCLUDE_DIR})
 
 set (NET_SERVER ${NET_HDRS_SERVER} ${NET_SRC_SERVER})
+set (NET_CLIENT ${NET_HDRS_CLIENT} ${NET_SRC_CLIENT})
 set (SERVER ${SERVER_HDRS} ${SERVER_SRCS})
 set (TEST_SERVER ${SERVER_HDRS} ${TEST_SERVER_SRC})
 set (CLIENT ${CLIENT_SRC} ${CLIENT_HDRS})
@@ -160,8 +161,8 @@ include_directories(
 
 add_executable(AmorVitaeServer server/src/main.cpp ${SERVER} ${NET_SERVER})
 add_executable(server_test ${TEST_SERVER})
-add_executable(AmorVitaeClient client/src/main.cpp)
+add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${GRAPHICS} ${NET_CLIENT})
 
 target_link_libraries(AmorVitaeServer ${Boost_LIBRARIES})
-
+target_link_libraries(AmorVitaeClient ${SFML_LIBRARIES})
 target_link_libraries(server_test gtest gtest_main)
