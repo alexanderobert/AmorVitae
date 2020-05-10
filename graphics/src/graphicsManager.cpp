@@ -1,5 +1,5 @@
-#include "../include/graphicsManager.h"
-#include "../include/struct_Config.h"
+#include <graphicsManager.h>
+#include <struct_Config.h>
 #include <iostream>
 
 void graphicsManager::drawMap(const std::string &mapCode, int state) {

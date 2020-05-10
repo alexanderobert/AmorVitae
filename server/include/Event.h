@@ -5,7 +5,7 @@
 #ifndef AVM_EVENT_H
 #define AVM_EVENT_H
 
-#include "Object.h"
+#include <Object.h>
 
 enum Direction {
     UP,

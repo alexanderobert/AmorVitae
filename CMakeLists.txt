@@ -115,6 +115,7 @@ set (
         graphics
         graphics/include
         graphics/include/graphicsManager.h
+        graphics/include/struct_Config.h
 )
 
 set (

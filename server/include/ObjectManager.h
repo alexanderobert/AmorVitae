@@ -10,8 +10,8 @@
 #include <vector>
 #include <thread>
 #include <mutex>
-#include "Object.h"
-#include "CollisionManager.h"
+#include <Object.h>
+#include <CollisionManager.h>
 
 class ObjectManager {
 public:

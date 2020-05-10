@@ -2,7 +2,7 @@
 #define AMORVITAE_COLLISIONMANAGER_H
 
 #include <vector>
-#include "Object.h"
+#include <Object.h>
 
 class CollisionManager {
 public:

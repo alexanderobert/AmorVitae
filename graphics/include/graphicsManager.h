@@ -2,7 +2,7 @@
 #define GRAPHIC_MANAGER_H
 
 #include <SFML/Graphics.hpp>
-#include "struct_Config.h"
+#include <struct_Config.h>
 
 class graphicsManager {
 public:
