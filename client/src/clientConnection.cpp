@@ -1,10 +1,10 @@
-#include "../include/clientConnection.h"
+#include <clientConnection.h>
 
 struct IPv4 {
     unsigned char b1, b2, b3, b4;
 };
 
-void clientConnectionInterface::checkHostName(int hostname){
+void clientConnection::checkHostName(int hostname){
     if (hostname == -1)
     {
         perror("gethostname");
@@ -12,7 +12,7 @@ void clientConnectionInterface::checkHostName(int hostname){
     }
 }
 
-void clientConnectionInterface::checkHostEntry(struct hostent * hostentry){
+void clientConnection::checkHostEntry(struct hostent * hostentry){
     if (hostentry == NULL)
     {
         perror("gethostbyname");
@@ -20,7 +20,7 @@ void clientConnectionInterface::checkHostEntry(struct hostent * hostentry){
     }
 }
 
-void clientConnectionInterface::checkIPbuffer(char *IPbuffer){
+void clientConnection::checkIPbuffer(char *IPbuffer){
     if (NULL == IPbuffer)
     {
         perror("inet_ntoa");
@@ -28,7 +28,7 @@ void clientConnectionInterface::checkIPbuffer(char *IPbuffer){
     }
 }
 
-void clientConnectionInterface::getIP(){
+void clientConnection::getIP(){
     char hostbuffer[256];
     char *IPbuffer;
     struct hostent *host_entry;
@@ -45,7 +45,7 @@ void clientConnectionInterface::getIP(){
     printf("Host IP: %s", IPbuffer);
 }
 
-std::string clientConnectionInterface::getIPAddress(){
+std::string clientConnection::getIPAddress(){
     std::string ipAddress="Unable to get IP Address";
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
@@ -66,13 +66,14 @@ std::string clientConnectionInterface::getIPAddress(){
     return ipAddress;
 }
 
-int clientConnectionInterface::connectClient(){
+int clientConnection::connectClient(){
     //return bool connect_to_server(std::string addr_server); from NetClient
+   //connect_to_server(std::string addr_server, int port); from NetClient
     // myId = id от сетей
     myId = 1;
     return myId;
 }
 
-void clientConnectionInterface::closeConnectClient(){
+void clientConnection::closeConnectClient(){
     //функция разрыва соединения
 }

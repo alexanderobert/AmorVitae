@@ -7,9 +7,9 @@
 
 #include "actionServer.h"
 
-class actionManagerInterface {
+class actionManager {
 public:
-    void pollEvent(sf::RenderWindow &, clientConnectionInterface &, actionServerInterface &, bool &);
+    void pollEvent(sf::RenderWindow &, clientConnection &, actionServer &, bool &);
 };
 
 

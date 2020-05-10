@@ -6,39 +6,22 @@
 #include <displayManager.h>
 #include <actionServer.h>
 
+#include <graphicsManager.h>
+#include <struct_Config.h>
+
 int main() {
 
-    clientConnectionInterface clientCon;
-    actionServerInterface action;
-    actionManagerInterface launch;
+    clientConnection clientCon;
+    actionServer action;
+    actionManager launch;
 
-    bool startGameButtonPressed = false;
+    Config configWindow;
+    graphicsManager graph(configWindow);
 
-    //создание окна, Дожна быть часть от Глеба
-    sf::RenderWindow window(sf::VideoMode(1200, 800), "AmorVitae", sf::Style::Titlebar | sf::Style::Close);
+    //graph.init(config);
+    //graph.graphicsManager(configWindow);
 
-    launch.pollEvent(window, clientCon, action, startGameButtonPressed);
-
-    //создание фона кнопки старт
-//    sf::RectangleShape startGameButton(sf::Vector2f(120, 50));
-//    startGameButton.setPosactionManagerition(560, 350);
-//
-//    //подключение шрифта
-//    sf::Font font;
-//    if (!font.loadFromFile("ArialRegular.ttf"))
-//    {
-//        //нет шрифта
-//    }
-//
-//    //создание подписи кнопки старта
-//    sf::Text labelStart;
-//    labelStart.setFont(font);
-//    labelStart.setString("Start game");
-//    labelStart.setCharacterSize(20);
-//    labelStart.setPosition(570, 360);
-//    labelStart.setFillColor(sf::Color::Red);
-
-
+    graph.handleEvent();
 
     return 0;
 }

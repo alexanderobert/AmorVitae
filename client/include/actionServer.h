@@ -92,15 +92,15 @@ struct ObstructionInterface:ObjectInterface {
 //конец блока формирования получения сообщения
 
 //класс для отправки и получения
-class actionServerInterface {
+class actionServer {
 
 private:
     Point myPosition;
     Vector mySight;
 
 public:
-    actionServerInterface() : myPosition(0,0), mySight({0, 0}, {0, 0}) {};
-    ~actionServerInterface() = default;
+    actionServer() : myPosition(0,0), mySight({0, 0}, {0, 0}) {};
+    ~actionServer() = default;
 
     void sendActionMove(Direction);
     void sendActionBlink();

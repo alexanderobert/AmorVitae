@@ -1,7 +1,7 @@
-#include "../include/actionManager.h"
-#include "../include/clientConnection.h"
+#include <actionManager.h>
+#include <clientConnection.h>
 
-void actionManagerInterface::pollEvent(sf::RenderWindow &window, clientConnectionInterface &clientCon, actionServerInterface &action, bool &startGameButtonPressed){
+void actionManager::pollEvent(sf::RenderWindow &window, clientConnection &clientCon, actionServer &action, bool &startGameButtonPressed){
 
     startGameButtonPressed = true;
 

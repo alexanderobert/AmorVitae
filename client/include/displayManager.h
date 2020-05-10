@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-class displayManagerInterface {
+class displayManager {
 
 private:
     Point position;

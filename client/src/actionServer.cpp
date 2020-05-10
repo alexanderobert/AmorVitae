@@ -1,6 +1,6 @@
 #include <actionServer.h>
 
-void actionServerInterface::sendActionMove(Direction direction){ // МАРК Я ЗАКОМЕНТИЛ ЧТОБЫ ВСЕ СКОМПИЛИЛОСЬ,
+void actionServer::sendActionMove(Direction direction){ // МАРК Я ЗАКОМЕНТИЛ ЧТОБЫ ВСЕ СКОМПИЛИЛОСЬ,
     /*ССделай для Ивентов и обьектов конструкторы по умолчанию(Можешь посмотреть у меня)
      * или сделай нормальные конструкторы и юзай их
      * */
@@ -19,7 +19,7 @@ void actionServerInterface::sendActionMove(Direction direction){ // МАРК Я 
     // Send_action(event); from NetClient
 }
 
-void actionServerInterface::sendActionBlink(){
+void actionServer::sendActionBlink(){
 
 /*
     Blink event;
@@ -32,13 +32,13 @@ void actionServerInterface::sendActionBlink(){
     // Send_action(event); from NetClient
 }
 
-void actionServerInterface::updatePosition(){
+void actionServer::updatePosition(){
 
     myPosition.x = 500;
     myPosition.y = 500;
 }
 
-void actionServerInterface::updateSight(int x, int y){
+void actionServer::updateSight(int x, int y){
 
 /*
     Point mouse;
@@ -54,7 +54,7 @@ void actionServerInterface::updateSight(int x, int y){
 }
 
 
-std::shared_ptr<ObjectInterface> actionServerInterface::getMessage(){
+std::shared_ptr<ObjectInterface> actionServer::getMessage(){
 
     // return Get_servet_action(); from NetClient
 

@@ -1,15 +1,15 @@
-#include "../include/displayManager.h"
+#include <displayManager.h>
 
 
-void displayManagerInterface::playerDataToGraph(struct ObjectInterface){
-
-}
-void displayManagerInterface::projectFileDataToGraph(struct ObjectInterface){
+void displayManager::playerDataToGraph(struct ObjectInterface){
 
 }
-void displayManagerInterface::mapCodeToGraph(struct ObjectInterface){
+void displayManager::projectFileDataToGraph(struct ObjectInterface){
 
 }
-void displayManagerInterface::configToGraph(struct ObjectInterface){
+void displayManager::mapCodeToGraph(struct ObjectInterface){
+
+}
+void displayManager::configToGraph(struct ObjectInterface){
 
 }

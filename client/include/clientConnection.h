@@ -16,7 +16,7 @@
 
 #include <iostream>
 
-class clientConnectionInterface {
+class clientConnection{
 private:
     std::string addr_server;
 
