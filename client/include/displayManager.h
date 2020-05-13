@@ -21,8 +21,8 @@
 class displayManager {
 
 private:
-    Point position;
-    Vector sight;
+    PointInterface position;
+    VectorInterface sight;
 
 public:
     void playerDataToGraph(struct ObjectInterface);
