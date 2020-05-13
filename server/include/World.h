@@ -10,8 +10,7 @@
 #include <chrono>
 #include <queue>
 #include <ObjectManager.h>
-#include <PacketManager.h>
-#include <EventManager.h>
+#include <PacketManagerServer.h>
 #include <NetServer.h>
 
 const static int SECONDS_PER_MINUTE = 60;
@@ -26,7 +25,6 @@ public:
 private:
 
     ObjectManager objectManager;
-    EventManager eventManager;
     std::queue<std::shared_ptr<Event>> queque_event;
     NetServer netServer;
     int round_duration;
@@ -110,6 +108,7 @@ void World::game_start() {
 
 void World::serve_user(User& user) {
     while(user.is_connected()) {
+        std::cout<<"сдохни тварь"<<std::endl;
         std::shared_ptr<Event> event = netServer.get_client_action(user);
         std::lock_guard<std::mutex> lock(events_m);
         queque_event.push(event);

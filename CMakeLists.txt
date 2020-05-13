@@ -42,7 +42,6 @@ set(
         server/include/CollisionManager.h
         server/include/Object.h
         server/include/Event.h
-        server/include/EventManager.h
         server/include/World.h
 )
 
@@ -54,7 +53,6 @@ set(
         server/src/CollisionManager.cpp
         server/src/Object.cpp
         server/src/Event.cpp
-        server/src/EventManager.cpp
         server/src/World.cpp
 )
 
@@ -63,7 +61,7 @@ set(
         Net
         Net/src
         Net/src/NetServer.cpp
-        Net/src/PacketManager.cpp
+        Net/src/PacketManagerServer.cpp
         Net/src/User.cpp
 )
 set(
@@ -78,9 +76,9 @@ set(
         Net/include
         Net/include/message_server.h
         Net/include/NetServer.h
-        Net/include/PacketManager.h
         Net/include/User.h
         Net/include/message_server.h
+        Net/include/PacketManagerServer.h
 )
 set(
         NET_HDRS_CLIENT

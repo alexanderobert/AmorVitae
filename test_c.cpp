@@ -13,6 +13,9 @@ int main() {
     std::shared_ptr<EventInterface> ptr = std::make_shared<MoveInterface>(move);
 
     net.send_user_action(ptr);
-
+    while(true) {
+        sleep(1);
+        net.send_user_action(ptr);
+    }
     return 0;
 };
