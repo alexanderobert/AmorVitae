@@ -15,13 +15,13 @@ public:
 
     void drawMap(const std::string &mapCode, int state);
 
-    void drawPlayer(std::vector<struct PlayerInterface>);
+    void drawPlayer(const std::vector<PlayerInterface> &playerData);
 
-    void drawObstacle(std::vector<struct ObjectInterface>);
+    void drawObstacle(const std::vector<ObjectInterface> &obstacleData);
 //
 //    void drawProjectile(struct ProjectileData projectileData);
 
-    explicit graphicsManager(struct Config _config);
+    explicit graphicsManager(Config config);
 
     void handleEvent(actionManager &, actionServer &);
 
@@ -29,7 +29,7 @@ public:
 
     void displayPauseScreen();
 
-    bool isOpen();
+    bool isOpen() const;
 
     void close();
 

@@ -1,4 +1,4 @@
-#include "../include/graphicsManager.h"
+#include "../include/GraphicsManager.h"
 #include "../include/struct_Config.h"
 #include <iostream>
 
@@ -8,6 +8,7 @@
 
 void graphicsManager::drawMap(const std::string &mapCode, int state) {
     int radius = 75;
+    int circlePoints = 50;
 
     sf::Texture texture;
     if (!texture.loadFromFile("../graphics/textures/background.jpg")) {
@@ -20,9 +21,7 @@ void graphicsManager::drawMap(const std::string &mapCode, int state) {
 
     for (int i = 0; i < state; ++i) {
         sf::CircleShape stage(
-                float(radius * (state - i)),
-                50
-        );
+                float(radius * (state - i)), circlePoints);
         stage.setPosition(
                 window->getSize().x / 2 - radius * (state - i),
                 window->getSize().y / 2 - radius * (state - i)
@@ -32,8 +31,7 @@ void graphicsManager::drawMap(const std::string &mapCode, int state) {
     }
 }
 
-graphicsManager::graphicsManager(struct Config _config) {
-    config = _config;
+graphicsManager::graphicsManager(Config config) : config(config) {
     window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae");
     open = true;
     mapStage = -1;
@@ -46,7 +44,7 @@ graphicsManager::graphicsManager(struct Config _config) {
 
 }
 
-bool graphicsManager::isOpen() {
+bool graphicsManager::isOpen() const {
     return open;
 }
 
@@ -64,7 +62,7 @@ void graphicsManager::clear(){
     window->clear();
 }
 
-void graphicsManager::drawPlayer(std::vector<struct PlayerInterface> playerData) {
+void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData) {
     for (PlayerInterface player : playerData) {
         PlayerModel playerModel(
                 player.position.x,
@@ -84,7 +82,7 @@ void graphicsManager::drawPlayer(std::vector<struct PlayerInterface> playerData)
 }
 
 
-void graphicsManager::drawObstacle(std::vector<struct ObjectInterface> obstacleData) {
+void graphicsManager::drawObstacle(const std::vector<ObjectInterface> &obstacleData) {
     std::vector<sf::RectangleShape> obs;
 
     for(ObjectInterface obstacle : obstacleData){
