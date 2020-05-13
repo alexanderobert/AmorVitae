@@ -42,8 +42,7 @@ public:
         MAP_OBJECT
     };
     Object(Type t, int id, Point pos, Model mod):type(t), ID(id), position(pos), model(mod) {}
-    virtual void update() {}
-    virtual ~Object() = default;
+    virtual void update()  = 0;
     Point position;
     Model model;
     Type type;
@@ -71,7 +70,7 @@ public:
 private:
     void next_flying_tick() {
         flying_tick++;
-        if (flying_tick > 60) {
+        if (flying_tick > 10) {
             state_ = State::STATE_STANDING;
             flying_tick = 0;
 
@@ -90,7 +89,6 @@ public:
             position = position +  sight * speed;
         }
     }//обновление в зависимости от state
-    ~Player() override = default ;
     PlayerState state_;
     Point sight;
     int speed;
@@ -104,9 +102,10 @@ public:
 
 class Map : public  Object {
 public:
-    Map();
-    void update() override; //Добавляет очки, меняет зону
-    void next_stage();
+    Map(int id, int layers, double ring_r): Object(Type::MAP_OBJECT, id, {0, 0}, {0, 0}),
+                                            layers_count(layers), ring_radius(ring_r) {}
+    void update() override {} //Добавляет очки, меняет зону
+    void next_stage() {}
     int layers_count;
     double ring_radius;
     std::map<int, int> players_pts;
@@ -116,19 +115,8 @@ public:
 
 class Obstruction : public  Object {
 public:
-    Obstruction(int id, Point pos, int h, int w): Object(Type::STATIC_OBJECT, id, pos, Model(30,30)) {};
+    Obstruction(int id, Point pos, int h, int w): Object(Type::STATIC_OBJECT, id, pos, Model(h,w)) {};
 };
-/*
-class Bim: public Object {
-public:
-    Bim(int id, Point pos, Vector direct): position(pos), direction(direction){
-        ID = id;
-    }
-
-    Point position;
-    Vector direction;
-    double width;
-};*/
 
 class BulletState {
         public:
