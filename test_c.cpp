@@ -14,8 +14,12 @@ int main() {
 
     net.send_user_action(ptr);
     while(true) {
-        sleep(1);
+        usleep(20000);
         net.send_user_action(ptr);
+        auto mes = net.get_server_message();
+        for(const auto& c: mes) {
+            std::cout<<c->position.x<<" "<<c->position.y<<std::endl;
+        }
     }
     return 0;
 };
