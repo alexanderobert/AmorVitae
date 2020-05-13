@@ -2,7 +2,12 @@
 #define GRAPHIC_MANAGER_H
 
 #include <SFML/Graphics.hpp>
-#include <struct_Config.h>
+#include "struct_Config.h"
+
+#include <PlayerModel.h>
+
+#include <actionServer.h>
+#include <actionManager.h>
 
 class graphicsManager {
 public:
@@ -10,13 +15,15 @@ public:
 
     void drawMap(const std::string &mapCode, int state);
 
-//    void drawPlayer(struct Player playerData);
+    void drawPlayer(std::vector<struct PlayerInterface>);
+
+    void drawObstacle(std::vector<struct ObjectInterface>);
 //
 //    void drawProjectile(struct ProjectileData projectileData);
 
-    explicit graphicsManager(struct Config config);
+    explicit graphicsManager(struct Config _config);
 
-    void handleEvent();
+    void handleEvent(actionManager &, actionServer &);
 
     void displayMainMenu();
 
@@ -33,6 +40,8 @@ public:
     }
 
 private:
+    std::vector<PlayerModel> buff;
+
     sf::RenderWindow *window;
     struct Config config;
     bool open;

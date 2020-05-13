@@ -1,9 +1,13 @@
-#include <graphicsManager.h>
-#include <struct_Config.h>
+#include "../include/graphicsManager.h"
+#include "../include/struct_Config.h"
 #include <iostream>
 
+#include <actionServer.h>
+#include <actionManager.h>
+
+
 void graphicsManager::drawMap(const std::string &mapCode, int state) {
-    int radius = 45;
+    int radius = 75;
 
     sf::Texture texture;
     if (!texture.loadFromFile("../graphics/textures/background.jpg")) {
@@ -30,7 +34,7 @@ void graphicsManager::drawMap(const std::string &mapCode, int state) {
 
 graphicsManager::graphicsManager(struct Config _config) {
     config = _config;
-    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "SFML works!");
+    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae");
     open = true;
     mapStage = -1;
 
@@ -51,25 +55,45 @@ void graphicsManager::close() {
     open = false;
 }
 
-void graphicsManager::handleEvent() {
+void graphicsManager::handleEvent(actionManager &user, actionServer &action) {
     sf::Event event;
-    while (window->pollEvent(event)) {
-        if (event.type == sf::Event::Closed){
-            close();
-        }
-    }
+    user.actionUser(*window, event, action);
 }
 
 void graphicsManager::clear(){
     window->clear();
 }
 
+void graphicsManager::drawPlayer(std::vector<struct PlayerInterface> playerData) {
+    for (PlayerInterface player : playerData) {
+        PlayerModel playerModel(
+                player.position.x,
+                player.position.y,
+                player.model.width,
+                player.model.height
+        );
+
+        buff.push_back(playerModel);
+    }
+
+    sf::RenderStates renderStates;
+    for (auto &it : buff)
+        it.draw(*window, renderStates);
+
+    buff.clear();
+}
 
 
-//void graphicsManager::drawPlayer(struct Player playerData) {
-//
-//}
-//
-//void graphicsManager::drawProjectile(struct ProjectileData projectileData) {
-//
-//}
+void graphicsManager::drawObstacle(std::vector<struct ObjectInterface> obstacleData) {
+    std::vector<sf::RectangleShape> obs;
+
+    for(ObjectInterface obstacle : obstacleData){
+        sf::RectangleShape obsModel(sf::Vector2f(100, 100));
+        obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
+        obsModel.setFillColor(sf::Color::Black);
+    }
+
+    for(sf::RectangleShape model : obs){
+        window->draw(model);
+    }
+}

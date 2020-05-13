@@ -123,7 +123,6 @@ set (
         graphics
         graphics/src
         graphics/src/graphicsManager.cpp
-        graphics/src/main.cpp
 )
 
 include_directories(cmake-build-debug/googletest-src/googlemock/include)
