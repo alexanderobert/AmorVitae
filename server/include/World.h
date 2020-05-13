@@ -80,6 +80,7 @@ void World::calc_frame() {
 void World::game_start() {
     set_start_object();
     std::vector<User> players_init = netServer.accept_users(player_count);
+    std::cout << "URAAAAAAAAAAAAAA))" << std::endl;
     std::vector<std::thread> threads;
     for (auto& usr: players_init) {
         objectManager.update_objects(init_user(usr));
@@ -110,8 +111,8 @@ void World::game_start() {
 void World::serve_user(User& user) {
     while(user.is_connected()) {
         std::shared_ptr<Event> event = netServer.get_client_action(user);
-            std::lock_guard<std::mutex> lock(events_m);
-            queque_event.push(event);
+        std::lock_guard<std::mutex> lock(events_m);
+        queque_event.push(event);
 
     }
 }
@@ -119,8 +120,7 @@ void World::serve_user(User& user) {
 std::shared_ptr<Player> World::init_user(User &user) {
     std::lock_guard<std::mutex>lg(id_cointer_m);
     Point position(id_counter * 10.0, id_counter* 10.0);
-    std::shared_ptr<Player> player = std::make_shared<Player>(id_counter, position);
-    id_counter++;
+    std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
     return player;
 }
 
@@ -130,7 +130,7 @@ void World::set_start_object() {
     double ring_r = 60;
     std::shared_ptr<Map> map = std::make_shared<Map>(id_counter, layers, ring_r);
     objectManager.update_objects(map);
-    id_counter++;
+    id_counter += player_count;
     Point pos(5,5);
     Point sight(1, 0);
     std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>(id_counter, pos, sight);

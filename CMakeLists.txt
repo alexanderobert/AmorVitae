@@ -164,11 +164,13 @@ add_executable(AmorVitaeServer server/src/main.cpp ${SERVER} ${NET_SERVER})
 add_executable(server_test ${TEST_SERVER})
 add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${GRAPHICS} ${NET_CLIENT})
 
+add_executable(test_s test_s.cpp ${SERVER} ${NET_SERVER})
+add_executable(test_c test_c.cpp  ${NET_CLIENT})
+
 target_link_libraries(AmorVitaeServer ${Boost_LIBRARIES})
+target_link_libraries(test_c ${Boost_LIBRARIES})
 target_link_libraries(AmorVitaeClient ${SFML_LIBRARIES})
 target_link_libraries(server_test gtest gtest_main)
 target_link_libraries(AmorVitaeClient ${Boost_LIBRARIES})
 
-add_executable(test_s test_s.cpp ${SERVER} ${NET_SERVER})
-add_executable(test_c test_c.cpp  ${NET_CLIENT})
 
