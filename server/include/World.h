@@ -96,7 +96,7 @@ void World::game_start() {
     while (duration.count() < round_duration) {
         if (/*прошло нужное колво времени*/ true) {
             need_update = true;
-//            netServer.notify_all_users(objectManager.get_objects_by_map());
+            netServer.notify_all_users(objectManager.get_objects_by_map());
         }
         auto curr_time = std::chrono::high_resolution_clock::now();
         duration = curr_time - round_start;
