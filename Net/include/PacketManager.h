@@ -7,6 +7,7 @@
 
 #include <string>
 #include <Object.h>
+#include <vector>
 #include <memory>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -25,9 +26,9 @@ public:
     PacketManager() = default;
     ~PacketManager() = default;
     std::string packet_handle_server(std::map<int, std::shared_ptr<Object>>& object);
-    std::string packet_handle_client(std::shared_ptr<ObjectInterface> event);
-    Message packet_adaptation_server(ptree& root);
-    struct ObjectInterface packet_adaptation_client(ptree& root);
+    std::string packet_handle_client(std::shared_ptr<EventInterface>& event);
+    std::shared_ptr<Event> packet_adaptation_server(ptree& root);
+    std::vector<std::shared_ptr<ObjectInterface>> packet_adaptation_client(ptree& root);
 
 };
 

@@ -26,14 +26,13 @@ public:
 
     void notify_all_users(std::map<int, std::shared_ptr<Object>>&);
 
-    Message get_client_action(User& user);
+    std::shared_ptr<Event> get_client_action(User& user);
 
 private:
     int port{};
     std::vector<User> users;
     boost::asio::io_service io_service;
     PacketManager packet_manager;
-    PacketManager qwe;
 };
 
 

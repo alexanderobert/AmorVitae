@@ -43,7 +43,7 @@ public:
     };
     Object(Type t, int id, Point pos, Model mod):type(t), ID(id), position(pos), model(mod) {}
     virtual void update() {}
-    virtual ~Object() = 0;
+    virtual ~Object() = default;
     Point position;
     Model model;
     Type type;
@@ -130,4 +130,46 @@ public:
     double width;
 };*/
 
+class BulletState {
+        public:
+        enum State {
+            ACTIVE,
+                    INACTIVE
+        };
+        BulletState(): state_(State::ACTIVE), live_tick(0) {};
+        void state_to_inactive() {
+            if (state_ == State::ACTIVE) {
+                state_ = State::INACTIVE;
+            }
+        }
+        State get_state() {
+            next_tick();
+            return state_;
+        }
+        private:
+        void next_tick() {
+            live_tick++;
+            if (live_tick > 60) {
+                state_ = State::INACTIVE;
+                live_tick = 0;
+            }
+        };
+        int live_tick;
+        State state_;
+};
+
+class Bullet : public  Object {
+public:
+    Bullet(int id, Point pos, Point sight): Object(Type::BULLET_OBJECT, id, pos, Model(15,15)),
+                                            sight(sight), speed(300) {};
+
+    void update() override {
+        if (state.get_state() == BulletState::ACTIVE) {
+            position = position +  sight * speed;
+        }
+    }
+    BulletState state;
+    Point sight;
+    int speed;
+};
 #endif //AVM_OBJECT_H

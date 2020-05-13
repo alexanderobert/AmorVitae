@@ -18,31 +18,26 @@ void NetClient::connect_to_server(std::string addr_server, int port) {
 }
 
 
-Message NetClient::get_server_message() {
-    char buf[1024];
+std::vector<std::shared_ptr<ObjectInterface>> NetClient::get_server_message() {
+    char buf[1024] = "";
     ptree root;
 
     socket_ptr->read_some(buffer(buf));
 
     std::string json = std::string(buf);
+    std::cout << json << std::endl;
+
     std::stringstream stream(json);
     read_json(stream, root);
 
-
-    Message  pass;//загушка нужно типа Message
-    return pass; //packet_manager.packet_adaptation_client(root);
+    return packet_manager.packet_adaptation_client(root);
 }
 
 
 
-void NetClient::send_user_action(struct MessageToServer& mes) {
+void NetClient::send_user_action(std::shared_ptr<EventInterface>& event) {
 
-    //std::string buf = packet_manager.packet_handle_client(mes);
-    //комментарий так как mes типа MessageToServer, а функция ждет тип std::shared_ptr<ObjectInterface>
-
-    std::shared_ptr<ObjectInterface> event; //заглушка для поставки правильного аргумента функции
     std::string buf = packet_manager.packet_handle_client(event);
-
     socket_ptr->write_some(buffer(buf));
 }
 

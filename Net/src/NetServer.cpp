@@ -33,16 +33,16 @@ void NetServer::notify_all_users(std::map<int, std::shared_ptr<Object>>& object)
     }
 }
 
-Message NetServer::get_client_action(User& user) {
+std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     ptree root;
-    char buf[1024];
+    char buf[1024] = "";
 
     user.sock->read_some(buffer(buf));
 
     std::string json = std::string(buf);
     std::stringstream stream(json);
     read_json(stream, root);
-
+    root.put("IDuser", user.get_username());
     return packet_manager.packet_adaptation_server(root);;
 }
 

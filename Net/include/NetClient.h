@@ -10,7 +10,7 @@
 #include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include <message_client.h>
+#include <actionServer.h>
 
 
 class NetClient {
@@ -20,8 +20,8 @@ public:
     ~NetClient() = default;
 
     void connect_to_server(std::string addr_server, int port);
-    void send_user_action(struct MessageToServer& mes);
-    Message get_server_message();
+    void send_user_action(std::shared_ptr<EventInterface>& event);
+    std::vector<std::shared_ptr<ObjectInterface>> get_server_message();
 
 private:
     boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
