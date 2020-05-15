@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(AmorVitae)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # Download and unpack googletest at configure time
@@ -127,7 +127,7 @@ set (
 include_directories(cmake-build-debug/googletest-src/googlemock/include)
 include_directories(cmake-build-debug/googletest-src/googletest/include)
 
-find_package(Boost 1.57.0 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.72.0 COMPONENTS system filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 

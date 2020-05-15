@@ -23,10 +23,9 @@ public:
     ~NetServer() = default;
 
     std::vector<User> accept_users(int player_count);
-
     void notify_all_users(std::map<int, std::shared_ptr<Object>>&);
-
     std::shared_ptr<Event> get_client_action(User& user);
+    int do_read_header(User& user);
 
 private:
     int port{};

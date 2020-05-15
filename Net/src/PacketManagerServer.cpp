@@ -52,7 +52,6 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
     }
     std::stringstream buf;
     write_json(buf, root);
-    std::cout << buf.str() <<std::endl;
     return buf.str();
 }
 

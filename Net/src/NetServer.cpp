@@ -8,7 +8,6 @@ using boost::property_tree::ptree;
 using boost::property_tree::read_json;
 using boost::property_tree::write_json;
 
-
 std::vector<User> NetServer::accept_users(int player_count) {
     ip::tcp::acceptor acc(io_service, ip::tcp::endpoint(ip::tcp::v4(),8001));
     int player = 0;
@@ -37,7 +36,10 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     ptree root;
     char buf[256] = "";
 
-    user.sock->read_some(buffer(buf));
+    int size_buff = do_read_header(user);
+
+    user.sock->read_some(buffer(buf, size_buff));
+
     std::cout<< buf <<std::endl;
 
     std::string json = std::string(buf);
@@ -46,6 +48,12 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     read_json(stream, root);
     root.put("IDuser", user.get_username());
     return packet_manager.packet_adaptation_server(root);;
+}
+
+int NetServer::do_read_header(User& user) {
+    char buf[1];
+    user.sock->read_some(buffer(buf));
+    return (int)buf[1];
 }
 
 

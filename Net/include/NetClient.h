@@ -22,6 +22,7 @@ public:
     void connect_to_server(std::string addr_server, int port);
     void send_user_action(std::shared_ptr<EventInterface>& event);
     std::vector<std::shared_ptr<ObjectInterface>> get_server_message();
+    void do_write_header(int size);
 
 private:
     boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;

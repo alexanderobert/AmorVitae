@@ -59,6 +59,7 @@ void World::calc_frame() {
         } else {
             std::lock_guard<std::mutex> lock(events_m);
             if (!queque_event.empty()) {
+                std::cout << "queque size " << queque_event.size() << std::endl;
                 std::shared_ptr<Event> event = queque_event.front();
                 queque_event.pop();
                 auto object = objectManager.get_object_by_id(event->IniciatorID);
@@ -95,6 +96,7 @@ void World::game_start() {
     std::chrono::duration<double> duration;
     while (duration.count() < round_duration) {
         if (/*прошло нужное колво времени*/ true) {
+            usleep(200000);
             need_update = true;
             netServer.notify_all_users(objectManager.get_objects_by_map());
         }
@@ -108,11 +110,9 @@ void World::game_start() {
 
 void World::serve_user(User& user) {
     while(user.is_connected()) {
-        std::cout<<"сдохни тварь"<<std::endl;
         std::shared_ptr<Event> event = netServer.get_client_action(user);
         std::lock_guard<std::mutex> lock(events_m);
         queque_event.push(event);
-
     }
 }
 
@@ -124,21 +124,6 @@ std::shared_ptr<Player> World::init_user(User &user) {
 }
 
 void World::set_start_object() {
-    std::lock_guard<std::mutex>lg(id_cointer_m);
-    int layers = 6;
-    double ring_r = 60;
-    std::shared_ptr<Map> map = std::make_shared<Map>(id_counter, layers, ring_r);
-    objectManager.update_objects(map);
-    id_counter += player_count;
-    Point pos(5,5);
-    Point sight(1, 0);
-    std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>(id_counter, pos, sight);
-    objectManager.update_objects(bullet);
-    id_counter++;
-    Point pos_p(5,5);
-    std::shared_ptr<Player> player = std::make_shared<Player>(id_counter, pos);
-    objectManager.update_objects(player);
-    id_counter++;
 
 }
 

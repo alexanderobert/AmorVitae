@@ -25,7 +25,7 @@ public:
     std::map<int, std::shared_ptr<Object>>& get_objects_by_map() {
         return objects;
     }
-    const std::map<int, std::shared_ptr<Object>>& get_objects_by_const_map() const{
+    std::map<int, std::shared_ptr<Object>>& get_objects_by_const_map() {
         return objects;
     }
     CollisionManager collisionSolver;
