@@ -14,12 +14,14 @@
 #include <NetServer.h>
 
 const static int SECONDS_PER_MINUTE = 60;
-const static int FRAMES_PER_SECOND = 25;
+const static double FRAMES_PER_SECOND = 25;
 
 class World {
 public:
-    World(int player_count, int round_duration_minute, int port): netServer(port), player_count(player_count),
-                                                                  round_duration(round_duration_minute){}
+    World(int player_count, int game_duration_minute, int port): netServer(port), player_count(player_count){
+        game_duration = game_duration_minute * SECONDS_PER_MINUTE;
+        tick_duration = 1 / FRAMES_PER_SECOND;
+    }
     void game_start();
 
 private:
@@ -27,7 +29,8 @@ private:
     ObjectManager objectManager;
     std::queue<std::shared_ptr<Event>> queque_event;
     NetServer netServer;
-    int round_duration;
+    double tick_duration;
+    double game_duration;
     int player_count;
 
     void calc_frame();
@@ -36,8 +39,6 @@ private:
     void serve_user(User& user);
     std::mutex events_m;
     bool need_update;
-    int id_counter;
-    std::mutex id_cointer_m;
 };
 
 void World::calc_frame() {
@@ -49,9 +50,7 @@ void World::calc_frame() {
                     object.second->update();
                     auto collisions = objectManager.collisionSolver.check_object_collisions(objects, object.second);
                     for (auto& collision: collisions) {
-                        if (collision->ID != object.second->ID) {
-                            objectManager.collisionSolver.resolve_collision(object.second, collision);
-                        }
+                        objectManager.collisionSolver.resolve_collision(object.second, collision);
                     }
                 }
             }
@@ -65,8 +64,7 @@ void World::calc_frame() {
                 auto object = objectManager.get_object_by_id(event->IniciatorID);
                 //Object new_state_object = event.get()->proccess(object); получаем новое стстояние обекиа
                 auto New_state = event->proccess(object, objectManager);
-                if (!objectManager.collisionSolver.is_object_collided(objects,
-                                                                      New_state)) { //проверяем есть ли коллиизиb
+                if (!objectManager.collisionSolver.is_object_collided(objects, New_state)) { //проверяем есть ли коллиизиb
                     //с новым состоянием
                     object = New_state;
                 }
@@ -77,9 +75,7 @@ void World::calc_frame() {
 };// При наличии флага обнавления вызывает update у всех обьектов, иначе исполняет Event
 
 void World::game_start() {
-    set_start_object();
-    std::vector<User> players_init = netServer.accept_users(player_count);
-    std::cout << "URAAAAAAAAAAAAAA))" << std::endl;
+    std::vector<User> players_init = netServer.accept_users(player_count, objectManager);
     std::vector<std::thread> threads;
     for (auto& usr: players_init) {
         objectManager.update_objects(init_user(usr));
@@ -88,20 +84,25 @@ void World::game_start() {
         });
         threads.push_back(move(th));
     }
+    set_start_object();
     std::thread th([&](){
         this->calc_frame();
     });
     threads.push_back(move(th));
     auto round_start = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> duration;
-    while (duration.count() < round_duration) {
-        if (/*прошло нужное колво времени*/ true) {
-            usleep(200000);
+    std::chrono::duration<double> current_game_duration(0);
+    std::chrono::duration<double> current_tick_duration(0);
+    auto last_tick = std::chrono::high_resolution_clock::now();
+    while (current_game_duration.count() < game_duration) {
+        auto curr_time = std::chrono::high_resolution_clock::now();
+        current_tick_duration = curr_time - last_tick;
+        if (current_tick_duration.count() > tick_duration) {
+            last_tick = curr_time;
             need_update = true;
             netServer.notify_all_users(objectManager.get_objects_by_map());
         }
-        auto curr_time = std::chrono::high_resolution_clock::now();
-        duration = curr_time - round_start;
+        curr_time = std::chrono::high_resolution_clock::now();
+        current_game_duration = curr_time - round_start;
     }
     for (auto& th: threads) {
         th.join();
@@ -117,13 +118,23 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    std::lock_guard<std::mutex>lg(id_cointer_m);
-    Point position(id_counter * 10.0, id_counter* 10.0);
-    std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
+    int new_player_id = objectManager.pick_enable_id();
+    Point position(new_player_id * 100.0, new_player_id * 100.0);
+    std::shared_ptr<Player> player = std::make_shared<Player>(user.get_user_id(), position);
     return player;
 }
 
 void World::set_start_object() {
+    int layers = 6;
+    double ring_r = 60;
+    std::vector<std::shared_ptr<Object>> players;
+    for (int i = 0; i < player_count; ++i) {
+        players.push_back(objectManager.get_object_by_id(i));
+    }
+    players.push_back(objectManager.get_object_by_id(0));
+    std::shared_ptr<Map> map = std::make_shared<Map>(objectManager.pick_enable_id(), layers, ring_r,
+                                                     game_duration * FRAMES_PER_SECOND, move(players));
+    objectManager.update_objects(map);
 
 }
 

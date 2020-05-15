@@ -8,6 +8,8 @@
 #include <Object.h>
 #include <ObjectManager.h>
 
+const static int BLINK_RANGE = 1000;
+
 enum Direction {
     UP,
     DOWN,
@@ -31,7 +33,6 @@ public:
 };
 
 class Blink: public Event {
-    const static int BLINK_RANGE = 1000;
 public:
     Blink(int Player_ID, Vector sight_direct): Event(Player_ID, sight_direct) {};
     std::shared_ptr<Object> proccess(std::shared_ptr<Object> obj, ObjectManager& objectmanager) override;

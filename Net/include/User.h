@@ -18,7 +18,7 @@ public:
 
     }
     ~User() = default;
-    int get_username();
+    int get_user_id();
     bool is_connected() { return true; }
 
     boost::shared_ptr<boost::asio::ip::tcp::socket> sock;

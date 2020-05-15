@@ -8,20 +8,18 @@ using boost::property_tree::ptree;
 using boost::property_tree::read_json;
 using boost::property_tree::write_json;
 
-std::vector<User> NetServer::accept_users(int player_count) {
+std::vector<User> NetServer::accept_users(int players_count, const ObjectManager& objm) {
     ip::tcp::acceptor acc(io_service, ip::tcp::endpoint(ip::tcp::v4(),8001));
     int player = 0;
-
-    while ( true)
-    {
-        if (player == player_count)
+    while (true) {
+        if (player == players_count) {
             break;
+        }
         boost::shared_ptr<boost::asio::ip::tcp::socket> user_socket(new ip::tcp::socket(io_service));
-        users.emplace_back(player, user_socket);
+        users.emplace_back(objm.pick_enable_id(), user_socket);
         acc.accept(*users[player].sock);
         player++;
     }
-
     return users;
 }
 
@@ -46,7 +44,7 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     std::stringstream stream(json);
 
     read_json(stream, root);
-    root.put("IDuser", user.get_username());
+    root.put("IDuser", user.get_user_id());
     return packet_manager.packet_adaptation_server(root);;
 }
 

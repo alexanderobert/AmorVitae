@@ -42,6 +42,8 @@ std::shared_ptr<Object> Move::proccess(std::shared_ptr<Object> obj, ObjectManage
 std::shared_ptr<Object> Shot::proccess(std::shared_ptr<Object> obj, ObjectManager &objectmanager) {
     Player player = *std::static_pointer_cast<Player>(obj).get();
     player.sight = player.normalize(sight);
-    objectmanager.update_objects(std::make_shared<Bullet>(5, player.position, player.sight)); //FIX POSITION
+    Point bullet_postiton = player.position + Point(player.model.width, player.model.height);
+    objectmanager.update_objects(std::make_shared<Bullet>(objectmanager.pick_enable_id(),
+                                                          bullet_postiton, player.sight, player.ID));
     return std::make_shared<Player>(player);
 }

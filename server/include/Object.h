@@ -7,7 +7,11 @@
 
 #include <memory>
 #include <map>
+#include <vector>
 #include <cmath>
+
+const static int DEFAULT_BULLET_SPEED = 10;
+const static int DEFAULT_PLAYER_SPEED = 5;
 
 struct Point {
     double x, y;
@@ -20,6 +24,9 @@ struct Point {
     }
     Point operator* (int value) {
         return {this->x * value, this->y * value};
+    }
+    double distance_between(const Point& other) {
+        sqrt(pow((this->x - other.x), 2) + pow((this->y - other.y), 2));
     }
 };
 
@@ -83,7 +90,7 @@ private:
 class Player : public Object {
 public:
     Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(30,30)),
-                               sight(1, 0), speed(50) {};
+                               sight(1, 0), speed(DEFAULT_PLAYER_SPEED) {};
     void update() override {
         if (state_.get_state() == PlayerState::STATE_FLYING) {
             position = position +  sight * speed;
@@ -102,15 +109,42 @@ public:
 
 class Map : public  Object {
 public:
-    Map(int id, int layers, double ring_r): Object(Type::MAP_OBJECT, id, {0, 0}, {0, 0}),
-                                            layers_count(layers), ring_radius(ring_r) {}
-    void update() override {} //Добавляет очки, меняет зону
-    void next_stage() {}
-    int layers_count;
-    double ring_radius;
+    Map(int id, int layers, double ring_r, int durations_tick, std::vector<std::shared_ptr<Object>> plrs):
+        Object(Type::MAP_OBJECT, id, Point(0, 0), Model(0, 0)), layers_count(layers), ring_radius(ring_r),
+        game_duration_ticks(durations_tick), current_round_tick(0), players(move(plrs)),
+        map_centr({layers_count * ring_radius, layers_count * ring_radius}) {
+            for (int i = 1; i <= layers_count; ++i) {
+                pts_table[i] = i * 2;
+            }
+        }
+    void update() override {
+        current_round_tick++;
+        for (const auto& player: players) {
+            add_points_to_player(player);
+        }
+        if ((game_duration_ticks / layers_count) > current_round_tick) {
+            current_round_tick = 0;
+            next_stage();
+        }
+
+    } //Добавляет очки, меняет зону
     std::map<int, int> players_pts;
     std::map<int, int> pts_table;
+private:
+    void next_stage() {
+        layers_count--;
+    }
+    void add_points_to_player(const std::shared_ptr<Object>& player) {
+        int position_rating = layers_count - (map_centr.distance_between(player->position) / layers_count);
+        players_pts[player->ID] += pts_table[position_rating];
+    }
+    int layers_count;
+    int current_round_tick;
+    int game_duration_ticks;
+    double ring_radius;
+    std::vector<std::shared_ptr<Object>> players;
 
+    Point map_centr;
 };
 
 class Obstruction : public  Object {
@@ -148,8 +182,8 @@ class BulletState {
 
 class Bullet : public  Object {
 public:
-    Bullet(int id, Point pos, Point sight): Object(Type::BULLET_OBJECT, id, pos, Model(15,15)),
-                                            sight(sight), speed(300) {};
+    Bullet(int id, Point pos, Point sight, int iniciator_id): Object(Type::BULLET_OBJECT, id, pos, Model(15,15)),
+                                            sight(sight), speed(DEFAULT_BULLET_SPEED), iniciator_ID(iniciator_id) {};
 
     void update() override {
         if (state.get_state() == BulletState::ACTIVE) {
@@ -158,6 +192,7 @@ public:
     }
     BulletState state;
     Point sight;
+    int iniciator_ID;
     int speed;
 };
 #endif //AVM_OBJECT_H

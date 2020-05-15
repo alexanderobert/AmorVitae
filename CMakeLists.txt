@@ -127,7 +127,7 @@ set (
 include_directories(cmake-build-debug/googletest-src/googlemock/include)
 include_directories(cmake-build-debug/googletest-src/googletest/include)
 
-find_package(Boost 1.72.0 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.58.0 COMPONENTS system filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 

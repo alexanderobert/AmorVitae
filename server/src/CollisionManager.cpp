@@ -9,11 +9,12 @@
 std::vector<std::shared_ptr<Object>>
 CollisionManager::check_object_collisions(const std::map<int, std::shared_ptr<Object>> &objects,
                                           std::shared_ptr<Object> object) {
-
     std::vector<std::shared_ptr<Object>> result;
-    for(auto& obj: objects) {
-        if(is_collided(obj.second, object)) {
-            result.push_back(obj.second);
+    for (auto& obj: objects) {
+        if (is_collided(obj.second, object)) {
+            if (obj.second->ID != object->ID) {
+                result.push_back(obj.second);
+            }
         }
     }
     return result;
@@ -21,12 +22,14 @@ CollisionManager::check_object_collisions(const std::map<int, std::shared_ptr<Ob
 
 bool CollisionManager::is_object_collided(const std::map<int, std::shared_ptr<Object>> &objects,
                                           std::shared_ptr<Object> object) const {
-    for(auto& obj: objects) {
-        if(is_collided(obj.second, object)) {
-            return false;
+    for (auto& obj: objects) {
+        if (is_collided(obj.second, object)) {
+            if (obj.second->ID != object->ID) {
+                return true;
+            }
         }
     }
-    return true;
+    return false;
 }
 
 void CollisionManager::resolve_collision(std::shared_ptr<Object> lhs_obj, std::shared_ptr<Object> rhs_obj) {
@@ -82,7 +85,7 @@ void CollisionManager::resolve_collision(std::shared_ptr<Player> player, std::sh
 
 void CollisionManager::resolve_collision(std::shared_ptr<Player> player, std::shared_ptr<Bullet> bullet) {
 
-    if (bullet->state.get_state() == BulletState::ACTIVE) {//LOVUSHKA
+    if ((bullet->state.get_state() == BulletState::ACTIVE) && (player->ID != bullet->iniciator_ID)) {//LOVUSHKA
         player->state_.state_to_fly();
         player->sight = bullet->sight;
         player->speed = bullet->speed;

@@ -15,7 +15,7 @@
 
 class ObjectManager {
 public:
-    ObjectManager() = default; // захватываем мьютекс перед обновление базы
+    ObjectManager():id_counter(0) {}; // захватываем мьютекс перед обновление базы
     void update_objects(std::shared_ptr<Object> changed_object) {
         objects[changed_object->ID] = changed_object;
     }
@@ -25,14 +25,17 @@ public:
     std::map<int, std::shared_ptr<Object>>& get_objects_by_map() {
         return objects;
     }
-    std::map<int, std::shared_ptr<Object>>& get_objects_by_const_map() {
-        return objects;
-    }
     CollisionManager collisionSolver;
-
+    int pick_enable_id() const  {
+        std::lock_guard<std::mutex>lg(id_cointer_m);
+        int result = id_counter;
+        id_counter++;
+        return result;
+    }
 private:
+    mutable int id_counter;
+    mutable std::mutex id_cointer_m;
     std::map<int, std::shared_ptr<Object>> objects;
-    //std::mutex m;
 };
 
 
