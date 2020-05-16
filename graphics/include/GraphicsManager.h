@@ -19,7 +19,7 @@ public:
 
     void drawObstacle(const std::vector<ObjectInterface> &obstacleData);
 //
-    void drawProjectile(struct ProjectileData projectileData);
+    void drawProjectile(const std::vector<ProjectileInterface> &projectileData);
 
     explicit graphicsManager(Config config);
 
