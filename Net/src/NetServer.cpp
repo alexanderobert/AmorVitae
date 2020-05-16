@@ -16,7 +16,7 @@ std::vector<User> NetServer::accept_users(int players_count, const ObjectManager
             break;
         }
         boost::shared_ptr<boost::asio::ip::tcp::socket> user_socket(new ip::tcp::socket(io_service));
-        users.emplace_back(objm.pick_enable_id(), user_socket);
+        users.emplace_back(1, user_socket);
         acc.accept(*users[player].sock);
         player++;
     }
@@ -32,11 +32,11 @@ void NetServer::notify_all_users(std::map<int, std::shared_ptr<Object>>& object)
 
 std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     ptree root;
-    char buf[256] = "";
+    char buf[1024] = "";
 
-    int size_buff = do_read_header(user);
+  //  int size_buff = do_read_header(user);
 
-    user.sock->read_some(buffer(buf, size_buff));
+    user.sock->read_some(buffer(buf));
 
     std::cout<< buf <<std::endl;
 
@@ -49,9 +49,9 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
 }
 
 int NetServer::do_read_header(User& user) {
-    char buf[1];
-    user.sock->read_some(buffer(buf));
-    return (int)buf[1];
+    std::string str;
+    user.sock->read_some(buffer(str, 3));
+    return 208;
 }
 
 

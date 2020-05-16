@@ -70,7 +70,6 @@ std::string PacketManager::packet_handle_client(std::shared_ptr<EventInterface>&
             root.put("sight.to.x", ptr->sight.to.x);
             root.put("sight.to.y", ptr->sight.to.y);
             break;
-
         }
         default: {
             break;

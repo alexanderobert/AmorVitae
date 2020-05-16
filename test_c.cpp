@@ -14,7 +14,7 @@ int main() {
 
     net.send_user_action(ptr);
     while(true) {
-        usleep(20000);
+        sleep(1);
         net.send_user_action(ptr);
         auto mes = net.get_server_message();
         for(const auto& c: mes) {

@@ -118,8 +118,7 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    int new_player_id = objectManager.pick_enable_id();
-    Point position(new_player_id * 100.0, new_player_id * 100.0);
+    Point position(user.get_user_id() * 100.0, user.get_user_id() * 100.0);
     std::shared_ptr<Player> player = std::make_shared<Player>(user.get_user_id(), position);
     return player;
 }
@@ -128,10 +127,7 @@ void World::set_start_object() {
     int layers = 6;
     double ring_r = 60;
     std::vector<std::shared_ptr<Object>> players;
-    for (int i = 0; i < player_count; ++i) {
-        players.push_back(objectManager.get_object_by_id(i));
-    }
-    players.push_back(objectManager.get_object_by_id(0));
+
     std::shared_ptr<Map> map = std::make_shared<Map>(objectManager.pick_enable_id(), layers, ring_r,
                                                      game_duration * FRAMES_PER_SECOND, move(players));
     objectManager.update_objects(map);

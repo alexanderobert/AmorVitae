@@ -26,8 +26,9 @@ struct Point {
         return {this->x * value, this->y * value};
     }
     double distance_between(const Point& other) {
-        sqrt(pow((this->x - other.x), 2) + pow((this->y - other.y), 2));
+        return sqrt(pow((this->x - other.x), 2) + pow((this->y - other.y), 2));
     }
+
 };
 
 struct Vector {
@@ -122,14 +123,18 @@ public:
         for (const auto& player: players) {
             add_points_to_player(player);
         }
-        if ((game_duration_ticks / layers_count) > current_round_tick) {
-            current_round_tick = 0;
-            next_stage();
+        if(layers_count != 0 ) {
+            if ((game_duration_ticks / layers_count) > current_round_tick) {
+                current_round_tick = 0;
+                next_stage();
+            }
         }
 
     } //Добавляет очки, меняет зону
     std::map<int, int> players_pts;
     std::map<int, int> pts_table;
+    int layers_count;
+    double ring_radius;
 private:
     void next_stage() {
         layers_count--;
@@ -138,10 +143,8 @@ private:
         int position_rating = layers_count - (map_centr.distance_between(player->position) / layers_count);
         players_pts[player->ID] += pts_table[position_rating];
     }
-    int layers_count;
     int current_round_tick;
     int game_duration_ticks;
-    double ring_radius;
     std::vector<std::shared_ptr<Object>> players;
 
     Point map_centr;

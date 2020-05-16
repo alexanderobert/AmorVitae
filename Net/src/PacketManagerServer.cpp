@@ -38,6 +38,15 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
 
             }
             case 3: {
+                auto ptr = std::static_pointer_cast<Map>(object[j]);
+                tree.put("type", "map");
+                tree.put("layers_count", ptr->layers_count);
+                tree.put("ring_radius", ptr->ring_radius);
+                tree.put("count_player", ptr->players_pts.size());
+                for (const auto& item : ptr->players_pts) {
+                    tree.put(std::to_string(item.first), item.second);
+                }
+                root.add_child(std::to_string(j), tree);
                 break;
             }
             case 4: {
