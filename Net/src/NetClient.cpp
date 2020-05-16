@@ -37,7 +37,7 @@ std::vector<std::shared_ptr<ObjectInterface>> NetClient::get_server_message() {
 void NetClient::send_user_action(std::shared_ptr<EventInterface>& event) {
 
     std::string buf = packet_manager.packet_handle_client(event);
-//    socket_ptr->write_some(buffer(plz, 3));
+    socket_ptr->write_some(buffer(std::to_string(buf.size()), 3));
     socket_ptr->write_some(buffer(buf));
 }
 

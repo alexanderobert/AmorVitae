@@ -34,9 +34,9 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     ptree root;
     char buf[1024] = "";
 
-  //  int size_buff = do_read_header(user);
+    int size_buff = do_read_header(user);
 
-    user.sock->read_some(buffer(buf));
+    user.sock->read_some(buffer(buf,size_buff));
 
     std::cout<< buf <<std::endl;
 
@@ -49,9 +49,12 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
 }
 
 int NetServer::do_read_header(User& user) {
-    std::string str;
-    user.sock->read_some(buffer(str, 3));
-    return 208;
+    char buf[1024] = "";
+    user.sock->read_some(buffer(buf, 3));
+    std::istringstream iss (buf, std::istringstream::in);
+    int val;
+    iss >> val;
+    return val;
 }
 
 
