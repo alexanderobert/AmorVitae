@@ -1,33 +1,21 @@
 #include <actionServer.h>
 
-void actionServer::sendActionMove(Direction direction){ // МАРК Я ЗАКОМЕНТИЛ ЧТОБЫ ВСЕ СКОМПИЛИЛОСЬ,
-    /*ССделай для Ивентов и обьектов конструкторы по умолчанию(Можешь посмотреть у меня)
-     * или сделай нормальные конструкторы и юзай их
-     * */
-/*
 
-    MoveInterface event();
-    event.type = move;
-    event.direction = direction;
-    event.sight = mySight;
-*/
+void actionServer::sendActionMove(DirectionInterface direction){
 
+    MoveInterface event(static_cast<EventInterface::EventType>(EventInterface::EventType::move), mySight, direction);
 
-    //std::cout<<event.sight.to.x<<"\n";
-    //std::cout<<event.sight.to.y<<"\n";
+    //std::cout<<event.direction<<"\n";
 
     // Send_action(event); from NetClient
 }
 
 void actionServer::sendActionBlink(){
 
-/*
-    Blink event;
-    event.type = blink;
-    event.sight = mySight;
+    BlinkInterface event(static_cast<EventInterface::EventType>(EventInterface::EventType::move), mySight);
 
-*/
-    //std::cout<<"Блинк"<<"\n";
+    //std::cout<<event.sight.to.x<<"\n";
+    //std::cout<<event.sight.to.y<<"\n";
 
     // Send_action(event); from NetClient
 }
@@ -53,15 +41,15 @@ void actionServer::updateSight(int x, int y){
 */
 }
 
-
-std::shared_ptr<ObjectInterface> actionServer::getMessage(){
+std::vector<std::shared_ptr<ObjectInterface>> actionServer::getMessage(){
 
     // return Get_servet_action(); from NetClient
 
+    std::vector<std::shared_ptr<ObjectInterface>> vec;
 /*
     ObjectInterface object;
     object.type = STATIC_OBJECT;
 */
-    return std::shared_ptr<ObjectInterface>();
+    return vec;
 
 }

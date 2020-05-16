@@ -9,7 +9,10 @@
 
 class actionManager {
 public:
-    void pollEvent(sf::RenderWindow &, clientConnection &, actionServer &, bool &);
+    void sendMove(actionServer &action, DirectionInterface); //при нажатии WASD
+    void sendBlink(actionServer &action); //при нажатии Space
+
+    void actionUser(sf::RenderWindow &window, sf::Event &, actionServer &);
 };
 
 

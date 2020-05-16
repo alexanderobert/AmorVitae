@@ -2,8 +2,14 @@
 #include <struct_Config.h>
 #include <iostream>
 
+#include <actionServer.h>
+#include <actionManager.h>
+#include <ProjectileModel.h>
+
+
 void graphicsManager::drawMap(const std::string &mapCode, int state) {
-    int radius = 45;
+    int radius = 75;
+    int circlePoints = 50;
 
     sf::Texture texture;
     if (!texture.loadFromFile("../graphics/textures/background.jpg")) {
@@ -16,9 +22,7 @@ void graphicsManager::drawMap(const std::string &mapCode, int state) {
 
     for (int i = 0; i < state; ++i) {
         sf::CircleShape stage(
-                float(radius * (state - i)),
-                50
-        );
+                float(radius * (state - i)), circlePoints);
         stage.setPosition(
                 window->getSize().x / 2 - radius * (state - i),
                 window->getSize().y / 2 - radius * (state - i)
@@ -28,9 +32,8 @@ void graphicsManager::drawMap(const std::string &mapCode, int state) {
     }
 }
 
-graphicsManager::graphicsManager(struct Config _config) {
-    config = _config;
-    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "SFML works!");
+graphicsManager::graphicsManager(Config config) : config(config) {
+    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae");
     open = true;
     mapStage = -1;
 
@@ -42,7 +45,7 @@ graphicsManager::graphicsManager(struct Config _config) {
 
 }
 
-bool graphicsManager::isOpen() {
+bool graphicsManager::isOpen() const {
     return open;
 }
 
@@ -51,25 +54,66 @@ void graphicsManager::close() {
     open = false;
 }
 
-void graphicsManager::handleEvent() {
+void graphicsManager::handleEvent(actionManager &user, actionServer &action) {
     sf::Event event;
-    while (window->pollEvent(event)) {
-        if (event.type == sf::Event::Closed){
-            close();
-        }
-    }
+    user.actionUser(*window, event, action);
 }
 
 void graphicsManager::clear(){
     window->clear();
 }
 
+void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData) {
+    for (PlayerInterface player : playerData) {
+        PlayerModel playerModel(
+                player.position.x,
+                player.position.y,
+                player.model.width,
+                player.model.height
+        );
+
+        buff.push_back(playerModel);
+    }
+
+    sf::RenderStates renderStates;
+    for (auto &it : buff)
+        it.draw(*window, renderStates);
+
+    buff.clear();
+}
 
 
-//void graphicsManager::drawPlayer(struct Player playerData) {
-//
-//}
-//
-//void graphicsManager::drawProjectile(struct ProjectileData projectileData) {
-//
-//}
+void graphicsManager::drawObstacle(const std::vector<ObjectInterface> &obstacleData) {
+    std::vector<sf::RectangleShape> obs;
+
+    for(ObjectInterface obstacle : obstacleData){
+        sf::RectangleShape obsModel(sf::Vector2f(100, 100));
+        obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
+        obsModel.setFillColor(sf::Color::Black);
+    }
+
+    for(const sf::RectangleShape& model : obs){
+        window->draw(model);
+    }
+}
+
+void graphicsManager::drawProjectile(const std::vector<BulletInterface> &projectileData) {
+    std::vector<ProjectileModel> bulletBuff;
+
+    for (BulletInterface bullet : projectileData) {
+//        ProjectileModel projectileModel(
+//                bullet.position.x,
+//                bullet.position.y,
+//                bullet.model.width,
+//                bullet.model.height
+//        );
+
+//        bulletBuff.push_back(projectileModel);
+    }
+
+    sf::RenderStates renderStates;
+    for (auto &it : bulletBuff)
+        it.draw(*window, renderStates);
+
+    bulletBuff.clear();
+}
