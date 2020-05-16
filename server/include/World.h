@@ -58,15 +58,18 @@ void World::calc_frame() {
         } else {
             std::lock_guard<std::mutex> lock(events_m);
             if (!queque_event.empty()) {
-                std::cout << "queque size " << queque_event.size() << std::endl;
                 std::shared_ptr<Event> event = queque_event.front();
+
                 queque_event.pop();
                 auto object = objectManager.get_object_by_id(event->IniciatorID);
                 //Object new_state_object = event.get()->proccess(object); получаем новое стстояние обекиа
                 auto New_state = event->proccess(object, objectManager);
                 if (!objectManager.collisionSolver.is_object_collided(objects, New_state)) { //проверяем есть ли коллиизиb
                     //с новым состоянием
-                    object = New_state;
+                    *object = *New_state;
+                   // objectManager.update_objects(New_state);
+                    std::cout << "Ура  новое положение игрока: " << object->position.x << ' ' << object->position.y << std::endl;
+
                 }
             }
             //обрабатываем ивент из очереди
@@ -119,7 +122,7 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    Point position(user.get_user_id() * 100.0, user.get_user_id() * 100.0);
+    Point position((user.get_user_id() ) * 100.0, (user.get_user_id() )* 100.0);
     std::shared_ptr<Player> player = std::make_shared<Player>(user.get_user_id(), position);
     return player;
 }
