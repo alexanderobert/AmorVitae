@@ -100,6 +100,7 @@ void World::game_start() {
             last_tick = curr_time;
             need_update = true;
             netServer.notify_all_users(objectManager.get_objects_by_map());
+            sleep(1);
         }
         curr_time = std::chrono::high_resolution_clock::now();
         current_game_duration = curr_time - round_start;
