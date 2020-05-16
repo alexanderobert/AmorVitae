@@ -4,6 +4,7 @@
 
 #include <actionServer.h>
 #include <actionManager.h>
+#include <include/ProjectileModel.h>
 
 
 void graphicsManager::drawMap(const std::string &mapCode, int state) {
@@ -91,7 +92,28 @@ void graphicsManager::drawObstacle(const std::vector<ObjectInterface> &obstacleD
         obsModel.setFillColor(sf::Color::Black);
     }
 
-    for(sf::RectangleShape model : obs){
+    for(const sf::RectangleShape& model : obs){
         window->draw(model);
     }
+}
+
+void graphicsManager::drawProjectile(const std::vector<ProjectileInterface> &projectileData) {
+    std::vector<ProjectileModel> bulletBuff;
+
+    for (ProjectileInterface bullet : projectileData) {
+        ProjectileModel projectileModel(
+                bullet.position.x,
+                bullet.position.y,
+                bullet.model.width,
+                bullet.model.height
+        );
+
+        bulletBuff.push_back(projectileModel);
+    }
+
+    sf::RenderStates renderStates;
+    for (auto &it : bulletBuff)
+        it.draw(*window, renderStates);
+
+    bulletBuff.clear();
 }
