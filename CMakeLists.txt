@@ -160,7 +160,7 @@ include_directories(
 
 add_executable(AmorVitaeServer server/src/main.cpp ${SERVER} ${NET_SERVER})
 add_executable(server_test ${TEST_SERVER})
-add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${GRAPHICS} ${NET_CLIENT})
+add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${NET_CLIENT})
 
 add_executable(test_s test_s.cpp ${SERVER} ${NET_SERVER})
 add_executable(test_c test_c.cpp  ${NET_CLIENT})

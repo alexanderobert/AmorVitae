@@ -1,7 +1,6 @@
 #include <actionManager.h>
 #include <clientConnection.h>
 
-#include <X11/Xlib.h>
 
 void actionManager::sendMove(actionServer &action, DirectionInterface dir){
     action.sendActionMove(dir);

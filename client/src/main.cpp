@@ -2,20 +2,20 @@
 #include <iostream>
 
 #include "include/clientConnection.h"
-#include "include/actionManager.h"
+//#include "include/actionManager.h"
 #include <displayManager.h>
 #include <actionServer.h>
 
-#include <graphicsManager.h>
-#include <struct_Config.h>
+//#include <graphicsManager.h>
+//#include <struct_Config.h>
 
 #include <Object.h>
 
-#include <PlayerModel.h>
+//#include <PlayerModel.h>
 
 
 int main() {
-
+/*
     clientConnection clientCon;
     actionServer action;
     actionManager launch;
@@ -78,7 +78,21 @@ int main() {
         graph.display();
 
         delta+=0.05;
-    }
+    }*/
 
+    NetClient net;
+    net.connect_to_server("127.0.0.1", 8001); //подключение к серверу
+
+    auto move = BlinkInterface(EventInterface::EventType::blink, {{1, 1},{2, 2}}); //тестовый блинк
+    std::shared_ptr<EventInterface> ptr = std::make_shared<BlinkInterface>(move); //вот так нужно упаковывать ивент для передачи
+
+    while(true) {
+        net.send_user_action(ptr); // вот мы отдаем серверу
+        auto mes = net.get_server_message(); // вот так мы получаем контент от сервера пока мы принимаем игрока и мапу
+        for(const auto& c: mes) {
+            std::cout<<c->position.x<<" "<<c->position.y<<std::endl; //это координаты челика после блинка которой мы отправили серверу (0,0)-это мапа(карта)
+        }
+        usleep(10000);
+    }
     return 0;
 }

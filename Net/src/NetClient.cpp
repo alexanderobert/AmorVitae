@@ -25,7 +25,6 @@ std::vector<std::shared_ptr<ObjectInterface>> NetClient::get_server_message() {
 
     socket_ptr->read_some(buffer(buf));
     std::string json = std::string(buf);
-    std::cout << json;
     std::stringstream stream(json);
     read_json(stream, root);
 

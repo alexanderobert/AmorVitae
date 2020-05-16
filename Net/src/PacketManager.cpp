@@ -17,11 +17,15 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
         switch (mp[tree.get("type", "")]) {
             case 1: {
                 int id = tree.get("id", 0);
-                double x = tree.get("x", 0);
-                double y = tree.get("y", 0);
-                struct PlayerInterface pl(ObjectInterface::Type::PLAYER_OBJECT, id, {x, y}, {30, 30});
+                std::string x = tree.get("x", "");
+                std::string y = tree.get("y", "");
+                struct PlayerInterface pl(ObjectInterface::Type::PLAYER_OBJECT, id, {
+                    (stod(x)),
+                    (stod(y))},
+                            {30, 30});
                 std::shared_ptr<ObjectInterface> ptr = std::make_shared<PlayerInterface>(pl);
                 vector.push_back(ptr);
+                break;
             }
 
             case 2: {
@@ -29,6 +33,18 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                 break;
             }
             case 3: {
+                std::map<int, int> pts_player;
+                std::string layers_count = tree.get("layers_count", "");
+                std::string ring_radius = tree.get("ring_radius", "");
+                std::string count_player = tree.get("count_player", "");
+                for (int k = 0; k < std::stoi(count_player); ++k) {
+                    std::string pts = tree.get(std::to_string(k), "");
+                    pts_player.insert({k, std::stoi(pts)});
+                }
+                struct MapInterface mp(std::stoi(layers_count), std::stod(ring_radius), pts_player);
+                std::shared_ptr<ObjectInterface> ptr = std::make_shared<MapInterface>(mp);
+                vector.push_back(ptr);
+
                 break;
             }
             case 4: {
