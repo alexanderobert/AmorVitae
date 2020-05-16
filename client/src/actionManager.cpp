@@ -3,7 +3,7 @@
 
 #include <X11/Xlib.h>
 
-void actionManager::sendMove(actionServer &action, Direction dir){
+void actionManager::sendMove(actionServer &action, DirectionInterface dir){
     action.sendActionMove(dir);
 }
 void actionManager::sendBlink(actionServer &action){
@@ -18,17 +18,17 @@ void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actio
 
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::W) {
-                action.sendActionMove(UP);
+                action.sendActionMove(up);
             }
             if (event.key.code == sf::Keyboard::A) {
-                action.sendActionMove(LEFT);
+                action.sendActionMove(left);
             }
             if (event.key.code == sf::Keyboard::D) {
-                action.sendActionMove(RIGHT);
+                action.sendActionMove(right);
 
             }
             if (event.key.code == sf::Keyboard::S) {
-                action.sendActionMove(DOWN);
+                action.sendActionMove(down);
             }
             if (event.key.code == sf::Keyboard::Space) {
                 action.sendActionBlink();

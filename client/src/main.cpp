@@ -21,10 +21,14 @@ int main() {
     actionManager launch;
     actionManager user;
 
+    NetClient network;
+
     Config configWindow;
 
     configWindow.windowWidth = 1280; //сделать функцию определения размера окна
     configWindow.windowHeight = 800;
+
+    //clientCon.connectClient(network);
 
     graphicsManager graph(configWindow);
 
@@ -53,7 +57,7 @@ int main() {
 
         PointInterface pos4(550.0, 420.0);
         ModelInterface mod4(10,15);
-        ObjectInterface obstruct2(ObjectInterface::Type::PLAYER_OBJECT, 1, pos4, mod4);
+        ObjectInterface obstruct2(ObjectInterface::Type::PLAYER_OBJECT, 2, pos4, mod4);
 
         std::vector<struct ObjectInterface> obstructs;
 
@@ -67,7 +71,6 @@ int main() {
         graph.drawMap(mapCode, state);
 
         graph.drawPlayer(players);
-
 
 
         graph.drawObstacle(obstructs);

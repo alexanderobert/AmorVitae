@@ -1,7 +1,7 @@
 #include <actionServer.h>
 
 
-void actionServer::sendActionMove(Direction direction){
+void actionServer::sendActionMove(DirectionInterface direction){
 
     MoveInterface event(static_cast<EventInterface::EventType>(EventInterface::EventType::move), mySight, direction);
 

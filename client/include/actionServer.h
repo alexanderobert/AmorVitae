@@ -12,6 +12,8 @@
 
 #include <vector>
 
+const static int DEFAULT_BULLET_SPEED = 10;
+const static int DEFAULT_PLAYER_SPEED = 5;
 
 struct PointInterface {
     double x, y;
@@ -28,11 +30,11 @@ struct ModelInterface {
     ModelInterface(int h, int w):height(h), width(w) {}
 };
 
-enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+enum DirectionInterface {
+    up,
+    down,
+    left,
+    right
 };
 
 //блок формирования сообщения для отправки
@@ -53,8 +55,8 @@ struct EventInterface {
 };
 
 struct MoveInterface: EventInterface{
-    Direction direction;
-    MoveInterface(EventType t, VectorInterface s, Direction dir):EventInterface(t, s), direction(dir) {}
+    DirectionInterface direction;
+    MoveInterface(EventType t, VectorInterface s, DirectionInterface dir):EventInterface(t, s), direction(dir) {}
 };
 
 struct BlinkInterface: EventInterface{
@@ -108,6 +110,26 @@ struct ObstructionInterface:ObjectInterface {
     ObstructionInterface(Type t, int id, PointInterface pos, ModelInterface mod): ObjectInterface(t, id, pos, mod) {}
 };
 
+
+struct BulletStateInterface {
+    enum State {
+        ACTIVE,
+        INACTIVE
+    };
+    BulletStateInterface(): state_(State::ACTIVE), live_tick(0) {};
+    int live_tick;
+    State state_;
+};
+
+struct BulletInterface:ObjectInterface {
+
+    BulletInterface(int id, PointInterface pos, PointInterface sight, int iniciator_id): ObjectInterface(Type::BULLET_OBJECT, id, pos, ModelInterface(15,15)),
+                                                              sight(sight), speed(DEFAULT_BULLET_SPEED), iniciator_ID(iniciator_id) {};
+    BulletStateInterface state;
+    PointInterface sight;
+    int iniciator_ID;
+    int speed;
+};
 //конец блока формирования получения сообщения
 
 //класс для отправки и получения
@@ -121,7 +143,7 @@ public:
     actionServer() : myPosition(0,0), mySight({0, 0}, {0, 0}) {};
     ~actionServer() = default;
 
-    void sendActionMove(Direction);
+    void sendActionMove(DirectionInterface);
     void sendActionBlink();
     void updatePosition();
     void updateSight(int, int);
