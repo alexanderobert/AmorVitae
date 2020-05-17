@@ -1,12 +1,9 @@
 #include <graphicsManager.h>
-#include <struct_Config.h>
-#include <iostream>
 
-#include <actionServer.h>
-#include <actionManager.h>
+void graphicsManager::drawMap(const std::vector<MapInterface> &map) {
+    int state = map[0].layers_count;
+    int radius = map[0].ring_radius;
 
-void graphicsManager::drawMap(const std::string &mapCode, int state) {
-    int radius = 75;
     int circlePoints = 50;
 
     sf::Texture texture;
@@ -33,7 +30,6 @@ void graphicsManager::drawMap(const std::string &mapCode, int state) {
 graphicsManager::graphicsManager(Config config) : config(config) {
     window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae");
     open = true;
-    mapStage = -1;
 
     mapColors.emplace_back(sf::Color::White);// TODO Расчитывать градиент
     mapColors.emplace_back(sf::Color(204, 227, 249));
@@ -62,6 +58,8 @@ void graphicsManager::clear(){
 }
 
 void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData) {
+    std::vector<PlayerModel> buff;
+
     for (PlayerInterface player : playerData) {
         PlayerModel playerModel(
                 player.position.x,
@@ -77,27 +75,21 @@ void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
     for (auto &it : buff)
         it.draw(*window, renderStates);
 
-    buff.clear();
 }
 
 
-void graphicsManager::drawObstacle(const std::vector<ObjectInterface> &obstacleData) {
-    for (ObjectInterface obstacle : obstacleData) {
-        ObstacleModel obstacleModel(
-                obstacle.position.x,
-                obstacle.position.y,
-                obstacle.model.width,
-                obstacle.model.height
-        );
+void graphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obstacleData) {
+    std::vector<sf::RectangleShape> obs;
 
-        buffObstacle.push_back(obstacleModel);
+    for(ObstructionInterface obstacle : obstacleData){
+        sf::RectangleShape obsModel(sf::Vector2f(100, 100));
+        obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
+        obsModel.setFillColor(sf::Color::Black);
     }
 
-    sf::RenderStates renderStates;
-    for (auto &it : buffObstacle)
-        it.draw(*window, renderStates);
-
-    buffObstacle.clear();
+    for(const sf::RectangleShape& model : obs){
+        window->draw(model);
+    }
 }
 
 void graphicsManager::drawProjectile(const std::vector<BulletInterface> &projectileData) {
@@ -117,6 +109,39 @@ void graphicsManager::drawProjectile(const std::vector<BulletInterface> &project
     sf::RenderStates renderStates;
     for (auto &it : bulletBuff)
         it.draw(*window, renderStates);
+}
 
-    bulletBuff.clear();
+void graphicsManager::object(const std::vector<std::shared_ptr<ObjectInterface>> &objects) {
+    std::map<ObjectInterface::Type, std::vector<std::shared_ptr<ObjectInterface>>> group;
+
+    for(const std::shared_ptr<ObjectInterface>& obj : objects){
+        group[obj->type].push_back(obj);
+    }
+
+    std::vector<PlayerInterface> playersData;
+    std::vector<MapInterface> mapData;
+    std::vector<BulletInterface> bulletsData;
+    std::vector<ObstructionInterface> obstructionData;
+
+    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::PLAYER_OBJECT]){
+        playersData.emplace_back(*std::static_pointer_cast<PlayerInterface>(obj));
+    }
+
+    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::MAP_OBJECT]){
+        mapData.emplace_back(*std::static_pointer_cast<MapInterface>(obj));
+    }
+
+    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::BULLET_OBJECT]){
+        bulletsData.emplace_back(*std::static_pointer_cast<BulletInterface>(obj));
+    }
+
+    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::STATIC_OBJECT]){
+        obstructionData.emplace_back(*std::static_pointer_cast<ObstructionInterface>(obj));
+    }
+
+    drawMap(mapData);
+    drawObstacle(obstructionData);
+    drawPlayer(playersData);
+    drawProjectile(bulletsData);
+
 }

@@ -30,11 +30,10 @@ int main() {
 
         auto objects = action.getMessage();
 
-        for(const auto& c: objects) {
-            std::cout<<c->position.x<<" "<<c->position.y<<std::endl;
-        }
+        auto check = std::static_pointer_cast<MapInterface>(objects[0]);
+        
+        graph.object(objects);
 
-//        graph.object(objects);
 //        PointInterface pos(480.0 + delta, 360.0 + delta);
 //        ModelInterface mod(15,15);
 //        PlayerInterface player(static_cast<ObjectInterface::Type>(Type::PLAYER_OBJECT), 1, pos, mod);
@@ -80,7 +79,6 @@ int main() {
 //        obstructs.push_back(obstruct4);
 //
         graph.handleEvent(user, action);
-        graph.drawMap(mapCode, state);
 //
 //        graph.drawObstacle(obstructs);
 //
