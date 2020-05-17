@@ -13,13 +13,15 @@ class graphicsManager {
 public:
     int init(struct Config);
 
-    void drawMap(const std::string &mapCode, int state);
+    void drawMap(const std::vector<MapInterface> &map);
+
+    void object(const std::vector<std::shared_ptr<ObjectInterface>> &objects);
 
     void drawPlayer(const std::vector<PlayerInterface> &playerData);
 
-    void drawObstacle(const std::vector<ObjectInterface> &obstacleData);
+    void drawObstacle(const std::vector<ObstructionInterface> &obstacleData);
 //
-    void drawProjectile(const std::vector<ProjectileInterface> &projectileData);
+    void drawProjectile(const std::vector<BulletInterface> &projectileData);
 
     explicit graphicsManager(Config config);
 
@@ -40,12 +42,9 @@ public:
     }
 
 private:
-    std::vector<PlayerModel> buff;
-
     sf::RenderWindow *window;
     struct Config config;
     bool open;
-    int mapStage;
     std::vector<sf::Color> mapColors;
 
 };
