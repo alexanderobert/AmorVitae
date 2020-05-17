@@ -17,20 +17,20 @@ void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actio
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::W) {
                 action.sendActionMove(up);
-                action.updatePosition(up);
+                //action.updatePosition(up);
             }
             if (event.key.code == sf::Keyboard::A) {
                 action.sendActionMove(left);
-                action.updatePosition(left);
+                //action.updatePosition(left);
             }
             if (event.key.code == sf::Keyboard::D) {
                 action.sendActionMove(right);
-                action.updatePosition(right);
+                //action.updatePosition(right);
 
             }
             if (event.key.code == sf::Keyboard::S) {
                 action.sendActionMove(down);
-                action.updatePosition(down);
+                //action.updatePosition(down);
             }
             if (event.key.code == sf::Keyboard::Space) {
                 action.sendActionBlink();
