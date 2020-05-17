@@ -124,7 +124,7 @@ public:
             add_points_to_player(player);
         }
         if(layers_count != 0 ) {
-            if ((game_duration_ticks / layers_count) > current_round_tick) {
+            if ((game_duration_ticks / layers_count) < current_round_tick) {
                 current_round_tick = 0;
                 next_stage();
             }

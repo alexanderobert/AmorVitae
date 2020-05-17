@@ -4,7 +4,7 @@ actionServer::actionServer (): myPosition(500.0,500.0), mySight({0, 0}, {0, 0}){
 
 void actionServer::sendActionMove(DirectionInterface direction){
 
-    MoveInterface event(static_cast<EventInterface::EventType>(EventInterface::EventType::move), mySight, direction);
+    MoveInterface event(EventInterface::EventType::move, mySight, direction);
 
     //std::cout<<event.direction<<"\n";
 

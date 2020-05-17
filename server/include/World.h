@@ -14,7 +14,7 @@
 #include <NetServer.h>
 
 const static int SECONDS_PER_MINUTE = 60;
-const static double FRAMES_PER_SECOND = 25;
+const static double FRAMES_PER_SECOND = 10;
 
 class World {
 public:
@@ -103,7 +103,7 @@ void World::game_start() {
             last_tick = curr_time;
             need_update = true;
             netServer.notify_all_users(objectManager.get_objects_by_map());
-            sleep(1);
+            sleep(100);
         }
         curr_time = std::chrono::high_resolution_clock::now();
         current_game_duration = curr_time - round_start;

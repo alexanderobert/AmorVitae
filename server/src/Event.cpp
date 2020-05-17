@@ -17,11 +17,11 @@ std::shared_ptr<Object> Move::proccess(std::shared_ptr<Object> obj, ObjectManage
 
     switch (direction) {
         case UP: {
-            player.position.y += player.speed;
+            player.position.y -= player.speed;
             break;
         }
         case DOWN:{
-            player.position.y -= player.speed;
+            player.position.y += player.speed;
             break;
         }
         case LEFT:{
@@ -29,7 +29,7 @@ std::shared_ptr<Object> Move::proccess(std::shared_ptr<Object> obj, ObjectManage
             break;
         }
         case RIGHT:{
-            player.position.y += player.speed;
+            player.position.x += player.speed;
             break;
         }
         default:

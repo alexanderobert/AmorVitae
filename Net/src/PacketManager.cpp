@@ -2,6 +2,7 @@
 // Created by Vladislav Shushpanov on 14.04.2020.
 //
 
+#include <iostream>
 #include "PacketManager.h"
 
 std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_client(ptree& root) {
@@ -41,8 +42,10 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                     std::string pts = tree.get(std::to_string(k), "");
                     pts_player.insert({k, std::stoi(pts)});
                 }
-                struct MapInterface mp(1, std::stoi(layers_count), std::stod(ring_radius), pts_player);
-                std::shared_ptr<ObjectInterface> ptr = std::make_shared<MapInterface>(mp);
+                auto a = std::stoi(layers_count);
+                auto b = std::stod(ring_radius);
+                struct MapInterface mi(1, a, b, pts_player);
+                std::shared_ptr<ObjectInterface> ptr = std::make_shared<MapInterface>(mi);
                 vector.push_back(ptr);
 
                 break;

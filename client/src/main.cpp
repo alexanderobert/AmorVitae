@@ -88,7 +88,6 @@ int main() {
 
         delta+=0.05;
 
-        usleep(10000);
     }
 
     return 0;

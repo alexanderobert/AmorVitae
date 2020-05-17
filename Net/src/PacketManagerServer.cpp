@@ -70,10 +70,10 @@ std::shared_ptr<Event> PacketManagerServer::packet_adaptation_server(ptree& root
     mp["blink"] = 2;
 
     std::map <std::string, Direction> dir;
-    dir["DOWN"] = Direction::DOWN;
-    dir["LEFT"] = Direction::LEFT;
-    dir["RIGHT"] = Direction::RIGHT;
-    dir["UP"] = Direction::UP;
+    dir["1"] = Direction::DOWN;
+    dir["2"] = Direction::LEFT;
+    dir["3"] = Direction::RIGHT;
+    dir["0"] = Direction::UP;
     std::shared_ptr<Event> ptr;
     switch (mp[root.get("type", "")]) {
         case 1: {

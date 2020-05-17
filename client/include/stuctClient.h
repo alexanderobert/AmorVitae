@@ -90,7 +90,9 @@ struct MapInterface:ObjectInterface {
     int layers_count;
     double ring_radius;
     std::map<int, int> players_pts;
-    MapInterface(int id, int layers_count, double ring_radius, std::map<int, int> players_pts): ObjectInterface(Type::MAP_OBJECT, id, PointInterface(0, 0), ModelInterface(0, 0)) {}
+    MapInterface(int id, int layers_count, double ring_radius, std::map<int, int> players_pts):
+    ObjectInterface(Type::MAP_OBJECT, id, PointInterface(0, 0), ModelInterface(0, 0)),
+                    layers_count(layers_count), ring_radius(ring_radius), players_pts(std::move(players_pts)){}
 };
 
 struct ObstructionInterface:ObjectInterface {
