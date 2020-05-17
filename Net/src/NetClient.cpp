@@ -23,10 +23,10 @@ std::vector<std::shared_ptr<ObjectInterface>> NetClient::get_server_message() {
     char buf[1024] = "";
     ptree root;
 
-    socket_ptr->read_some(buffer(buf));
-    std::string json = std::string(buf);
-    std::stringstream stream(json);
-    read_json(stream, root);
+//    socket_ptr->read_some(buffer(buf));
+//    std::string json = std::string(buf);
+//    std::stringstream stream(json);
+//    read_json(stream, root);
 
     return packet_manager.packet_adaptation_client(root);
 }
@@ -39,5 +39,4 @@ void NetClient::send_user_action(std::shared_ptr<EventInterface>& event) {
     socket_ptr->write_some(buffer(std::to_string(buf.size()), 3));
     socket_ptr->write_some(buffer(buf));
 }
-
 

@@ -67,7 +67,7 @@ void World::calc_frame() {
                 if (!objectManager.collisionSolver.is_object_collided(objects, New_state)) { //проверяем есть ли коллиизиb
                     //с новым состоянием
                     *object = *New_state;
-                   // objectManager.update_objects(New_state);
+                    // objectManager.update_objects(New_state);
                     std::cout << "Ура  новое положение игрока: " << object->position.x << ' ' << object->position.y << std::endl;
 
                 }
@@ -122,8 +122,8 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    Point position((user.get_user_id() ) * 100.0, (user.get_user_id() )* 100.0);
-    std::shared_ptr<Player> player = std::make_shared<Player>(user.get_user_id(), position);
+    Point position((user.get_username() ) * 100.0, (user.get_username() )* 100.0);
+    std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
     return player;
 }
 

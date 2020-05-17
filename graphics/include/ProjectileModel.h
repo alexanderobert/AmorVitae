@@ -6,9 +6,9 @@
 class ProjectileModel : public sf::Drawable {
 public:
     ProjectileModel(float startX, float startY, int _width, int _height);
-    virtual ~ProjectileModel();
+    ~ProjectileModel();
 
-    virtual void draw(sf::RenderTarget &renderTarget, sf::RenderStates renderStates) const;
+    void draw(sf::RenderTarget &renderTarget, sf::RenderStates renderStates) const;
 private:
 
 

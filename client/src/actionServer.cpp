@@ -1,5 +1,6 @@
 #include <actionServer.h>
 
+actionServer::actionServer (): myPosition(500.0,500.0), mySight({0, 0}, {0, 0}){}
 
 void actionServer::sendActionMove(DirectionInterface direction){
 
@@ -7,49 +8,55 @@ void actionServer::sendActionMove(DirectionInterface direction){
 
     //std::cout<<event.direction<<"\n";
 
-    // Send_action(event); from NetClient
+    std::shared_ptr<EventInterface> ptr = std::make_shared<MoveInterface>(event);
+    network.send_user_action(ptr);
+
 }
 
 void actionServer::sendActionBlink(){
 
-    BlinkInterface event(static_cast<EventInterface::EventType>(EventInterface::EventType::move), mySight);
+    myPosition = mySight.to;
 
-    //std::cout<<event.sight.to.x<<"\n";
-    //std::cout<<event.sight.to.y<<"\n";
+    auto event = BlinkInterface(EventInterface::EventType::blink, mySight);
+    std::shared_ptr<EventInterface> ptr = std::make_shared<BlinkInterface>(event);
 
-    // Send_action(event); from NetClient
+    network.send_user_action(ptr);
 }
 
-void actionServer::updatePosition(){
+void actionServer::updatePosition(DirectionInterface direction){
 
-    myPosition.x = 500;
-    myPosition.y = 500;
+    if(direction == up)
+        myPosition.y = myPosition.y - 0.8;
+    if(direction == down)
+        myPosition.y = myPosition.y + 0.8;
+    if(direction == left)
+        myPosition.x = myPosition.x - 0.8;
+    if(direction == right)
+        myPosition.x = myPosition.x + 0.8;
 }
 
-void actionServer::updateSight(int x, int y){
+void actionServer::updateSight(double x, double y) {
 
-/*
-    Point mouse;
-    mouse.x = x;
-    mouse.y = y;
-
-    myPosition.x = 500;
-    myPosition.y = 500;
+    PointInterface mouse(x, y);
 
     mySight.from = myPosition;
     mySight.to = mouse;
-*/
+
 }
 
 std::vector<std::shared_ptr<ObjectInterface>> actionServer::getMessage(){
 
-    // return Get_servet_action(); from NetClient
+    return network.get_server_message();
+}
 
-    std::vector<std::shared_ptr<ObjectInterface>> vec;
-/*
-    ObjectInterface object;
-    object.type = STATIC_OBJECT;
-*/
-    return vec;
+int actionServer::connectClient(){
 
+    network.connect_to_server(addr_server, port); //from NetClient
+    // myId = id от сетей
+    myId = 1;
+    return myId;
+}
+
+void actionServer::closeConnectClient(){
+    //функция разрыва соединения
 }

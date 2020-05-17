@@ -3,11 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "clientConnection.h"
-
 #include "actionServer.h"
 
 class actionManager {
+
 public:
     void sendMove(actionServer &action, DirectionInterface); //при нажатии WASD
     void sendBlink(actionServer &action); //при нажатии Space

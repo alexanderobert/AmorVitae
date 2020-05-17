@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(AmorVitae)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 # Download and unpack googletest at configure time
@@ -42,7 +42,9 @@ set(
         server/include/CollisionManager.h
         server/include/Object.h
         server/include/Event.h
+        server/include/EventManager.h
         server/include/World.h
+        server/include/ObjectManager.h
 )
 
 set(
@@ -53,6 +55,7 @@ set(
         server/src/CollisionManager.cpp
         server/src/Object.cpp
         server/src/Event.cpp
+        server/src/EventManager.cpp
         server/src/World.cpp
 )
 
@@ -61,8 +64,8 @@ set(
         Net
         Net/src
         Net/src/NetServer.cpp
-        Net/src/PacketManagerServer.cpp
         Net/src/User.cpp
+        Net/src/PacketManagerServer.cpp
 )
 set(
         NET_SRC_CLIENT
@@ -77,7 +80,6 @@ set(
         Net/include/message_server.h
         Net/include/NetServer.h
         Net/include/User.h
-        Net/include/message_server.h
         Net/include/PacketManagerServer.h
 )
 set(
@@ -95,8 +97,7 @@ set(
         client/include
         client/include/actionManager.h
         client/include/actionServer.h
-        client/include/clientConnection.h
-        client/include/displayManager.h
+        client/include/stuctClient.h
 )
 set(
         CLIENT_SRC
@@ -104,8 +105,6 @@ set(
         client/src
         client/src/actionManager.cpp
         client/src/actionServer.cpp
-        client/src/clientConnection.cpp
-        client/src/displayManager.cpp
         client/src/main.cpp
 )
 set (
@@ -113,7 +112,10 @@ set (
         graphics
         graphics/include
         graphics/include/graphicsManager.h
+        graphics/include/PlayerModel.h
+        graphics/include/ProjectileModel.h
         graphics/include/struct_Config.h
+        graphics/include/ObstacleModel.h
 )
 
 set (
@@ -121,13 +123,15 @@ set (
         graphics
         graphics/src
         graphics/src/graphicsManager.cpp
-        graphics/src/main.cpp
+        graphics/src/PlayerModel.cpp
+        graphics/src/ProjectileModel.cpp
+        graphics/src/ObstacleModel.cpp
 )
 
 include_directories(cmake-build-debug/googletest-src/googlemock/include)
 include_directories(cmake-build-debug/googletest-src/googletest/include)
 
-find_package(Boost 1.72.0 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.57.0 COMPONENTS system filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 
@@ -160,15 +164,9 @@ include_directories(
 
 add_executable(AmorVitaeServer server/src/main.cpp ${SERVER} ${NET_SERVER})
 add_executable(server_test ${TEST_SERVER})
-add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${NET_CLIENT})
-
-add_executable(test_s test_s.cpp ${SERVER} ${NET_SERVER})
-add_executable(test_c test_c.cpp  ${NET_CLIENT})
+add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${GRAPHICS} ${NET_CLIENT})
 
 target_link_libraries(AmorVitaeServer ${Boost_LIBRARIES})
-target_link_libraries(test_c ${Boost_LIBRARIES})
 target_link_libraries(AmorVitaeClient ${SFML_LIBRARIES})
 target_link_libraries(server_test gtest gtest_main)
 target_link_libraries(AmorVitaeClient ${Boost_LIBRARIES})
-
-

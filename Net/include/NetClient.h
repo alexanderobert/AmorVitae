@@ -12,7 +12,6 @@
 #include <boost/property_tree/json_parser.hpp>
 //#include <boost/asio/use_awaitable.hpp>
 
-
 class NetClient {
 
 public:
@@ -28,7 +27,7 @@ private:
     boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
     //bool send_packet(sf::Packet& packet);
-  //  void send(Object& object, socket_ptr sock);
+    //  void send(Object& object, socket_ptr sock);
     boost::asio::io_service io_service;
     PacketManager packet_manager;
 };

@@ -9,6 +9,7 @@
 #include <actionServer.h>
 #include <actionManager.h>
 
+#include <ObstacleModel.h>
 #include <ProjectileModel.h>
 
 class graphicsManager {
@@ -43,6 +44,8 @@ public:
 
 private:
     std::vector<PlayerModel> buff;
+    std::vector<ObstacleModel> buffObstacle;
+    std::vector<ProjectileModel> bulletBuff;
 
     sf::RenderWindow *window;
     struct Config config;

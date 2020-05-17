@@ -1,6 +1,6 @@
-#include "ProjectileModel.h"
+#include <ProjectileModel.h>
 
-ProjectileModel::ProjectileModel(float startX, float startY, float _width, float _height) :width(_width), height(_height) {
+ProjectileModel::ProjectileModel(float startX, float startY, int _width, int _height) :width(_width), height(_height) {
     position.x = startX;
     position.y = startY;
 

@@ -1,34 +1,23 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#include "include/clientConnection.h"
-//#include "include/actionManager.h"
-#include <displayManager.h>
+#include <actionManager.h>
 #include <actionServer.h>
 
-//#include <graphicsManager.h>
-//#include <struct_Config.h>
-
-#include <Object.h>
-
-//#include <PlayerModel.h>
-
+#include <graphicsManager.h>
+#include <struct_Config.h>
 
 int main() {
-/*
-    clientConnection clientCon;
     actionServer action;
-    actionManager launch;
     actionManager user;
 
-    NetClient network;
 
     Config configWindow;
 
     configWindow.windowWidth = 1280; //сделать функцию определения размера окна
     configWindow.windowHeight = 800;
 
-    //clientCon.connectClient(network);
+    action.myId = action.connectClient();
 
     graphicsManager graph(configWindow);
 
@@ -39,60 +28,63 @@ int main() {
 
     while(graph.isOpen()){
 
-        //getMessage();
+        auto objects = action.getMessage();
 
-        PointInterface pos(500.0 + delta, 360.0 + delta);
-        ModelInterface mod(10,15);
+        PointInterface pos(480.0 + delta, 360.0 + delta);
+        ModelInterface mod(15,15);
         PlayerInterface player(static_cast<ObjectInterface::Type>(Type::PLAYER_OBJECT), 1, pos, mod);
 
-        PointInterface pos2(540.0 - delta, 410.0 - delta);
-        ModelInterface mod2(10,15);
+        PointInterface pos2(570.0 - delta, 500 - delta);
+        ModelInterface mod2(15,15);
         PlayerInterface player2(static_cast<ObjectInterface::Type>(Type::PLAYER_OBJECT), 2, pos2, mod2);
+
+        ModelInterface iMod(15,15);
+        PlayerInterface iPlayer(static_cast<ObjectInterface::Type>(Type::PLAYER_OBJECT), 15, action.myPosition, iMod);
+
+        ModelInterface iMod2(3,3);
+        PlayerInterface iSight(static_cast<ObjectInterface::Type>(Type::PLAYER_OBJECT), 100, action.mySight.to, iMod2);
 
         std::vector<struct PlayerInterface> players;
 
-        PointInterface pos3(520.0, 370.0);
-        ModelInterface mod3(10,15);
-        ObjectInterface obstruct(ObjectInterface::Type::PLAYER_OBJECT, 1, pos3, mod3);
+        PointInterface pos3(720.0, 370.0);
+        ModelInterface mod3(100,10);
+        ObjectInterface obstruct(ObjectInterface::Type::STATIC_OBJECT, 3, pos3, mod3);
 
-        PointInterface pos4(550.0, 420.0);
-        ModelInterface mod4(10,15);
-        ObjectInterface obstruct2(ObjectInterface::Type::PLAYER_OBJECT, 2, pos4, mod4);
+        PointInterface pos4(750.0, 200.0);
+        ModelInterface mod4(10,150);
+        ObjectInterface obstruct2(ObjectInterface::Type::STATIC_OBJECT, 4, pos4, mod4);
+
+        PointInterface pos5(770.0, 300.0);
+        ModelInterface mod5(10,70);
+        ObjectInterface obstruct3(ObjectInterface::Type::STATIC_OBJECT, 5, pos5, mod5);
+
+        PointInterface pos6(860.0, 500.0);
+        ModelInterface mod6(80,10);
+        ObjectInterface obstruct4(ObjectInterface::Type::STATIC_OBJECT, 6, pos6, mod6);
 
         std::vector<struct ObjectInterface> obstructs;
 
         players.push_back(player);
         players.push_back(player2);
+        players.push_back(iPlayer);
+        players.push_back(iSight);
 
         obstructs.push_back(obstruct);
         obstructs.push_back(obstruct2);
+        obstructs.push_back(obstruct3);
+        obstructs.push_back(obstruct4);
 
         graph.handleEvent(user, action);
         graph.drawMap(mapCode, state);
 
-        graph.drawPlayer(players);
-
-
         graph.drawObstacle(obstructs);
+
+        graph.drawPlayer(players);
 
         graph.display();
 
         delta+=0.05;
-    }*/
-
-    NetClient net;
-    net.connect_to_server("127.0.0.1", 8001); //подключение к серверу
-
-    auto move = BlinkInterface(EventInterface::EventType::blink, {{1, 1},{2, 2}}); //тестовый блинк
-    std::shared_ptr<EventInterface> ptr = std::make_shared<BlinkInterface>(move); //вот так нужно упаковывать ивент для передачи
-
-    while(true) {
-        net.send_user_action(ptr); // вот мы отдаем серверу
-        auto mes = net.get_server_message(); // вот так мы получаем контент от сервера пока мы принимаем игрока и мапу
-        for(const auto& c: mes) {
-            std::cout<<c->position.x<<" "<<c->position.y<<std::endl; //это координаты челика после блинка которой мы отправили серверу (0,0)-это мапа(карта)
-        }
-        usleep(10000);
     }
+
     return 0;
 }

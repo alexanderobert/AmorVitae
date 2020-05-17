@@ -12,7 +12,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <message_client.h>
 #include <message_server.h>
-#include <actionServer.h>
+#include <stuctClient.h>
 
 
 using boost::property_tree::ptree;

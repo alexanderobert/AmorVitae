@@ -21,8 +21,8 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                 std::string y = tree.get("y", "");
                 struct PlayerInterface pl(ObjectInterface::Type::PLAYER_OBJECT, id, {
                     (stod(x)),
-                    (stod(y))},
-                            {30, 30});
+                            (stod(y))},
+                {30, 30});
                 std::shared_ptr<ObjectInterface> ptr = std::make_shared<PlayerInterface>(pl);
                 vector.push_back(ptr);
                 break;
@@ -41,7 +41,7 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                     std::string pts = tree.get(std::to_string(k), "");
                     pts_player.insert({k, std::stoi(pts)});
                 }
-                struct MapInterface mp(std::stoi(layers_count), std::stod(ring_radius), pts_player);
+                struct MapInterface mp(1, std::stoi(layers_count), std::stod(ring_radius), pts_player);
                 std::shared_ptr<ObjectInterface> ptr = std::make_shared<MapInterface>(mp);
                 vector.push_back(ptr);
 

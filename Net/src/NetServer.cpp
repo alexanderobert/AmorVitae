@@ -2,7 +2,7 @@
 // Created by Vladislav Shushpanov on 14.04.2020.
 //
 
-#include "NetServer.h"
+#include <NetServer.h>
 using namespace boost::asio;
 using boost::property_tree::ptree;
 using boost::property_tree::read_json;
@@ -44,7 +44,7 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     std::stringstream stream(json);
 
     read_json(stream, root);
-    root.put("IDuser", user.get_user_id());
+    root.put("IDuser", user.get_username());
     return packet_manager.packet_adaptation_server(root);;
 }
 
@@ -56,5 +56,3 @@ int NetServer::do_read_header(User& user) {
     iss >> val;
     return val;
 }
-
-

@@ -33,43 +33,43 @@ bool CollisionManager::is_object_collided(const std::map<int, std::shared_ptr<Ob
 }
 
 void CollisionManager::resolve_collision(std::shared_ptr<Object> lhs_obj, std::shared_ptr<Object> rhs_obj) {
-   if (lhs_obj->type == Object::PLAYER_OBJECT) {
-       std::shared_ptr<Player> lplayer = std::static_pointer_cast<Player>(lhs_obj);
-       if (rhs_obj->type == Object::PLAYER_OBJECT) {
-           std::shared_ptr<Player> rplayer = std::static_pointer_cast<Player>(rhs_obj);
-           resolve_collision(lplayer, rplayer);
-       } else if (lhs_obj->type == Object::BULLET_OBJECT) {
-           std::shared_ptr<Bullet> rbullet = std::static_pointer_cast<Bullet>(rhs_obj);
-           resolve_collision(lplayer, rbullet);
-       } else if (lhs_obj->type == Object::STATIC_OBJECT) {
-           std::shared_ptr<Obstruction> robstruction = std::static_pointer_cast<Obstruction>(rhs_obj);
-           resolve_collision(lplayer, robstruction);
-       }
-   } else if (lhs_obj->type == Object::BULLET_OBJECT) {
-       std::shared_ptr<Bullet> lbullet = std::static_pointer_cast<Bullet>(lhs_obj);
-       if (rhs_obj->type == Object::PLAYER_OBJECT) {
-           std::shared_ptr<Player> rplayer = std::static_pointer_cast<Player>(rhs_obj);
-           resolve_collision(lbullet, rplayer);
-       } else if (lhs_obj->type == Object::BULLET_OBJECT) {
-           std::shared_ptr<Bullet> rbullet = std::static_pointer_cast<Bullet>(rhs_obj);
-           resolve_collision(lbullet, rbullet);
-       } else if (lhs_obj->type == Object::STATIC_OBJECT) {
-           std::shared_ptr<Obstruction> robstruction = std::static_pointer_cast<Obstruction>(rhs_obj);
-           resolve_collision(lbullet, robstruction);
-       }
-   } else if (lhs_obj->type == Object::STATIC_OBJECT) {
-       std::shared_ptr<Obstruction> lobstruction = std::static_pointer_cast<Obstruction>(lhs_obj);
-       if (rhs_obj->type == Object::PLAYER_OBJECT) {
-           std::shared_ptr<Player> rplayer = std::static_pointer_cast<Player>(rhs_obj);
-           resolve_collision(lobstruction, rplayer);
-       } else if (lhs_obj->type == Object::BULLET_OBJECT) {
-           std::shared_ptr<Bullet> rbullet = std::static_pointer_cast<Bullet>(rhs_obj);
-           resolve_collision(lobstruction, rbullet);
-       } else if (lhs_obj->type == Object::STATIC_OBJECT) {
-           std::shared_ptr<Obstruction> robstruction = std::static_pointer_cast<Obstruction>(rhs_obj);
-           resolve_collision(lobstruction, robstruction);
-       }
-   }
+    if (lhs_obj->type == Object::PLAYER_OBJECT) {
+        std::shared_ptr<Player> lplayer = std::static_pointer_cast<Player>(lhs_obj);
+        if (rhs_obj->type == Object::PLAYER_OBJECT) {
+            std::shared_ptr<Player> rplayer = std::static_pointer_cast<Player>(rhs_obj);
+            resolve_collision(lplayer, rplayer);
+        } else if (lhs_obj->type == Object::BULLET_OBJECT) {
+            std::shared_ptr<Bullet> rbullet = std::static_pointer_cast<Bullet>(rhs_obj);
+            resolve_collision(lplayer, rbullet);
+        } else if (lhs_obj->type == Object::STATIC_OBJECT) {
+            std::shared_ptr<Obstruction> robstruction = std::static_pointer_cast<Obstruction>(rhs_obj);
+            resolve_collision(lplayer, robstruction);
+        }
+    } else if (lhs_obj->type == Object::BULLET_OBJECT) {
+        std::shared_ptr<Bullet> lbullet = std::static_pointer_cast<Bullet>(lhs_obj);
+        if (rhs_obj->type == Object::PLAYER_OBJECT) {
+            std::shared_ptr<Player> rplayer = std::static_pointer_cast<Player>(rhs_obj);
+            resolve_collision(lbullet, rplayer);
+        } else if (lhs_obj->type == Object::BULLET_OBJECT) {
+            std::shared_ptr<Bullet> rbullet = std::static_pointer_cast<Bullet>(rhs_obj);
+            resolve_collision(lbullet, rbullet);
+        } else if (lhs_obj->type == Object::STATIC_OBJECT) {
+            std::shared_ptr<Obstruction> robstruction = std::static_pointer_cast<Obstruction>(rhs_obj);
+            resolve_collision(lbullet, robstruction);
+        }
+    } else if (lhs_obj->type == Object::STATIC_OBJECT) {
+        std::shared_ptr<Obstruction> lobstruction = std::static_pointer_cast<Obstruction>(lhs_obj);
+        if (rhs_obj->type == Object::PLAYER_OBJECT) {
+            std::shared_ptr<Player> rplayer = std::static_pointer_cast<Player>(rhs_obj);
+            resolve_collision(lobstruction, rplayer);
+        } else if (lhs_obj->type == Object::BULLET_OBJECT) {
+            std::shared_ptr<Bullet> rbullet = std::static_pointer_cast<Bullet>(rhs_obj);
+            resolve_collision(lobstruction, rbullet);
+        } else if (lhs_obj->type == Object::STATIC_OBJECT) {
+            std::shared_ptr<Obstruction> robstruction = std::static_pointer_cast<Obstruction>(rhs_obj);
+            resolve_collision(lobstruction, robstruction);
+        }
+    }
 }
 
 bool CollisionManager::is_collided(std::shared_ptr<Object> lhs_obj, std::shared_ptr<Object> rhs_obj) const {
@@ -111,4 +111,3 @@ void CollisionManager::resolve_collision(std::shared_ptr<Obstruction> obstruct, 
     resolve_collision(bullet, obstruct);
 
 }
-

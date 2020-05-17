@@ -4,8 +4,6 @@
 
 #include <actionServer.h>
 #include <actionManager.h>
-#include <ProjectileModel.h>
-
 
 void graphicsManager::drawMap(const std::string &mapCode, int state) {
     int radius = 75;
@@ -84,31 +82,36 @@ void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
 
 
 void graphicsManager::drawObstacle(const std::vector<ObjectInterface> &obstacleData) {
-    std::vector<sf::RectangleShape> obs;
+    for (ObjectInterface obstacle : obstacleData) {
+        ObstacleModel obstacleModel(
+                obstacle.position.x,
+                obstacle.position.y,
+                obstacle.model.width,
+                obstacle.model.height
+        );
 
-    for(ObjectInterface obstacle : obstacleData){
-        sf::RectangleShape obsModel(sf::Vector2f(100, 100));
-        obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
-        obsModel.setFillColor(sf::Color::Black);
+        buffObstacle.push_back(obstacleModel);
     }
 
-    for(const sf::RectangleShape& model : obs){
-        window->draw(model);
-    }
+    sf::RenderStates renderStates;
+    for (auto &it : buffObstacle)
+        it.draw(*window, renderStates);
+
+    buffObstacle.clear();
 }
 
 void graphicsManager::drawProjectile(const std::vector<BulletInterface> &projectileData) {
     std::vector<ProjectileModel> bulletBuff;
 
     for (BulletInterface bullet : projectileData) {
-//        ProjectileModel projectileModel(
-//                bullet.position.x,
-//                bullet.position.y,
-//                bullet.model.width,
-//                bullet.model.height
-//        );
+        ProjectileModel projectileModel(
+                bullet.position.x,
+                bullet.position.y,
+                bullet.model.width,
+                bullet.model.height
+        );
 
-//        bulletBuff.push_back(projectileModel);
+        bulletBuff.push_back(projectileModel);
     }
 
     sf::RenderStates renderStates;

@@ -111,13 +111,13 @@ public:
 class Map : public  Object {
 public:
     Map(int id, int layers, double ring_r, int durations_tick, std::vector<std::shared_ptr<Object>> plrs):
-        Object(Type::MAP_OBJECT, id, Point(0, 0), Model(0, 0)), layers_count(layers), ring_radius(ring_r),
-        game_duration_ticks(durations_tick), current_round_tick(0), players(move(plrs)),
-        map_centr({layers_count * ring_radius, layers_count * ring_radius}) {
-            for (int i = 1; i <= layers_count; ++i) {
-                pts_table[i] = i * 2;
-            }
+            Object(Type::MAP_OBJECT, id, Point(0, 0), Model(0, 0)), layers_count(layers), ring_radius(ring_r),
+            game_duration_ticks(durations_tick), current_round_tick(0), players(move(plrs)),
+            map_centr({layers_count * ring_radius, layers_count * ring_radius}) {
+        for (int i = 1; i <= layers_count; ++i) {
+            pts_table[i] = i * 2;
         }
+    }
     void update() override {
         current_round_tick++;
         for (const auto& player: players) {
@@ -156,37 +156,37 @@ public:
 };
 
 class BulletState {
-        public:
-        enum State {
-            ACTIVE,
-                    INACTIVE
-        };
-        BulletState(): state_(State::ACTIVE), live_tick(0) {};
-        void state_to_inactive() {
-            if (state_ == State::ACTIVE) {
-                state_ = State::INACTIVE;
-            }
+public:
+    enum State {
+        ACTIVE,
+        INACTIVE
+    };
+    BulletState(): state_(State::ACTIVE), live_tick(0) {};
+    void state_to_inactive() {
+        if (state_ == State::ACTIVE) {
+            state_ = State::INACTIVE;
         }
-        State get_state() {
-            next_tick();
-            return state_;
+    }
+    State get_state() {
+        next_tick();
+        return state_;
+    }
+private:
+    void next_tick() {
+        live_tick++;
+        if (live_tick > 60) {
+            state_ = State::INACTIVE;
+            live_tick = 0;
         }
-        private:
-        void next_tick() {
-            live_tick++;
-            if (live_tick > 60) {
-                state_ = State::INACTIVE;
-                live_tick = 0;
-            }
-        };
-        int live_tick;
-        State state_;
+    };
+    int live_tick;
+    State state_;
 };
 
 class Bullet : public  Object {
 public:
     Bullet(int id, Point pos, Point sight, int iniciator_id): Object(Type::BULLET_OBJECT, id, pos, Model(15,15)),
-                                            sight(sight), speed(DEFAULT_BULLET_SPEED), iniciator_ID(iniciator_id) {};
+                                                              sight(sight), speed(DEFAULT_BULLET_SPEED), iniciator_ID(iniciator_id) {};
 
     void update() override {
         if (state.get_state() == BulletState::ACTIVE) {
