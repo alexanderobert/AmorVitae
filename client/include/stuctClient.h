@@ -1,5 +1,6 @@
 const static int DEFAULT_BULLET_SPEED_CLIENT = 10;
 //const static int DEFAULT_PLAYER_SPEED_CLIENT = 5;
+#include <map>
 
 struct PointInterface {
     double x, y;

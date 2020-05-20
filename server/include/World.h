@@ -14,11 +14,12 @@
 #include <NetServer.h>
 
 const static int SECONDS_PER_MINUTE = 60;
-const static double FRAMES_PER_SECOND = 10;
+const static double FRAMES_PER_SECOND = 25;
 
 class World {
 public:
-    World(int player_count, int game_duration_minute, int port): netServer(port), player_count(player_count){
+    World(int player_count, int game_duration_minute, int port, int lay_count, double r_radius):
+          netServer(port), player_count(player_count), layers_count(lay_count), ring_radius(r_radius){
         game_duration = game_duration_minute * SECONDS_PER_MINUTE;
         tick_duration = 1 / FRAMES_PER_SECOND;
     }
@@ -32,6 +33,8 @@ private:
     double tick_duration;
     double game_duration;
     int player_count;
+    int layers_count;
+    double ring_radius;
 
     void calc_frame();
     std::shared_ptr<Player> init_user(User& user);
@@ -121,17 +124,17 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    Point position((user.get_username() ) * 100.0, (user.get_username() )* 100.0);
+    Point position(ring_radius * layers_count, ring_radius * layers_count);
     std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
     return player;
 }
 
 void World::set_start_object() {
-    int layers = 6;
-    double ring_r = 60;
     std::vector<std::shared_ptr<Object>> players;
-
-    std::shared_ptr<Map> map = std::make_shared<Map>(objectManager.pick_enable_id(), layers, ring_r,
+    for (int i = 0; i < player_count; i++) {
+        players.push_back(objectManager.get_object_by_id(i));
+    }
+    std::shared_ptr<Map> map = std::make_shared<Map>(objectManager.pick_enable_id(), layers_count, ring_radius,
                                                      game_duration * FRAMES_PER_SECOND, move(players));
     objectManager.update_objects(map);
 

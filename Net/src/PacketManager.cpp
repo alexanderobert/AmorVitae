@@ -23,7 +23,7 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                 struct PlayerInterface pl(ObjectInterface::Type::PLAYER_OBJECT, id, {
                     (stod(x)),
                             (stod(y))},
-                {30, 30});
+                {15, 15});
                 std::shared_ptr<ObjectInterface> ptr = std::make_shared<PlayerInterface>(pl);
                 vector.push_back(ptr);
                 break;

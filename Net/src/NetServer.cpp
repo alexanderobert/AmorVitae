@@ -16,7 +16,7 @@ std::vector<User> NetServer::accept_users(int players_count, const ObjectManager
             break;
         }
         boost::shared_ptr<boost::asio::ip::tcp::socket> user_socket(new ip::tcp::socket(io_service));
-        users.emplace_back(1, user_socket);
+        users.emplace_back(objm.pick_enable_id(), user_socket);
         acc.accept(*users[player].sock);
         player++;
     }

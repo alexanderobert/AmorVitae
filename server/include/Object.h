@@ -10,8 +10,8 @@
 #include <vector>
 #include <cmath>
 
-const static int DEFAULT_BULLET_SPEED = 10;
-const static int DEFAULT_PLAYER_SPEED = 5;
+const static double DEFAULT_BULLET_SPEED = 10;
+const static double DEFAULT_PLAYER_SPEED = 1;
 
 struct Point {
     double x, y;
@@ -22,7 +22,7 @@ struct Point {
     Point operator- (const Point& rhs) {
         return {this->x - rhs.x, this->y - rhs.y};
     }
-    Point operator* (int value) {
+    Point operator* (double value) {
         return {this->x * value, this->y * value};
     }
     double distance_between(const Point& other) {
@@ -90,7 +90,7 @@ private:
 
 class Player : public Object {
 public:
-    Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(30,30)),
+    Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(15,15)),
                                sight(1, 0), speed(DEFAULT_PLAYER_SPEED) {};
     void update() override {
         if (state_.get_state() == PlayerState::STATE_FLYING) {
@@ -99,7 +99,7 @@ public:
     }//обновление в зависимости от state
     PlayerState state_;
     Point sight;
-    int speed;
+    double speed;
     Point normalize(const Vector& vec) {
         double t1 = vec.to.x - vec.from.x;
         double t2 = vec.to.y - vec.from.y;
@@ -185,7 +185,7 @@ private:
 
 class Bullet : public  Object {
 public:
-    Bullet(int id, Point pos, Point sight, int iniciator_id): Object(Type::BULLET_OBJECT, id, pos, Model(15,15)),
+    Bullet(int id, Point pos, Point sight, int iniciator_id): Object(Type::BULLET_OBJECT, id, pos, Model(7,7)),
                                                               sight(sight), speed(DEFAULT_BULLET_SPEED), iniciator_ID(iniciator_id) {};
 
     void update() override {
@@ -196,6 +196,6 @@ public:
     BulletState state;
     Point sight;
     int iniciator_ID;
-    int speed;
+    double speed;
 };
 #endif //AVM_OBJECT_H

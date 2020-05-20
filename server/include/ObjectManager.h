@@ -25,13 +25,13 @@ public:
     std::map<int, std::shared_ptr<Object>>& get_objects_by_map() {
         return objects;
     }
-    CollisionManager collisionSolver;
     int pick_enable_id() const  {
         std::lock_guard<std::mutex>lg(id_cointer_m);
         int result = id_counter;
         id_counter++;
         return result;
     }
+    CollisionManager collisionSolver;
 private:
     mutable int id_counter;
     mutable std::mutex id_cointer_m;

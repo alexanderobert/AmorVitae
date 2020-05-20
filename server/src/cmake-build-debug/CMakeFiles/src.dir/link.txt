@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/src.dir/CollisionManager.cpp.o CMakeFiles/src.dir/Event.cpp.o CMakeFiles/src.dir/EventManager.cpp.o CMakeFiles/src.dir/main.cpp.o CMakeFiles/src.dir/Object.cpp.o CMakeFiles/src.dir/ObjectManager.cpp.o CMakeFiles/src.dir/World.cpp.o  -o src 
