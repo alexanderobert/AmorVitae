@@ -22,11 +22,11 @@ public:
     void send_user_action(std::shared_ptr<EventInterface>& event);
     std::vector<std::shared_ptr<ObjectInterface>> get_server_message();
     int do_read_header();
-    int get_ip() { return ip; }
+    int get_id() { return id; }
 
 private:
     boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
-    int ip;
+    int id;
     boost::asio::io_service io_service;
     PacketManager packet_manager;
 };
