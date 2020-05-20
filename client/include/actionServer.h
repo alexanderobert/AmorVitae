@@ -24,8 +24,6 @@ private:
     std::string addr_server = "127.0.0.1";
     int port = 8001;
 
-
-
 public:
     actionServer();
     ~actionServer() = default;
@@ -35,12 +33,13 @@ public:
 
     int myId;
 
-    int connectClient();
+    void connectClient();
     void closeConnectClient();
 
     void sendActionMove(DirectionInterface);
     void sendActionBlink();
-    void updatePosition(DirectionInterface);
+    void sendActionShot();
+    void updatePosition(const std::vector<std::shared_ptr<ObjectInterface>> &);
     void updateSight(double, double);
 
     std::vector<std::shared_ptr<ObjectInterface>> getMessage();

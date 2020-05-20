@@ -15,24 +15,28 @@ void actionServer::sendActionMove(DirectionInterface direction){
 
 void actionServer::sendActionBlink(){
 
-    myPosition = mySight.to;
-
     auto event = BlinkInterface(EventInterface::EventType::blink, mySight);
     std::shared_ptr<EventInterface> ptr = std::make_shared<BlinkInterface>(event);
 
     network.send_user_action(ptr);
 }
 
-void actionServer::updatePosition(DirectionInterface direction){
+void actionServer::sendActionShot(){
 
-    if(direction == up)
-        myPosition.y = myPosition.y - 0.8;
-    if(direction == down)
-        myPosition.y = myPosition.y + 0.8;
-    if(direction == left)
-        myPosition.x = myPosition.x - 0.8;
-    if(direction == right)
-        myPosition.x = myPosition.x + 0.8;
+    auto event = ShotInterface(EventInterface::EventType::shot, mySight);
+    std::shared_ptr<EventInterface> ptr = std::make_shared<ShotInterface>(event);
+
+    network.send_user_action(ptr);
+}
+
+
+void actionServer::updatePosition(const std::vector<std::shared_ptr<ObjectInterface>> &objects){
+
+    for(const std::shared_ptr<ObjectInterface>& obj : objects){
+        if(obj->ID == myId){
+            myPosition = obj->position;
+        }
+    }
 }
 
 void actionServer::updateSight(double x, double y) {
@@ -49,12 +53,11 @@ std::vector<std::shared_ptr<ObjectInterface>> actionServer::getMessage(){
     return network.get_server_message();
 }
 
-int actionServer::connectClient(){
+void actionServer::connectClient(){
 
     network.connect_to_server(addr_server, port); //from NetClient
     // myId = id от сетей
-    myId = 1;
-    return myId;
+    myId = network.get_id();
 }
 
 void actionServer::closeConnectClient(){
