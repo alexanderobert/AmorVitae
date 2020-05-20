@@ -30,7 +30,14 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
             }
 
             case 2: {
-                //пуля есть только у сервера
+                std::string x = tree.get("x", "");
+                std::string y = tree.get("y", "");
+                std::string sight_x = tree.get("sight.x", "");
+                std::string sight_y = tree.get("sight.y", "");
+                struct BulletInterface bi(0, {stod(x), stod(y)},
+                        {stod(sight_x), stod(sight_x)}, 0);
+                std::shared_ptr<ObjectInterface> ptr = std::make_shared<BulletInterface>(bi);
+                vector.push_back(ptr);
                 break;
             }
             case 3: {
@@ -67,6 +74,7 @@ std::string PacketManager::packet_handle_client(std::shared_ptr<EventInterface>&
     std::map <EventInterface::EventType, int> mp;
     mp[EventInterface::move] = 1;
     mp[EventInterface::blink] = 2;
+    mp[EventInterface::shot] = 3;
 
     ptree root;
     switch (mp[event->type]) {
@@ -84,6 +92,15 @@ std::string PacketManager::packet_handle_client(std::shared_ptr<EventInterface>&
         case 2: {
             auto ptr = std::static_pointer_cast<BlinkInterface>(event);
             root.put("type", "blink");
+            root.put("sight.from.x", ptr->sight.from.x);
+            root.put("sight.from.y", ptr->sight.from.y);
+            root.put("sight.to.x", ptr->sight.to.x);
+            root.put("sight.to.y", ptr->sight.to.y);
+            break;
+        }
+        case 3: {
+            auto ptr = std::static_pointer_cast<ShotInterface>(event);
+            root.put("type", "shot");
             root.put("sight.from.x", ptr->sight.from.x);
             root.put("sight.from.y", ptr->sight.from.y);
             root.put("sight.to.x", ptr->sight.to.x);

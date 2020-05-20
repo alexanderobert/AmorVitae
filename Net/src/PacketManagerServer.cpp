@@ -29,8 +29,6 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
                 tree.put("type", "bullet");
                 tree.put("x", ptr->position.x);
                 tree.put("y", ptr->position.y);
-                tree.put("model.height", ptr->model.height);
-                tree.put("model.width", ptr->model.width);
                 tree.put("sight.x", ptr->sight.x);
                 tree.put("sight.y", ptr->sight.y);
                 root.add_child(std::to_string(j), tree);
@@ -68,6 +66,8 @@ std::shared_ptr<Event> PacketManagerServer::packet_adaptation_server(ptree& root
     std::map <std::string, int> mp;
     mp["move"] = 1;
     mp["blink"] = 2;
+    mp["shot"] = 3;
+
 
     std::map <std::string, Direction> dir;
     dir["1"] = Direction::DOWN;
@@ -97,6 +97,16 @@ std::shared_ptr<Event> PacketManagerServer::packet_adaptation_server(ptree& root
             ptr = std::make_shared<Blink>(blink);
             break;
 
+        }
+        case 3: {
+            int id = root.get("IDuser", 0);
+            double sight_from_x = root.get("sight.from.x", 0);
+            double sight_from_y = root.get("sight.from.y", 0);
+            double sight_to_x = root.get("sight.to.x", 0);
+            double sight_to_y = root.get("sight.to.y", 0);
+            auto shot = Shot(id, {{sight_from_x, sight_from_y}, {sight_to_x, sight_to_y}});
+            ptr = std::make_shared<Shot>(shot);
+            break;
         }
         default: {
             break;
