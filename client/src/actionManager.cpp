@@ -36,3 +36,16 @@ void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actio
         }
     }
 }
+
+void actionManager::makeIcon(sf::RenderWindow &window){
+    sf::Image icon;
+    icon.loadFromFile("../client/icons/icon.png");
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+}
+
+void actionManager::defineResolution(Config &configWindow){
+    Display *display;
+    display = XOpenDisplay (NULL);
+    configWindow.windowWidth = DisplayWidth (display, 0);
+    configWindow.windowHeight = DisplayHeight (display, 0);
+}

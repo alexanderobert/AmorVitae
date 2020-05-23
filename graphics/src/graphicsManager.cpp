@@ -27,9 +27,11 @@ void graphicsManager::drawMap(const std::vector<MapInterface> &map) {
     }
 }
 
-graphicsManager::graphicsManager(Config config) : config(config) {
+graphicsManager::graphicsManager(Config config, actionManager &user) : config(config) {
     window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae");
     open = true;
+
+    user.makeIcon(*window); //создание иконки из actionManager
 
     mapColors.emplace_back(sf::Color::White);// TODO Расчитывать градиент
     mapColors.emplace_back(sf::Color(204, 227, 249));

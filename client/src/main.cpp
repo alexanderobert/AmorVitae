@@ -11,15 +11,12 @@ int main() {
     actionServer action;
     actionManager user;
 
-
     Config configWindow;
-
-    configWindow.windowWidth = 1280; //сделать функцию определения размера окна
-    configWindow.windowHeight = 800;
+    user.defineResolution(configWindow);
 
     action.connectClient();
 
-    graphicsManager graph(configWindow);
+    graphicsManager graph(configWindow, user);
 
 
     while(graph.isOpen()){

@@ -24,7 +24,7 @@ public:
 //
     void drawProjectile(const std::vector<BulletInterface> &);
 
-    explicit graphicsManager(Config config);
+    explicit graphicsManager(Config config, actionManager &);
 
     void handleEvent(actionManager &, actionServer &);
 

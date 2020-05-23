@@ -5,6 +5,11 @@
 
 #include "actionServer.h"
 
+#include <struct_Config.h>
+
+#include <X11/Xlib.h>
+#include <unistd.h>
+
 class actionManager {
 
 public:
@@ -12,6 +17,8 @@ public:
     void sendBlink(actionServer &action); //при нажатии Space
 
     void actionUser(sf::RenderWindow &window, sf::Event &, actionServer &);
+    void makeIcon(sf::RenderWindow &window);
+    void defineResolution(Config &);
 };
 
 
