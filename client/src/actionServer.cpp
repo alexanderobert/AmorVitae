@@ -37,15 +37,13 @@ void actionServer::updatePosition(const std::vector<std::shared_ptr<ObjectInterf
             myPosition = obj->position;
         }
     }
+    mySight.from = myPosition;
 }
 
-void actionServer::updateSight(double x, double y) {
+void actionServer::updateSight(sf::Vector2f mouse_world) {
 
-    PointInterface mouse(x, y);
-
-    mySight.from = myPosition;
+    PointInterface mouse(mouse_world.x, mouse_world.y);
     mySight.to = mouse;
-
 }
 
 std::vector<std::shared_ptr<ObjectInterface>> actionServer::getMessage(){

@@ -1,6 +1,5 @@
 #include <actionManager.h>
 
-
 void actionManager::sendMove(actionServer &action, DirectionInterface dir){
     action.sendActionMove(dir);
 }
@@ -9,6 +8,14 @@ void actionManager::sendBlink(actionServer &action){
 }
 
 void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actionServer &action) {
+    sf::Vector2f mouse_world = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+    action.updateSight(mouse_world);
+
+    sf::RectangleShape mouseOnScreen(sf::Vector2f(5, 5));
+    mouseOnScreen.setPosition(action.mySight.to.x, action.mySight.to.y);
+    mouseOnScreen.setFillColor(sf::Color::Red);
+    window.draw(mouseOnScreen);
+
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             window.close();
@@ -30,9 +37,6 @@ void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actio
         }
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::E))) {
             action.sendActionShot();
-        }
-        if (event.type == sf::Event::MouseMoved) {
-            action.updateSight(event.mouseMove.x, event.mouseMove.y);
         }
     }
 }

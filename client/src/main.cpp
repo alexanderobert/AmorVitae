@@ -23,11 +23,12 @@ int main() {
 
         auto objects = action.getMessage();
 
-        action.updatePosition(objects);
-
         graph.object(objects);
 
+        action.updatePosition(objects);
+
         graph.handleEvent(user, action);
+
         graph.display();
 
     }

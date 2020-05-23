@@ -14,6 +14,8 @@
 
 #include <NetClient.h>
 
+#include <SFML/System.hpp>
+
 
 //класс для отправки и получения
 class actionServer {
@@ -40,7 +42,7 @@ public:
     void sendActionBlink();
     void sendActionShot();
     void updatePosition(const std::vector<std::shared_ptr<ObjectInterface>> &);
-    void updateSight(double, double);
+    void updateSight(sf::Vector2f);
 
     std::vector<std::shared_ptr<ObjectInterface>> getMessage();
 };
