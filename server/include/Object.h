@@ -78,7 +78,7 @@ public:
 private:
     void next_flying_tick() {
         flying_tick++;
-        if (flying_tick > 10) {
+        if (flying_tick > 100) {
             state_ = State::STATE_STANDING;
             flying_tick = 0;
 
@@ -153,6 +153,7 @@ private:
 class Obstruction : public  Object {
 public:
     Obstruction(int id, Point pos, int h, int w): Object(Type::STATIC_OBJECT, id, pos, Model(h,w)) {};
+    void update() override {}
 };
 
 class BulletState {
@@ -174,10 +175,10 @@ public:
 private:
     void next_tick() {
         live_tick++;
-        if (live_tick > 60) {
+        /*if (live_tick > 100) {
             state_ = State::INACTIVE;
             live_tick = 0;
-        }
+        }*/
     };
     int live_tick;
     State state_;

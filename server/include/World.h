@@ -137,6 +137,15 @@ void World::set_start_object() {
     std::shared_ptr<Map> map = std::make_shared<Map>(objectManager.pick_enable_id(), layers_count, ring_radius,
                                                      game_duration * FRAMES_PER_SECOND, move(players));
     objectManager.update_objects(map);
+
+    std::shared_ptr<Bullet> bll = std::make_shared<Bullet>(objectManager.pick_enable_id(), Point(100, 500), Point(1,0), 20);
+    objectManager.update_objects(bll);
+
+    std::shared_ptr<Obstruction> obs = std::make_shared<Obstruction>(objectManager.pick_enable_id(), Point(100, 100), 100, 100);
+    objectManager.update_objects(obs);
+
+
+
 }
 
 #endif //AVM_WORLD_H

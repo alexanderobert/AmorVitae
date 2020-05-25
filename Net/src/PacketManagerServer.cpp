@@ -26,10 +26,10 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
             }
             case 2: {
                 auto ptr = std::static_pointer_cast<Bullet>(object[j]);
-                tree.put("type", "bullet");
-                tree.put("x", ptr->position.x);
-                tree.put("y", ptr->position.y);
-                root.add_child(std::to_string(j), tree);
+                    tree.put("type", "bullet");
+                    tree.put("x", ptr->position.x);
+                    tree.put("y", ptr->position.y);
+                    root.add_child(std::to_string(j), tree);
                 break;
 
             }
@@ -46,6 +46,13 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
                 break;
             }
             case 4: {
+                auto ptr = std::static_pointer_cast<Obstruction>(object[j]);
+                tree.put("type", "static");
+                tree.put("x", ptr->position.x);
+                tree.put("y", ptr->position.y);
+                tree.put("model.width", ptr->model.width);
+                tree.put("model.height", ptr->model.height);
+                root.add_child(std::to_string(j), tree);
                 break;
             }
 

@@ -55,6 +55,14 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                 break;
             }
             case 4: {
+                std::string x = tree.get("x", "");
+                std::string y = tree.get("y", "");
+                std::string model_width = tree.get("model.width", "");
+                std::string model_height = tree.get("model.height", "");
+                struct ObstructionInterface oi(ObjectInterface::Type::STATIC_OBJECT, 0, {stod(x), stod(y)},
+                                               {stoi(model_width), stoi(model_height)});
+                std::shared_ptr<ObjectInterface> ptr = std::make_shared<ObstructionInterface>(oi);
+                vector.push_back(ptr);
                 break;
             }
 

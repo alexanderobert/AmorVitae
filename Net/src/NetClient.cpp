@@ -23,10 +23,9 @@ void NetClient::connect_to_server(std::string addr_server, int port) {
 
 
 std::vector<std::shared_ptr<ObjectInterface>> NetClient::get_server_message() {
-    char buf[1024] = "";
+    char buf[2048] = "";
     ptree root;
     int size_buff = do_read_header();
-
     socket_ptr->read_some(buffer(buf, size_buff));
     std::string json = std::string(buf);
     std::cout<<json;
