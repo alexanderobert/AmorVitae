@@ -10,8 +10,8 @@
 #include <vector>
 #include <cmath>
 
-const static double DEFAULT_BULLET_SPEED = 10;
-const static double DEFAULT_PLAYER_SPEED = 1;
+const static double DEFAULT_BULLET_SPEED = 1;
+const static double DEFAULT_PLAYER_SPEED = 3;
 
 struct Point {
     double x, y;
@@ -175,10 +175,10 @@ public:
 private:
     void next_tick() {
         live_tick++;
-        /*if (live_tick > 100) {
+        if (live_tick > 1000) {
             state_ = State::INACTIVE;
             live_tick = 0;
-        }*/
+        }
     };
     int live_tick;
     State state_;

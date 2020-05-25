@@ -15,7 +15,7 @@
 
 class ObjectManager {
 public:
-    ObjectManager():id_counter(0) {}; // захватываем мьютекс перед обновление базы
+    ObjectManager():id_counter(0) {};
     void update_objects(std::shared_ptr<Object> changed_object) {
         objects[changed_object->ID] = changed_object;
     }
@@ -33,6 +33,7 @@ public:
     }
     CollisionManager collisionSolver;
 private:
+
     mutable int id_counter;
     mutable std::mutex id_cointer_m;
     std::map<int, std::shared_ptr<Object>> objects;

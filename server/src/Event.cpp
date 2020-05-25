@@ -7,6 +7,9 @@
 
 std::shared_ptr<Object> Blink::proccess(std::shared_ptr<Object> obj, ObjectManager &objectmanager)  {
     Player player = *std::static_pointer_cast<Player>(obj).get();
+    if (player.state_.get_state() == PlayerState::STATE_FLYING) {
+        return std::make_shared<Player>(player);
+    }
     player.sight = player.normalize(sight);
     player.position = player.position + player.sight * BLINK_RANGE;
     return std::make_shared<Player>(player);
@@ -14,7 +17,9 @@ std::shared_ptr<Object> Blink::proccess(std::shared_ptr<Object> obj, ObjectManag
 
 std::shared_ptr<Object> Move::proccess(std::shared_ptr<Object> obj, ObjectManager &objectmanager) {
     Player player = *std::static_pointer_cast<Player>(obj).get();
-
+    if (player.state_.get_state() == PlayerState::STATE_FLYING) {
+        return std::make_shared<Player>(player);
+    }
     switch (direction) {
         case UP: {
             player.position.y -= player.speed;
@@ -41,6 +46,9 @@ std::shared_ptr<Object> Move::proccess(std::shared_ptr<Object> obj, ObjectManage
 
 std::shared_ptr<Object> Shot::proccess(std::shared_ptr<Object> obj, ObjectManager &objectmanager) {
     Player player = *std::static_pointer_cast<Player>(obj).get();
+    if (player.state_.get_state() == PlayerState::STATE_FLYING) {
+        return std::make_shared<Player>(player);
+    }
     player.sight = player.normalize(sight);
     Point bullet_postiton = player.position + Point(player.model.width, player.model.height);
     objectmanager.update_objects(std::make_shared<Bullet>(objectmanager.pick_enable_id(),
