@@ -137,7 +137,6 @@ void World::set_start_object() {
     std::shared_ptr<Map> map = std::make_shared<Map>(objectManager.pick_enable_id(), layers_count, ring_radius,
                                                      game_duration * FRAMES_PER_SECOND, move(players));
     objectManager.update_objects(map);
-
 }
 
 #endif //AVM_WORLD_H

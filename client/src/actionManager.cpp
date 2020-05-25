@@ -15,30 +15,28 @@ void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actio
     mouseOnScreen.setPosition(action.mySight.to.x, action.mySight.to.y);
     mouseOnScreen.setFillColor(sf::Color::Red);
     window.draw(mouseOnScreen);
-
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            window.close();
-        }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W))) {
-            action.sendActionMove(up);
-        }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::A))) {
-            action.sendActionMove(left);
-        }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D))) {
-            action.sendActionMove(right);
-        }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S))) {
-            action.sendActionMove(down);
-        }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space))) {
-            action.sendActionBlink();
-        }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::E))) {
-            action.sendActionShot();
-        }
+    if (event.type == sf::Event::Closed) {
+        window.close();
     }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W))) {
+        action.sendActionMove(up);
+    }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::A))) {
+        action.sendActionMove(left);
+    }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D))) {
+        action.sendActionMove(right);
+    }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S))) {
+        action.sendActionMove(down);
+    }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space))) {
+        action.sendActionBlink();
+    }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::E))) {
+        action.sendActionShot();
+    }
+    while (window.pollEvent(event)) {} // чтобы коно было активно
 }
 
 void actionManager::makeIcon(sf::RenderWindow &window){

@@ -29,8 +29,6 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
                 tree.put("type", "bullet");
                 tree.put("x", ptr->position.x);
                 tree.put("y", ptr->position.y);
-                tree.put("sight.x", ptr->sight.x);
-                tree.put("sight.y", ptr->sight.y);
                 root.add_child(std::to_string(j), tree);
                 break;
 

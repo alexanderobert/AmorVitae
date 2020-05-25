@@ -32,10 +32,7 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
             case 2: {
                 std::string x = tree.get("x", "");
                 std::string y = tree.get("y", "");
-                std::string sight_x = tree.get("sight.x", "");
-                std::string sight_y = tree.get("sight.y", "");
-                struct BulletInterface bi(0, {stod(x), stod(y)},
-                        {stod(sight_x), stod(sight_x)}, 0);
+                struct BulletInterface bi(0, {stod(x), stod(y)},0);
                 std::shared_ptr<ObjectInterface> ptr = std::make_shared<BulletInterface>(bi);
                 vector.push_back(ptr);
                 break;

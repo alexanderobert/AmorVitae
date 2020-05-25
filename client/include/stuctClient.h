@@ -119,10 +119,9 @@ struct BulletStateInterface {
 
 struct BulletInterface:ObjectInterface {
 
-    BulletInterface(int id, PointInterface pos, PointInterface sight, int iniciator_id): ObjectInterface(Type::BULLET_OBJECT, id, pos, ModelInterface(15,15)),
-                                                                                         sight(sight), speed(DEFAULT_BULLET_SPEED_CLIENT), iniciator_ID(iniciator_id) {};
+    BulletInterface(int id, PointInterface pos, int iniciator_id): ObjectInterface(Type::BULLET_OBJECT, id, pos, ModelInterface(15,15)),
+                                                                                         speed(DEFAULT_BULLET_SPEED_CLIENT), iniciator_ID(iniciator_id) {};
     BulletStateInterface state;
-    PointInterface sight;
     int iniciator_ID;
     int speed;
 };
