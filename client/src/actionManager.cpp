@@ -47,7 +47,6 @@ void actionManager::makeIcon(sf::RenderWindow &window){
 
 void actionManager::defineResolution(Config &configWindow){
     Display *display;
-    display = XOpenDisplay (NULL);
 //    configWindow.windowWidth = DisplayWidth (display, 0);
 //    configWindow.windowHeight = DisplayHeight (display, 0);
     configWindow.windowWidth = 1280;

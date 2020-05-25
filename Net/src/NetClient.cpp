@@ -23,11 +23,21 @@ void NetClient::connect_to_server(std::string addr_server, int port) {
 
 
 std::vector<std::shared_ptr<ObjectInterface>> NetClient::get_server_message() {
-    char buf[2048] = "";
+    char buf[1024] = "";
+    std::string str;
     ptree root;
     int size_buff = do_read_header();
-    socket_ptr->read_some(buffer(buf, size_buff));
-    std::string json = std::string(buf);
+    while (size_buff > 1024) {
+        socket_ptr->read_some(buffer(buf, 1024));
+        str += buf;
+        size_buff -= 1024;
+    }
+    char buff[1024] = "";
+    socket_ptr->read_some(buffer(buff, size_buff));
+    str += buff;
+
+
+    std::string json = str;
     std::cout<<json;
     std::stringstream stream(json);
     read_json(stream, root);
@@ -45,11 +55,17 @@ void NetClient::send_user_action(std::shared_ptr<EventInterface>& event) {
 }
 
 int NetClient::do_read_header() {
-    char buf[1024] = "";
-    socket_ptr->read_some(buffer(buf, 3));
-    std::istringstream iss (buf, std::istringstream::in);
+    char buf[1] = "";
+    char buf2[1024] = "";
+    socket_ptr->read_some(buffer(buf, 1));
+    std::istringstream iss1 (buf, std::istringstream::in);
+    int val1;
+    iss1 >> val1;
+
+    socket_ptr->read_some(buffer(buf2, val1));
+
+    std::istringstream iss (buf2, std::istringstream::in);
     int val;
     iss >> val;
     return val;
 }
-

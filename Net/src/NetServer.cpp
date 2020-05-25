@@ -29,8 +29,11 @@ std::vector<User> NetServer::accept_users(int players_count, const ObjectManager
 void NetServer::notify_all_users(std::map<int, std::shared_ptr<Object>>& object) {
     std::string buf = packet_manager.packet_handle_server(object);
     for (auto & item : users){
-        item.sock->write_some(buffer(std::to_string(buf.size()), 3));
+        int str = buf.size();
+        item.sock->write_some(buffer(std::to_string(std::to_string(str).size()), 1));
+        item.sock->write_some(buffer(std::to_string(str), 10));
         item.sock->write_some(buffer(buf));
+        std::cout<<str<<" "<<std::to_string(str).size() << std::endl;
     }
 }
 
@@ -60,3 +63,4 @@ int NetServer::do_read_header(User& user) {
     iss >> val;
     return val;
 }
+
