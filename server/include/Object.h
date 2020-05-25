@@ -95,6 +95,8 @@ public:
     void update() override {
         if (state_.get_state() == PlayerState::STATE_FLYING) {
             position = position +  sight * speed;
+        } else {
+            speed = DEFAULT_PLAYER_SPEED;
         }
     }//обновление в зависимости от state
     PlayerState state_;
