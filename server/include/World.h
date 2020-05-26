@@ -48,7 +48,7 @@ private:
 
 void World::calc_frame() {
     while(true/*пока идет раунд*/) {
-        std::map<int, std::shared_ptr<Object>>& objects = objectManager.get_objects_by_map();
+        std::unordered_map<int, std::shared_ptr<Object>>& objects = objectManager.get_objects_by_map();
         if (need_update) {
             for (auto& object: objects) {
                 if (object.second->type != Object::STATIC_OBJECT) {

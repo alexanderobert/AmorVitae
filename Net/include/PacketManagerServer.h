@@ -23,7 +23,7 @@ class PacketManagerServer {
 public:
     PacketManagerServer() = default;
     ~PacketManagerServer() = default;
-    std::string packet_handle_server(std::map<int, std::shared_ptr<Object>>& object);
+    std::string packet_handle_server(std::unordered_map<int, std::shared_ptr<Object>>& object);
     std::shared_ptr<Event> packet_adaptation_server(ptree& root);
 };
 

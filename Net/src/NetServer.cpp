@@ -26,7 +26,7 @@ std::vector<User> NetServer::accept_users(int players_count, const ObjectManager
     return users;
 }
 
-void NetServer::notify_all_users(std::map<int, std::shared_ptr<Object>>& object) {
+void NetServer::notify_all_users(std::unordered_map<int, std::shared_ptr<Object>>& object) {
     std::string buf = packet_manager.packet_handle_server(object);
     for (auto & item : users){
         int str = buf.size();

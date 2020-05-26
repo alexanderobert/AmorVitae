@@ -11,6 +11,7 @@
 #include <thread>
 #include <mutex>
 #include <Object.h>
+#include <unordered_map>
 #include <CollisionManager.h>
 
 class ObjectManager {
@@ -22,7 +23,7 @@ public:
     std::shared_ptr<Object>& get_object_by_id(int id) {
         return objects[id];
     }
-    std::map<int, std::shared_ptr<Object>>& get_objects_by_map() {
+    std::unordered_map<int, std::shared_ptr<Object>>& get_objects_by_map() {
         return objects;
     }
     int pick_enable_id() const  {
@@ -36,7 +37,7 @@ private:
 
     mutable int id_counter;
     mutable std::mutex id_cointer_m;
-    std::map<int, std::shared_ptr<Object>> objects;
+    std::unordered_map<int, std::shared_ptr<Object>> objects;
 };
 
 

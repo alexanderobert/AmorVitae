@@ -22,7 +22,7 @@ public:
 
     std::vector<User> accept_users(int player_count, const ObjectManager& objm);
 
-    void notify_all_users(std::map<int, std::shared_ptr<Object>>&);
+    void notify_all_users(std::unordered_map<int, std::shared_ptr<Object>>&);
 
     std::shared_ptr<Event> get_client_action(User& user);
 

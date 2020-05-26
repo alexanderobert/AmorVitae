@@ -3,7 +3,7 @@
 //
 #include <PacketManagerServer.h>
 
-std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_ptr<Object>>& object) {
+std::string PacketManagerServer::packet_handle_server(std::unordered_map<int, std::shared_ptr<Object>>& object) {
     std::map <Object::Type, int> mp;
     mp[Object::Type::PLAYER_OBJECT] = 1;
     mp[Object::Type::BULLET_OBJECT] = 2;

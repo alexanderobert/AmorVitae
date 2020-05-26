@@ -3,11 +3,12 @@
 //
 
 #include <CollisionManager.h>
+#include <unordered_map>
 #include <include/CollisionManager.h>
 
 
 std::vector<std::shared_ptr<Object>>
-CollisionManager::check_object_collisions(const std::map<int, std::shared_ptr<Object>> &objects,
+CollisionManager::check_object_collisions(const std::unordered_map<int, std::shared_ptr<Object>> &objects,
                                           std::shared_ptr<Object> object) {
     std::vector<std::shared_ptr<Object>> result;
     for (auto& obj: objects) {
@@ -20,7 +21,7 @@ CollisionManager::check_object_collisions(const std::map<int, std::shared_ptr<Ob
     return result;
 }
 
-bool CollisionManager::is_object_collided(const std::map<int, std::shared_ptr<Object>> &objects,
+bool CollisionManager::is_object_collided(const std::unordered_map<int, std::shared_ptr<Object>> &objects,
                                           std::shared_ptr<Object> object) const {
     for (auto& obj: objects) {
         if (is_collided(obj.second, object)) {
