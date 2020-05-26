@@ -10,10 +10,10 @@
 
 #include <ProjectileModel.h>
 
+#include <unordered_map>
+
 class graphicsManager {
 public:
-    int init(struct Config);
-
     void drawMap(const std::vector<MapInterface> &map);
 
     void object(const std::vector<std::shared_ptr<ObjectInterface>> &objects);
@@ -30,8 +30,6 @@ public:
 
     void displayMainMenu();
 
-    void displayPauseScreen();
-
     bool isOpen() const;
 
     void close();
@@ -47,6 +45,11 @@ private:
     struct Config config;
     bool open;
     std::vector<sf::Color> mapColors;
+
+    sf::RectangleShape background;
+    sf::Texture background_texture;
+    sf::Texture player_texture;
+    sf::Texture bullet_texture;
 
 };
 

@@ -4,7 +4,7 @@
 #include <actionManager.h>
 #include <actionServer.h>
 
-#include <graphicsManager.h>
+#include <GraphicsManager.h>
 #include <struct_Config.h>
 
 int main() {

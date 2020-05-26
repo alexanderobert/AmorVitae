@@ -111,7 +111,7 @@ set (
         GRAPHICS_HDRS
         graphics
         graphics/include
-        graphics/include/graphicsManager.h
+        graphics/include/GraphicsManager.h
         graphics/include/PlayerModel.h
         graphics/include/ProjectileModel.h
         graphics/include/struct_Config.h
@@ -122,7 +122,7 @@ set (
         GRAPHICS_HDRS
         graphics
         graphics/src
-        graphics/src/graphicsManager.cpp
+        graphics/src/GraphicsManager.cpp
         graphics/src/PlayerModel.cpp
         graphics/src/ProjectileModel.cpp
         graphics/src/ObstacleModel.cpp

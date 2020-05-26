@@ -1,25 +1,26 @@
 #include "PlayerModel.h"
 
-PlayerModel::PlayerModel(float startX, float startY, float _width, float _height) :width(_width), height(_height) {
+PlayerModel::PlayerModel(float startX, float startY, float width, float height) :width(width), height(height) {
     position.x = startX;
     position.y = startY;
-
-    if (!texture.loadFromFile("../graphics/textures/characters.jpg")) {
-        std::cout << "texture load failed" << std::endl;
-    }
-
-    sf::IntRect rectSourceSprite(0, 0, 15, 15);
-
-    model.setTexture(texture);
-    model.setTextureRect(rectSourceSprite);
-
-    //model.setFillColor(color);
 
     model.setPosition(position);
 }
 // 9 - 23, 42 - 64
 PlayerModel::~PlayerModel() = default;
 
-void PlayerModel::draw(sf::RenderTarget &renderTarget, sf::RenderStates renderStates) const {
+void PlayerModel::draw(sf::RenderTarget &renderTarget, sf::RenderStates renderStates) {
+
     renderTarget.draw(model);
 }
+
+void PlayerModel::setTexture(const sf::Texture &texture) {
+    model.setTexture(texture);
+}
+
+void PlayerModel::setPosition(float x, float y) {
+    position.x = x;
+    position.y = y;
+}
+
+PlayerModel::PlayerModel() = default;

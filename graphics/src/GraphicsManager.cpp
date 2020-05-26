@@ -1,4 +1,4 @@
-#include <graphicsManager.h>
+#include <GraphicsManager.h>
 
 void graphicsManager::drawMap(const std::vector<MapInterface> &map) {
     int state = map[0].layers_count;
@@ -6,13 +6,6 @@ void graphicsManager::drawMap(const std::vector<MapInterface> &map) {
 
     int circlePoints = 50;
 
-    sf::Texture texture;
-    if (!texture.loadFromFile("../graphics/textures/background.jpg")) {
-        std::cout << "texture load failed" << std::endl;
-    }
-
-    sf::RectangleShape background(sf::Vector2f(window->getSize().x, window->getSize().y));
-    background.setTexture(&texture);
     window->draw(background);
 
     for (int i = 0; i < state; ++i) {
@@ -33,7 +26,22 @@ graphicsManager::graphicsManager(Config config, actionManager &user) : config(co
 
     user.makeIcon(*window); //создание иконки из actionManager
 
-    mapColors.emplace_back(sf::Color::White);// TODO Расчитывать градиент
+    if (!background_texture.loadFromFile("../graphics/textures/background.jpg")) {
+        std::cout << "texture load failed" << std::endl;
+    }
+
+    if (!player_texture.loadFromFile("../graphics/textures/player.png")) {
+        std::cout << "texture load failed" << std::endl;
+    }
+
+    if (!bullet_texture.loadFromFile("../graphics/textures/bullet.png")) {
+        std::cout << "texture load failed" << std::endl;
+    }
+
+    background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+    background.setTexture(&background_texture);
+
+    mapColors.emplace_back(sf::Color::White);
     mapColors.emplace_back(sf::Color(204, 227, 249));
     mapColors.emplace_back(sf::Color(153, 200, 244));
     mapColors.emplace_back(sf::Color(102, 172, 239));
@@ -55,7 +63,7 @@ void graphicsManager::handleEvent(actionManager &user, actionServer &action) {
     user.actionUser(*window, event, action);
 }
 
-void graphicsManager::clear(){
+void graphicsManager::clear() {
     window->clear();
 }
 
@@ -69,13 +77,14 @@ void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
                 player.model.width,
                 player.model.height
         );
-
         buff.push_back(playerModel);
     }
 
     sf::RenderStates renderStates;
-    for (auto &it : buff)
+    for (auto &it : buff) {
+        it.setTexture(player_texture);
         it.draw(*window, renderStates);
+    }
 
 }
 
@@ -83,13 +92,13 @@ void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
 void graphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obstacleData) {
     std::vector<sf::RectangleShape> obs;
 
-    for(ObstructionInterface obstacle : obstacleData){
+    for (ObstructionInterface obstacle : obstacleData) {
         sf::RectangleShape obsModel(sf::Vector2f(100, 100));
         obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
         obsModel.setFillColor(sf::Color::Black);
     }
 
-    for(const sf::RectangleShape& model : obs){
+    for (const sf::RectangleShape &model : obs) {
         window->draw(model);
     }
 }
@@ -109,14 +118,16 @@ void graphicsManager::drawProjectile(const std::vector<BulletInterface> &project
     }
 
     sf::RenderStates renderStates;
-    for (auto &it : bulletBuff)
+    for (auto &it : bulletBuff){
+        it.setTexutre(bullet_texture);
         it.draw(*window, renderStates);
+    }
 }
 
 void graphicsManager::object(const std::vector<std::shared_ptr<ObjectInterface>> &objects) {
     std::map<ObjectInterface::Type, std::vector<std::shared_ptr<ObjectInterface>>> group;
 
-    for(const std::shared_ptr<ObjectInterface>& obj : objects){
+    for (const std::shared_ptr<ObjectInterface> &obj : objects) {
         group[obj->type].push_back(obj);
     }
 
@@ -125,19 +136,19 @@ void graphicsManager::object(const std::vector<std::shared_ptr<ObjectInterface>>
     std::vector<BulletInterface> bulletsData;
     std::vector<ObstructionInterface> obstructionData;
 
-    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::PLAYER_OBJECT]){
+    for (std::shared_ptr<ObjectInterface> &obj : group[ObjectInterface::Type::PLAYER_OBJECT]) {
         playersData.emplace_back(*std::static_pointer_cast<PlayerInterface>(obj));
     }
 
-    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::MAP_OBJECT]){
+    for (std::shared_ptr<ObjectInterface> &obj : group[ObjectInterface::Type::MAP_OBJECT]) {
         mapData.emplace_back(*std::static_pointer_cast<MapInterface>(obj));
     }
 
-    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::BULLET_OBJECT]){
+    for (std::shared_ptr<ObjectInterface> &obj : group[ObjectInterface::Type::BULLET_OBJECT]) {
         bulletsData.emplace_back(*std::static_pointer_cast<BulletInterface>(obj));
     }
 
-    for(std::shared_ptr<ObjectInterface>& obj : group[ObjectInterface::Type::STATIC_OBJECT]){
+    for (std::shared_ptr<ObjectInterface> &obj : group[ObjectInterface::Type::STATIC_OBJECT]) {
         obstructionData.emplace_back(*std::static_pointer_cast<ObstructionInterface>(obj));
     }
 

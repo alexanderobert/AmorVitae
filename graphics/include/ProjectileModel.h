@@ -5,18 +5,18 @@
 
 class ProjectileModel : public sf::Drawable {
 public:
-    ProjectileModel(float startX, float startY, int _width, int _height);
+    ProjectileModel(float startX, float startY, int width, int height);
+
     ~ProjectileModel();
 
     void draw(sf::RenderTarget &renderTarget, sf::RenderStates renderStates) const;
+
+    void setTexutre(sf::Texture &texture);
 private:
-
-
-    sf::RectangleShape model;
+    sf::Sprite model;
     sf::Vector2f position;
     int width;
     int height;
-    sf::Color color;
 };
 
 #endif //AMORVITAE_PROJECTILEMODEL_H
