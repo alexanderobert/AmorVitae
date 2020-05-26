@@ -32,11 +32,7 @@ void actionServer::sendActionShot(){
 
 void actionServer::updatePosition(const std::vector<std::shared_ptr<ObjectInterface>> &objects){
 
-    for(const std::shared_ptr<ObjectInterface>& obj : objects){
-        if(obj->ID == myId){
-            myPosition = obj->position;
-        }
-    }
+    myPosition = objects[myId]->position;
     mySight.from = myPosition;
 }
 

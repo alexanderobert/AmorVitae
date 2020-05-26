@@ -8,7 +8,7 @@
 #include <Object.h>
 #include <ObjectManager.h>
 
-const static int BLINK_RANGE = 10;
+const static int BLINK_RANGE = 100;
 
 enum Direction {
     UP,

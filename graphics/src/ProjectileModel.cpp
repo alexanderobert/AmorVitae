@@ -6,8 +6,8 @@ ProjectileModel::ProjectileModel(float startX, float startY, int _width, int _he
 
     color = sf::Color::Green;
 
-    int bulletWidth = 4;
-    int bulletHeight = 4;
+    int bulletWidth = 7;
+    int bulletHeight = 7;
 
     model.setSize(sf::Vector2f(bulletWidth, bulletHeight));
     model.setFillColor(color);
