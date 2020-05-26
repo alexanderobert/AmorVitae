@@ -86,30 +86,30 @@ std::string PacketManager::packet_handle_client(std::shared_ptr<EventInterface>&
         case 1: {
             auto ptr = std::static_pointer_cast<MoveInterface>(event);
             root.put("type", "move");
-            root.put("direction", ptr->direction);
-            root.put("sight.from.x", ptr->sight.from.x);
-            root.put("sight.from.y", ptr->sight.from.y);
-            root.put("sight.to.x", ptr->sight.to.x);
-            root.put("sight.to.y", ptr->sight.to.y);
+            root.put("direction", (int)ptr->direction);
+            root.put("sight.from.x", (int)ptr->sight.from.x);
+            root.put("sight.from.y", (int)ptr->sight.from.y);
+            root.put("sight.to.x", (int)ptr->sight.to.x);
+            root.put("sight.to.y", (int)ptr->sight.to.y);
 
             break;
         }
         case 2: {
             auto ptr = std::static_pointer_cast<BlinkInterface>(event);
             root.put("type", "blink");
-            root.put("sight.from.x", ptr->sight.from.x);
-            root.put("sight.from.y", ptr->sight.from.y);
-            root.put("sight.to.x", ptr->sight.to.x);
-            root.put("sight.to.y", ptr->sight.to.y);
+            root.put("sight.from.x", (int)ptr->sight.from.x);
+            root.put("sight.from.y", (int)ptr->sight.from.y);
+            root.put("sight.to.x", (int)ptr->sight.to.x);
+            root.put("sight.to.y", (int)ptr->sight.to.y);
             break;
         }
         case 3: {
             auto ptr = std::static_pointer_cast<ShotInterface>(event);
             root.put("type", "shot");
-            root.put("sight.from.x", ptr->sight.from.x);
-            root.put("sight.from.y", ptr->sight.from.y);
-            root.put("sight.to.x", ptr->sight.to.x);
-            root.put("sight.to.y", ptr->sight.to.y);
+            root.put("sight.from.x", (int)ptr->sight.from.x);
+            root.put("sight.from.y", (int)ptr->sight.from.y);
+            root.put("sight.to.x", (int)ptr->sight.to.x);
+            root.put("sight.to.y", (int)ptr->sight.to.y);
             break;
         }
         default: {

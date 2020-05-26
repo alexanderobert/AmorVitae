@@ -20,16 +20,16 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
                     auto ptr = std::static_pointer_cast<Player>(object[j]);
                     tree.put("type", "player");
                     tree.put("id", ptr->ID);
-                    tree.put("x", ptr->position.x);
-                    tree.put("y", ptr->position.y);
+                    tree.put("x", (int)ptr->position.x);
+                    tree.put("y", (int)ptr->position.y);
                     root.add_child(std::to_string(j), tree);
                     break;
                 }
                 case 2: {
                     auto ptr = std::static_pointer_cast<Bullet>(object[j]);
                     tree.put("type", "bullet");
-                    tree.put("x", ptr->position.x);
-                    tree.put("y", ptr->position.y);
+                    tree.put("x", (int)ptr->position.x);
+                    tree.put("y", (int)ptr->position.y);
                     root.add_child(std::to_string(j), tree);
                     break;
 
@@ -49,8 +49,8 @@ std::string PacketManagerServer::packet_handle_server(std::map<int, std::shared_
                 case 4: {
                     auto ptr = std::static_pointer_cast<Obstruction>(object[j]);
                     tree.put("type", "static");
-                    tree.put("x", ptr->position.x);
-                    tree.put("y", ptr->position.y);
+                    tree.put("x", (int)ptr->position.x);
+                    tree.put("y", (int)ptr->position.y);
                     tree.put("model.width", ptr->model.width);
                     tree.put("model.height", ptr->model.height);
                     root.add_child(std::to_string(j), tree);
@@ -86,20 +86,28 @@ std::shared_ptr<Event> PacketManagerServer::packet_adaptation_server(ptree& root
         case 1: {
             int id = root.get("IDuser", 0);
             Direction direction = dir[root.get("direction", "")];
-            double sight_from_x = root.get("sight.from.x", 0);
-            double sight_from_y = root.get("sight.from.y", 0);
-            double sight_to_x = root.get("sight.to.x", 0);
-            double sight_to_y = root.get("sight.to.y", 0);
+            std::string fx = root.get("sight.from.x", "");
+            double sight_from_x = std::stoi(fx);
+            std::string fy = root.get("sight.from.y", "");
+            double sight_from_y = std::stoi(fy);
+            std::string tx = root.get("sight.to.x", "");
+            double sight_to_x = std::stoi(tx);
+            std::string ty = root.get("sight.to.y", "");
+            double sight_to_y = std::stoi(ty);
             auto move = Move(id, {{sight_from_x, sight_from_y}, {sight_to_x, sight_to_y}}, direction);
             ptr = std::make_shared<Move>(move);
             break;
         }
         case 2: {
             int id = root.get("IDuser", 0);
-            double sight_from_x = root.get("sight.from.x", 0);
-            double sight_from_y = root.get("sight.from.y", 0);
-            double sight_to_x = root.get("sight.to.x", 0);
-            double sight_to_y = root.get("sight.to.y", 0);
+            std::string fx = root.get("sight.from.x", "");
+            double sight_from_x = std::stoi(fx);
+            std::string fy = root.get("sight.from.y", "");
+            double sight_from_y = std::stoi(fy);
+            std::string tx = root.get("sight.to.x", "");
+            double sight_to_x = std::stoi(tx);
+            std::string ty = root.get("sight.to.y", "");
+            double sight_to_y = std::stoi(ty);
             auto blink = Blink(id, {{sight_from_x, sight_from_y}, {sight_to_x, sight_to_y}});
             ptr = std::make_shared<Blink>(blink);
             break;
@@ -108,13 +116,13 @@ std::shared_ptr<Event> PacketManagerServer::packet_adaptation_server(ptree& root
         case 3: {
             int id = root.get("IDuser", 0);
             std::string fx = root.get("sight.from.x", "");
-            double sight_from_x = std::stod(fx);
+            double sight_from_x = std::stoi(fx);
             std::string fy = root.get("sight.from.y", "");
-            double sight_from_y = std::stod(fy);
+            double sight_from_y = std::stoi(fy);
             std::string tx = root.get("sight.to.x", "");
-            double sight_to_x = std::stod(tx);
+            double sight_to_x = std::stoi(tx);
             std::string ty = root.get("sight.to.y", "");
-            double sight_to_y = std::stod(ty);
+            double sight_to_y = std::stoi(ty);
             auto shot = Shot(id, {{sight_from_x, sight_from_y}, {sight_to_x, sight_to_y}});
             ptr = std::make_shared<Shot>(shot);
             break;
