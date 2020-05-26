@@ -16,7 +16,7 @@
 #include <NetServer.h>
 
 const static int SECONDS_PER_MINUTE = 60;
-const static double FRAMES_PER_SECOND = 25;
+const static double FRAMES_PER_SECOND = 15;
 
 class World {
 public:
@@ -132,7 +132,7 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    Point position(ring_radius * layers_count, ring_radius * layers_count);
+    Point position(user.get_username() * 100, user.get_username() * 100);
     std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
     return player;
 }

@@ -33,7 +33,6 @@ void NetServer::notify_all_users(std::map<int, std::shared_ptr<Object>>& object)
         item.sock->write_some(buffer(std::to_string(std::to_string(str).size()), 1));
         item.sock->write_some(buffer(std::to_string(str), 10));
         item.sock->write_some(buffer(buf));
-        std::cout<<str<<" "<<std::to_string(str).size() << std::endl;
     }
 }
 
