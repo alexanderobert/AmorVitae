@@ -23,25 +23,16 @@ void NetClient::connect_to_server(std::string addr_server, int port) {
 
 
 std::vector<std::shared_ptr<ObjectInterface>> NetClient::get_server_message() {
-    char buf[1024] = "";
-    std::string str;
     ptree root;
     int size_buff = do_read_header();
-    while (size_buff > 1024) {
-        socket_ptr->read_some(buffer(buf, 1024));
-        str += buf;
-        size_buff -= 1024;
-    }
-    char buff[1024] = "";
-    socket_ptr->read_some(buffer(buff, size_buff));
-    str += buff;
+    std::basic_string<char> str("", size_buff);
 
+    socket_ptr->read_some(buffer(str, size_buff));
 
-    std::string json = str;
-    std::cout<<json;
-    std::stringstream stream(json);
+    std::cout << str << std::endl;
+    std::stringstream stream(str);
     read_json(stream, root);
-
+    
     return packet_manager.packet_adaptation_client(root);
 }
 

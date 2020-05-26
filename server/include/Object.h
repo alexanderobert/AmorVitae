@@ -10,9 +10,9 @@
 #include <vector>
 #include <cmath>
 
-const static double DEFAULT_BULLET_SPEED = 5;
-const static double DEFAULT_PLAYER_SPEED = 1;
-const static int SHOT_COULDOWN_TICKS = 125;
+const static double DEFAULT_BULLET_SPEED = 15;
+const static double DEFAULT_PLAYER_SPEED = 3;
+const static int SHOT_COULDOWN_TICKS = 10;
 const static int BULLET_TICKS_LIVETIME = 250;
 
 
