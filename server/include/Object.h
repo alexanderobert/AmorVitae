@@ -12,6 +12,9 @@
 
 const static double DEFAULT_BULLET_SPEED = 5;
 const static double DEFAULT_PLAYER_SPEED = 1;
+const static int SHOT_COULDOWN_TICKS = 125;
+const static int BULLET_TICKS_LIVETIME = 250;
+
 
 struct Point {
     double x, y;
@@ -94,7 +97,7 @@ private:
     void next_shot_tick() {
         if (is_shot_cd) {
             shot_cd_tick++;
-            if (shot_cd_tick > 125) {
+            if (shot_cd_tick > SHOT_COULDOWN_TICKS) {
                 is_shot_cd = false;
                 shot_cd_tick = 0;
             }
@@ -195,7 +198,7 @@ public:
 private:
     void next_tick() {
         live_tick++;
-        if (live_tick > 1000) {
+        if (live_tick > BULLET_TICKS_LIVETIME) {
             state_ = State::INACTIVE;
             live_tick = 0;
         }
