@@ -8,6 +8,7 @@ void actionManager::sendBlink(actionServer &action){
 }
 
 void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actionServer &action) {
+    usleep(10000);
     sf::Vector2f mouse_world = window.mapPixelToCoords(sf::Mouse::getPosition(window));
     action.updateSight(mouse_world);
 
