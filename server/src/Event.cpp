@@ -40,18 +40,25 @@ std::shared_ptr<Object> Move::proccess(std::shared_ptr<Object> obj, ObjectManage
         default:
             break;
     }
+    player.sight = player.normalize(sight);
     return std::make_shared<Player>(player);
     //obj.get()->position.;
 }
 
 std::shared_ptr<Object> Shot::proccess(std::shared_ptr<Object> obj, ObjectManager &objectmanager) {
-    Player player = *std::static_pointer_cast<Player>(obj).get();
+    std::shared_ptr<Player> sh_player= std::static_pointer_cast<Player>(obj);
+    Player player = *sh_player.get();
     if (player.state_.get_state() == PlayerState::STATE_FLYING) {
         return std::make_shared<Player>(player);
     }
-    player.sight = player.normalize(sight);
-    Point bullet_postiton = player.position + Point(player.model.width, player.model.height);
-    objectmanager.update_objects(std::make_shared<Bullet>(objectmanager.pick_enable_id(),
-                                                          bullet_postiton, player.sight, player.ID));
+    if (sh_player->state_.is_shot_avaible()) {
+        sh_player->sight = player.normalize(sight);; 
+        player.sight = sh_player->sight;
+        Point bullet_postiton = player.position + Point(player.model.width, player.model.height);
+        objectmanager.update_objects(std::make_shared<Bullet>(objectmanager.pick_enable_id(),
+                                                              bullet_postiton, player.sight, player.ID));
+        player.state_.shot();
+        sh_player->state_.shot();
+    }
     return std::make_shared<Player>(player);
 }

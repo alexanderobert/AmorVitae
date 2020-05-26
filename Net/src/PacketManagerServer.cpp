@@ -107,10 +107,14 @@ std::shared_ptr<Event> PacketManagerServer::packet_adaptation_server(ptree& root
         }
         case 3: {
             int id = root.get("IDuser", 0);
-            double sight_from_x = root.get("sight.from.x", 0);
-            double sight_from_y = root.get("sight.from.y", 0);
-            double sight_to_x = root.get("sight.to.x", 0);
-            double sight_to_y = root.get("sight.to.y", 0);
+            std::string fx = root.get("sight.from.x", "");
+            double sight_from_x = std::stod(fx);
+            std::string fy = root.get("sight.from.y", "");
+            double sight_from_y = std::stod(fy);
+            std::string tx = root.get("sight.to.x", "");
+            double sight_to_x = std::stod(tx);
+            std::string ty = root.get("sight.to.y", "");
+            double sight_to_y = std::stod(ty);
             auto shot = Shot(id, {{sight_from_x, sight_from_y}, {sight_to_x, sight_to_y}});
             ptr = std::make_shared<Shot>(shot);
             break;

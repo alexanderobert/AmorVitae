@@ -8,7 +8,9 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+
 #include <queue>
+#include <boost/date_time.hpp>
 #include <ObjectManager.h>
 #include <PacketManagerServer.h>
 #include <NetServer.h>
@@ -95,19 +97,25 @@ void World::game_start() {
         this->calc_frame();
     });
     threads.push_back(move(th));
-    auto round_start = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> current_game_duration(0);
-    std::chrono::duration<double> current_tick_duration(0);
-    auto last_tick = std::chrono::high_resolution_clock::now();
-    while (current_game_duration.count() < game_duration) {
-        auto curr_time = std::chrono::high_resolution_clock::now();
+    boost::posix_time::ptime now1 = boost::posix_time::microsec_clock::universal_time();
+    sleep(1);
+    boost::posix_time::ptime now2 = boost::posix_time::microsec_clock::universal_time();
+    boost::posix_time::time_duration xTime = now2 - now1;
+    std::cout << xTime;
+
+    auto round_start = boost::posix_time::microsec_clock::universal_time();
+    boost::posix_time::time_duration current_game_duration;
+    boost::posix_time::time_duration current_tick_duration;
+    auto last_tick = boost::posix_time::microsec_clock::universal_time();
+    while (current_game_duration.seconds() < game_duration) {
+        auto curr_time = boost::posix_time::microsec_clock::universal_time();
         current_tick_duration = curr_time - last_tick;
-        if (current_tick_duration.count() > tick_duration) {
+        if ((current_tick_duration.total_milliseconds() / 1000.0) > tick_duration) {
             last_tick = curr_time;
             need_update = true;
             netServer.notify_all_users(objectManager.get_objects_by_map());
         }
-        curr_time = std::chrono::high_resolution_clock::now();
+        curr_time = boost::posix_time::microsec_clock::universal_time();
         current_game_duration = curr_time - round_start;
     }
     for (auto& th: threads) {

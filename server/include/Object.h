@@ -63,12 +63,17 @@ public:
         STATE_STANDING,
         STATE_FLYING
     };
-    PlayerState(): state_(State::STATE_STANDING), flying_tick(0) {};
+    PlayerState(): state_(State::STATE_STANDING), flying_tick(0), shot_cd_tick(0) {};
     State get_state() {
-        if (state_ == State::STATE_FLYING) {
-            next_flying_tick();
-        }
+        next_flying_tick();
+        next_shot_tick();
         return state_;
+    }
+    bool is_shot_avaible() {
+        return !is_shot_cd;
+    }
+    void shot() {
+        is_shot_cd = true;
     }
     void state_to_fly() {
         if (state_ != State::STATE_FLYING) {
@@ -77,14 +82,27 @@ public:
     }
 private:
     void next_flying_tick() {
-        flying_tick++;
-        if (flying_tick > 100) {
-            state_ = State::STATE_STANDING;
-            flying_tick = 0;
+        if (state_ == State::STATE_FLYING) {
+            flying_tick++;
+            if (flying_tick > 100) {
+                state_ = State::STATE_STANDING;
+                flying_tick = 0;
 
+            }
         }
     };
+    void next_shot_tick() {
+        if (is_shot_cd) {
+            shot_cd_tick++;
+            if (shot_cd_tick > 125) {
+                is_shot_cd = false;
+                shot_cd_tick = 0;
+            }
+        }
+    }
     int flying_tick;
+    int shot_cd_tick;
+    bool is_shot_cd;
     State state_;
 };
 
