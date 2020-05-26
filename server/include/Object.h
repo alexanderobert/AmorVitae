@@ -10,8 +10,8 @@
 #include <vector>
 #include <cmath>
 
-const static double DEFAULT_BULLET_SPEED = 1;
-const static double DEFAULT_PLAYER_SPEED = 3;
+const static double DEFAULT_BULLET_SPEED = 5;
+const static double DEFAULT_PLAYER_SPEED = 1;
 
 struct Point {
     double x, y;

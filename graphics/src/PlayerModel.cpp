@@ -8,7 +8,7 @@ PlayerModel::PlayerModel(float startX, float startY, float _width, float _height
         std::cout << "texture load failed" << std::endl;
     }
 
-    sf::IntRect rectSourceSprite(9, 42, 14, 22);
+    sf::IntRect rectSourceSprite(0, 0, 15, 15);
 
     model.setTexture(texture);
     model.setTextureRect(rectSourceSprite);
