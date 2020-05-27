@@ -22,7 +22,7 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         window->draw(stage);
     }
 
-    for(auto x : map[0].players_pts){
+    for (auto x : map[0].players_pts) {
         sf::Font font;
         if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
 
@@ -41,8 +41,8 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         id.setCharacterSize(30);
         pts.setCharacterSize(30);
 
-        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1/10 - 50 + 50 * x.first);
-        pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1/10 - 50 + 50 * x.first);
+        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1 / 10 - 50 + 50 * x.first);
+        pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1 / 10 - 50 + 50 * x.first);
 
         window->draw(id);
         window->draw(pts);
@@ -52,8 +52,11 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
 }
 
 GraphicsManager::GraphicsManager(Config config, actionManager &user) : config(config) {
-    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae",
-                                  sf::Style::Titlebar | sf::Style::Close);
+    window = new sf::RenderWindow(
+            sf::VideoMode(config.windowWidth, config.windowHeight),
+            "AmorVitae",
+            sf::Style::Titlebar | sf::Style::Close
+    );
     window->setMouseCursorVisible(false);
     menu = new Menu(config.windowWidth, config.windowHeight);
     open = true;
