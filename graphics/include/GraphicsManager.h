@@ -10,9 +10,11 @@
 
 #include <ProjectileModel.h>
 
+#include <Menu.h>
+
 #include <unordered_map>
 
-class graphicsManager {
+class GraphicsManager {
 public:
     void drawMap(const std::vector<MapInterface> &map);
 
@@ -24,7 +26,7 @@ public:
 //
     void drawProjectile(const std::vector<BulletInterface> &);
 
-    explicit graphicsManager(Config config, actionManager &);
+    explicit GraphicsManager(Config config, actionManager &);
 
     void handleEvent(actionManager &, actionServer &);
 
@@ -40,10 +42,15 @@ public:
         window->display();
     }
 
+    void setMyID(int ID){ myID = ID; }
+
 private:
     sf::RenderWindow *window;
+    Menu *menu;
+
     struct Config config;
     bool open;
+    int myID;
     std::vector<sf::Color> mapColors;
 
     sf::RectangleShape background;

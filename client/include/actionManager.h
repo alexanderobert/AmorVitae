@@ -19,6 +19,8 @@ public:
     void actionUser(sf::RenderWindow &window, sf::Event &, actionServer &);
     void makeIcon(sf::RenderWindow &window);
     void defineResolution(Config &);
+
+    bool isGame = false;
 };
 
 

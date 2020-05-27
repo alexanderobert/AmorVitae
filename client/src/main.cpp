@@ -14,18 +14,21 @@ int main() {
     Config configWindow;
     user.defineResolution(configWindow);
 
-    action.connectClient();
+    //action.connectClient();
 
-    graphicsManager graph(configWindow, user);
-
+    GraphicsManager graph(configWindow, user);
 
     while(graph.isOpen()){
+        if(!user.isGame){
+            graph.displayMainMenu();
 
-        auto objects = action.getMessage();
+        } else{
+            auto objects = action.getMessage();
 
-        graph.object(objects);
+            graph.object(objects);
 
-        action.updatePosition(objects);
+            action.updatePosition(objects);
+        }
 
         graph.handleEvent(user, action);
 

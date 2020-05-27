@@ -1,8 +1,11 @@
 #include <GraphicsManager.h>
+#include <string>
 
-void graphicsManager::drawMap(const std::vector<MapInterface> &map) {
+void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
     int state = map[0].layers_count;
     int radius = map[0].ring_radius;
+
+    sf::Text ids[4];
 
     int circlePoints = 50;
 
@@ -18,15 +21,46 @@ void graphicsManager::drawMap(const std::vector<MapInterface> &map) {
         stage.setFillColor(mapColors[i]);
         window->draw(stage);
     }
+
+    for(auto x : map[0].players_pts){
+        sf::Font font;
+        if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
+
+        sf::Text id;
+        sf::Text pts;
+
+        id.setFont(font);
+        pts.setFont(font);
+
+        id.setString(std::to_string(x.first));
+        pts.setString(std::to_string(x.second));
+
+        id.setFillColor(sf::Color::Red);
+        pts.setFillColor(sf::Color::Red);
+
+        id.setCharacterSize(30);
+        pts.setCharacterSize(30);
+
+        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1/10 - 50 - 50 * x.first);
+        pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1/10 - 50 - 50 * x.first);
+
+        window->draw(id);
+        window->draw(pts);
+    }
+
+
 }
 
-graphicsManager::graphicsManager(Config config, actionManager &user) : config(config) {
-    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae");
+GraphicsManager::GraphicsManager(Config config, actionManager &user) : config(config) {
+    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae",
+                                  sf::Style::Titlebar | sf::Style::Close);
+    window->setMouseCursorVisible(false);
+    menu = new Menu(config.windowWidth, config.windowHeight);
     open = true;
 
     user.makeIcon(*window); //создание иконки из actionManager
 
-    if (!background_texture.loadFromFile("../graphics/textures/background.jpg")) {
+    if (!background_texture.loadFromFile("../graphics/textures/backgroundvoda.jpg")) {
         std::cout << "texture load failed" << std::endl;
     }
 
@@ -49,25 +83,25 @@ graphicsManager::graphicsManager(Config config, actionManager &user) : config(co
 
 }
 
-bool graphicsManager::isOpen() const {
+bool GraphicsManager::isOpen() const {
     return open;
 }
 
-void graphicsManager::close() {
+void GraphicsManager::close() {
     window->close();
     open = false;
 }
 
-void graphicsManager::handleEvent(actionManager &user, actionServer &action) {
+void GraphicsManager::handleEvent(actionManager &user, actionServer &action) {
     sf::Event event;
     user.actionUser(*window, event, action);
 }
 
-void graphicsManager::clear() {
+void GraphicsManager::clear() {
     window->clear();
 }
 
-void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData) {
+void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData) {
     std::vector<PlayerModel> buff;
 
     for (PlayerInterface player : playerData) {
@@ -89,13 +123,15 @@ void graphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
 }
 
 
-void graphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obstacleData) {
+void GraphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obstacleData) {
     std::vector<sf::RectangleShape> obs;
 
     for (ObstructionInterface obstacle : obstacleData) {
         sf::RectangleShape obsModel(sf::Vector2f(100, 100));
         obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
         obsModel.setFillColor(sf::Color::Black);
+
+        obs.push_back(obsModel);
     }
 
     for (const sf::RectangleShape &model : obs) {
@@ -103,7 +139,7 @@ void graphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obst
     }
 }
 
-void graphicsManager::drawProjectile(const std::vector<BulletInterface> &projectileData) {
+void GraphicsManager::drawProjectile(const std::vector<BulletInterface> &projectileData) {
     std::vector<ProjectileModel> bulletBuff;
 
     for (BulletInterface bullet : projectileData) {
@@ -118,13 +154,13 @@ void graphicsManager::drawProjectile(const std::vector<BulletInterface> &project
     }
 
     sf::RenderStates renderStates;
-    for (auto &it : bulletBuff){
+    for (auto &it : bulletBuff) {
         it.setTexutre(bullet_texture);
         it.draw(*window, renderStates);
     }
 }
 
-void graphicsManager::object(const std::vector<std::shared_ptr<ObjectInterface>> &objects) {
+void GraphicsManager::object(const std::vector<std::shared_ptr<ObjectInterface>> &objects) {
     std::map<ObjectInterface::Type, std::vector<std::shared_ptr<ObjectInterface>>> group;
 
     for (const std::shared_ptr<ObjectInterface> &obj : objects) {
@@ -157,4 +193,18 @@ void graphicsManager::object(const std::vector<std::shared_ptr<ObjectInterface>>
     drawPlayer(playersData);
     drawProjectile(bulletsData);
 
+}
+
+void GraphicsManager::displayMainMenu() {
+    sf::Font font;
+    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
+
+    sf::Text menu;
+    menu.setFont(font);
+    menu.setFillColor(sf::Color::Red);
+    menu.setString("Play");
+    menu.setCharacterSize(50);
+    menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+
+    window->draw(menu);
 }
