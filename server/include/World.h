@@ -6,8 +6,9 @@
 #define AVM_WORLD_H
 
 #include <vector>
-#include <thread>
 #include <chrono>
+
+#include <boost/thread/thread.hpp>
 
 #include <queue>
 #include <boost/date_time.hpp>
@@ -44,10 +45,11 @@ private:
     void serve_user(User& user);
     std::mutex events_m;
     bool need_update;
+    bool game_is_go_on;
 };
 
 void World::calc_frame() {
-    while(true/*пока идет раунд*/) {
+    while(game_is_go_on) {
         std::unordered_map<int, std::shared_ptr<Object>>& objects = objectManager.get_objects_by_map();
         if (need_update) {
             for (auto& object: objects) {
@@ -82,25 +84,20 @@ void World::calc_frame() {
 
 void World::game_start() {
     std::vector<User> players_init = netServer.accept_users(player_count, objectManager);
-    std::vector<std::thread> threads;
+    std::vector<boost::thread> threads;
     for (auto& usr: players_init) {
         objectManager.update_objects(init_user(usr));
-        std::thread th([&](){
+        boost::thread  th([&](){
             this->serve_user(usr);
         });
         threads.push_back(move(th));
     }
     set_start_object();
-    std::thread th([&](){
+    game_is_go_on = true;
+    boost::thread  th([&](){
         this->calc_frame();
     });
     threads.push_back(move(th));
-    boost::posix_time::ptime now1 = boost::posix_time::microsec_clock::universal_time();
-    sleep(1);
-    boost::posix_time::ptime now2 = boost::posix_time::microsec_clock::universal_time();
-    boost::posix_time::time_duration xTime = now2 - now1;
-    std::cout << xTime;
-
     auto round_start = boost::posix_time::microsec_clock::universal_time();
     boost::posix_time::time_duration current_game_duration;
     boost::posix_time::time_duration current_tick_duration;
@@ -116,6 +113,7 @@ void World::game_start() {
         curr_time = boost::posix_time::microsec_clock::universal_time();
         current_game_duration = curr_time - round_start;
     }
+    game_is_go_on = false;
     for (auto& th: threads) {
         th.join();
     }
@@ -130,7 +128,8 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    Point position(user.get_username() * 200, user.get_username() * 200);
+
+    Point position((WINDOW_W / 2), 100 * (user.get_username() + 1));
     std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
     return player;
 }
