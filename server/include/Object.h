@@ -13,9 +13,9 @@
 
 const static double DEFAULT_BULLET_SPEED = 15;
 const static double DEFAULT_PLAYER_SPEED = 1;
-const static int SHOT_COULDOWN_TICKS = 10;
+const static int SHOT_COULDOWN_TICKS = 75;
 const static int BULLET_TICKS_LIVETIME = 250;
-const static int FLYING_DURATION = 10;
+const static int FLYING_DURATION = 20;
 
 const static int WINDOW_H = 800;
 const static int WINDOW_W = 1280;

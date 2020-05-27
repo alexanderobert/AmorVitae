@@ -130,7 +130,7 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    Point position(user.get_username() * 100, user.get_username() * 100);
+    Point position(user.get_username() * 200, user.get_username() * 200);
     std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
     return player;
 }
@@ -146,13 +146,6 @@ void World::set_start_object() {
 
     std::shared_ptr<Bullet> bll = std::make_shared<Bullet>(objectManager.pick_enable_id(), Point(100, 500), Point(1,0), 20);
     objectManager.update_objects(bll);
-/*
-
-    std::shared_ptr<Obstruction> obs = std::make_shared<Obstruction>(objectManager.pick_enable_id(), Point(100, 100), 100, 100);
-    objectManager.update_objects(obs);
-*/
-
-
 
 }
 

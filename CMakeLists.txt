@@ -116,6 +116,7 @@ set (
         graphics/include/ProjectileModel.h
         graphics/include/struct_Config.h
         graphics/include/ObstacleModel.h
+        graphics/include/Menu.h
 )
 
 set (
@@ -126,6 +127,7 @@ set (
         graphics/src/PlayerModel.cpp
         graphics/src/ProjectileModel.cpp
         graphics/src/ObstacleModel.cpp
+        graphics/src/Menu.cpp
 )
 
 include_directories(cmake-build-debug/googletest-src/googlemock/include)
