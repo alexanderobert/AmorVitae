@@ -41,8 +41,8 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         id.setCharacterSize(30);
         pts.setCharacterSize(30);
 
-        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1/10 - 50 - 50 * x.first);
-        pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1/10 - 50 - 50 * x.first);
+        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1/10 - 50 + 50 * x.first);
+        pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1/10 - 50 + 50 * x.first);
 
         window->draw(id);
         window->draw(pts);
