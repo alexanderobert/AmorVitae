@@ -11,7 +11,7 @@ void actionManager::sendBlink(actionServer &action) {
 void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actionServer &action) {
     usleep(10000);
     if (!isGame) {
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))) {
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Return))) {
             action.connectClient();
             isGame = true;
         }
