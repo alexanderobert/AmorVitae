@@ -22,7 +22,11 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         window->draw(stage);
     }
 
+<<<<<<< HEAD
     for(auto x : map[0].players_pts){
+=======
+    for (auto x : map[0].players_pts) {
+>>>>>>> 8285661cff272a944ba54cc894162fe2f111b155
         sf::Font font;
         if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
 
@@ -35,14 +39,14 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         id.setString(std::to_string(x.first));
         pts.setString(std::to_string(x.second));
 
-        id.setColor(sf::Color::Red);
-        pts.setColor(sf::Color::Red);
+        id.setFillColor(sf::Color::Red);
+        pts.setFillColor(sf::Color::Red);
 
         id.setCharacterSize(30);
         pts.setCharacterSize(30);
 
-        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1/10 - 50 - 50 * x.first);
-        pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1/10 - 50 - 50 * x.first);
+        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1 / 10 - 50 + 50 * x.first);
+        pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1 / 10 - 50 + 50 * x.first);
 
         window->draw(id);
         window->draw(pts);
@@ -52,8 +56,11 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
 }
 
 GraphicsManager::GraphicsManager(Config config, actionManager &user) : config(config) {
-    window = new sf::RenderWindow(sf::VideoMode(config.windowWidth, config.windowHeight), "AmorVitae",
-                                  sf::Style::Titlebar | sf::Style::Close);
+    window = new sf::RenderWindow(
+            sf::VideoMode(config.windowWidth, config.windowHeight),
+            "AmorVitae",
+            sf::Style::Titlebar | sf::Style::Close
+    );
     window->setMouseCursorVisible(false);
     menu = new Menu(config.windowWidth, config.windowHeight);
     open = true;
@@ -201,7 +208,7 @@ void GraphicsManager::displayMainMenu() {
 
     sf::Text menu;
     menu.setFont(font);
-    menu.setColor(sf::Color::Red);
+    menu.setFillColor(sf::Color::Red);
     menu.setString("Play");
     menu.setCharacterSize(50);
     menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
