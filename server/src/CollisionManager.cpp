@@ -90,16 +90,16 @@ void CollisionManager::resolve_collision(std::shared_ptr<Bullet> bullet, std::sh
 }
 
 void CollisionManager::resolve_collision(std::shared_ptr<Obstruction> obstruct, std::shared_ptr<Player> player) {
-    resolve_collision(player, obstruct);
+    resolve_collision(move(player), move(obstruct));
 
 }
 
 void CollisionManager::resolve_collision(std::shared_ptr<Bullet> bullet, std::shared_ptr<Player> player) {
-    resolve_collision(player, bullet);
+    resolve_collision(move(player), move(bullet));
 
 }
 
 void CollisionManager::resolve_collision(std::shared_ptr<Obstruction> obstruct, std::shared_ptr<Bullet> bullet) {
-    resolve_collision(bullet, obstruct);
+    resolve_collision(move(bullet), move(obstruct));
 
 }

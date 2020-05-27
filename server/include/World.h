@@ -128,7 +128,7 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-    Point position(user.get_username() * 100, user.get_username() * 100);
+    Point position((WINDOW_W / 2), 100 * (user.get_username() + 1));
     std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
     return player;
 }
