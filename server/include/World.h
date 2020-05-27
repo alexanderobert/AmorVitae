@@ -73,8 +73,6 @@ void World::calc_frame() {
                     //с новым состоянием
                     *object = *New_state;
                     // objectManager.update_objects(New_state);
-                    std::cout << "Ура  новое положение игрока: " << object->position.x << ' ' << object->position.y << std::endl;
-
                 }
             }
             //обрабатываем ивент из очереди

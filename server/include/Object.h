@@ -9,11 +9,16 @@
 #include <map>
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 const static double DEFAULT_BULLET_SPEED = 15;
-const static double DEFAULT_PLAYER_SPEED = 3;
+const static double DEFAULT_PLAYER_SPEED = 1;
 const static int SHOT_COULDOWN_TICKS = 10;
 const static int BULLET_TICKS_LIVETIME = 250;
+const static int FLYING_DURATION = 10;
+
+const static int WINDOW_H = 800;
+const static int WINDOW_W = 1280;
 
 
 struct Point {
@@ -87,7 +92,7 @@ private:
     void next_flying_tick() {
         if (state_ == State::STATE_FLYING) {
             flying_tick++;
-            if (flying_tick > 100) {
+            if (flying_tick > FLYING_DURATION) {
                 state_ = State::STATE_STANDING;
                 flying_tick = 0;
 
@@ -136,9 +141,12 @@ public:
     Map(int id, int layers, double ring_r, int durations_tick, std::vector<std::shared_ptr<Object>> plrs):
             Object(Type::MAP_OBJECT, id, Point(0, 0), Model(0, 0)), layers_count(layers), ring_radius(ring_r),
             game_duration_ticks(durations_tick), current_round_tick(0), players(move(plrs)),
-            map_centr({layers_count * ring_radius, layers_count * ring_radius}) {
+            map_centr({WINDOW_W/ 2}, {WINDOW_H / 2}) {
         for (int i = 1; i <= layers_count; ++i) {
-            pts_table[i] = i * 2;
+            pts_table[i] = i;
+        }
+        for(const auto& player: players) {
+            players_pts[player->ID] = 0;
         }
     }
     void update() override {
@@ -163,8 +171,11 @@ private:
         layers_count--;
     }
     void add_points_to_player(const std::shared_ptr<Object>& player) {
-        int position_rating = layers_count - (map_centr.distance_between(player->position) / layers_count);
-        players_pts[player->ID] += pts_table[position_rating];
+        int position_rating = (map_centr.distance_between(player->position) / ring_radius);
+        if (position_rating < layers_count) {
+            players_pts[player->ID] += pts_table[position_rating];
+ //           std::cout << "ID: " << player->ID << " +PTS: " << pts_table[position_rating] << std::endl;
+        }
     }
     int current_round_tick;
     int game_duration_ticks;

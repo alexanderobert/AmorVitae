@@ -56,7 +56,6 @@ std::string PacketManagerServer::packet_handle_server(std::unordered_map<int, st
                     root.add_child(std::to_string(j), tree);
                     break;
                 }
-
                 default: {
                     break;
                 }

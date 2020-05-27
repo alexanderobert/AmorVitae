@@ -43,9 +43,6 @@ std::shared_ptr<Event> NetServer::get_client_action(User& user) {
     int size_buff = do_read_header(user);
 
     user.sock->read_some(buffer(buf,size_buff));
-
-    std::cout<< buf <<std::endl;
-
     std::string json = std::string(buf);
     std::stringstream stream(json);
 
