@@ -120,7 +120,7 @@ void World::game_start() {
 }
 
 void World::serve_user(User& user) {
-    while(user.is_connected()) {
+    while(game_is_go_on) {
         std::shared_ptr<Event> event = netServer.get_client_action(user);
         std::lock_guard<std::mutex> lock(events_m);
         queque_event.push(event);

@@ -12,8 +12,9 @@
 #include <iostream>
 
 const static double DEFAULT_BULLET_SPEED = 15;
-const static double DEFAULT_PLAYER_SPEED = 1;
-const static int SHOT_COULDOWN_TICKS = 75;
+const static double DEFAULT_PLAYER_SPEED = 2;
+const static int SHOT_COULDOWN_TICKS = 50;
+const static int BLINK_COULDOWN_TICKS = 120;
 const static int BULLET_TICKS_LIVETIME = 250;
 const static int FLYING_DURATION = 20;
 
@@ -75,11 +76,22 @@ public:
     State get_state() {
         next_flying_tick();
         next_shot_tick();
+        next_blink_tick();
         return state_;
     }
     bool is_shot_avaible() {
         return !is_shot_cd;
     }
+
+    bool is_blink_avaible() {
+        return !is_blink_cd;
+    }
+
+    void blink() {
+        is_blink_cd = true;
+    }
+
+
     void shot() {
         is_shot_cd = true;
     }
@@ -108,8 +120,19 @@ private:
             }
         }
     }
+    void next_blink_tick() {
+        if (is_blink_cd) {
+            blink_cd_tick++;
+            if (blink_cd_tick > BLINK_COULDOWN_TICKS) {
+                is_blink_cd = false;
+                blink_cd_tick = 0;
+            }
+        }
+    }
     int flying_tick;
     int shot_cd_tick;
+    int blink_cd_tick;
+    bool is_blink_cd;
     bool is_shot_cd;
     State state_;
 };

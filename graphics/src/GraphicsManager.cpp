@@ -22,11 +22,7 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         window->draw(stage);
     }
 
-<<<<<<< HEAD
-    for(auto x : map[0].players_pts){
-=======
     for (auto x : map[0].players_pts) {
->>>>>>> 8285661cff272a944ba54cc894162fe2f111b155
         sf::Font font;
         if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
 
