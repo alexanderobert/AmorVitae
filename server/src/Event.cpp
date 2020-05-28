@@ -10,9 +10,13 @@ std::shared_ptr<Object> Blink::proccess(std::shared_ptr<Object> obj, ObjectManag
     if (player.state_.get_state() == PlayerState::STATE_FLYING) {
         return std::make_shared<Player>(player);
     }
-    player.sight = player.normalize(sight);
-    player.position = player.position + player.sight * BLINK_RANGE;
+    if (player.state_.is_blink_avaible()) {
+        player.sight = player.normalize(sight);
+        player.position = player.position + player.sight * BLINK_RANGE;
+        player.state_.blink();
+    }
     return std::make_shared<Player>(player);
+
 }
 
 std::shared_ptr<Object> Move::proccess(std::shared_ptr<Object> obj, ObjectManager &objectmanager) {
