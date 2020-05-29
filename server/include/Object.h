@@ -196,7 +196,7 @@ private:
     void add_points_to_player(const std::shared_ptr<Object>& player) {
         int position_rating = (map_centr.distance_between(player->position) / ring_radius);
         if (position_rating < layers_count) {
-            players_pts[player->ID] += pts_table[position_rating];
+            players_pts[player->ID] += pts_table[pts_table.size() - position_rating];
  //           std::cout << "ID: " << player->ID << " +PTS: " << pts_table[position_rating] << std::endl;
         }
     }

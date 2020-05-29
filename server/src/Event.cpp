@@ -6,14 +6,17 @@
 #include <include/Event.h>
 
 std::shared_ptr<Object> Blink::proccess(std::shared_ptr<Object> obj, ObjectManager &objectmanager)  {
+    std::shared_ptr<Player> sh_player= std::static_pointer_cast<Player>(obj);
     Player player = *std::static_pointer_cast<Player>(obj).get();
     if (player.state_.get_state() == PlayerState::STATE_FLYING) {
         return std::make_shared<Player>(player);
     }
     if (player.state_.is_blink_avaible()) {
+        player.state_.blink();
+        sh_player->state_.blink();
         player.sight = player.normalize(sight);
         player.position = player.position + player.sight * BLINK_RANGE;
-        player.state_.blink();
+
     }
     return std::make_shared<Player>(player);
 
@@ -58,7 +61,7 @@ std::shared_ptr<Object> Shot::proccess(std::shared_ptr<Object> obj, ObjectManage
     if (sh_player->state_.is_shot_avaible()) {
         sh_player->sight = player.normalize(sight);; 
         player.sight = sh_player->sight;
-        Point bullet_postiton = player.position + Point(player.model.width, player.model.height);
+        Point bullet_postiton = player.position + Point(player.model.width / 2.0, player.model.height / 2.0);
         objectmanager.update_objects(std::make_shared<Bullet>(objectmanager.pick_enable_id(),
                                                               bullet_postiton, player.sight, player.ID));
         player.state_.shot();
