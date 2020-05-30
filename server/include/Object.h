@@ -24,6 +24,7 @@ const static int WINDOW_W = 1280;
 
 struct Point {
     double x, y;
+    Point() = default;
     Point(double xpos, double ypos): x(xpos), y(ypos) {}
     Point operator+ (const Point& rhs) {
         return {this->x + rhs.x, this->y + rhs.y};
@@ -47,7 +48,7 @@ struct Vector {
 
 struct Model {
     int height, width;
-    Model(int h, int w):height(h), width(w) {}
+    Model(int w, int h):height(h), width(w) {}
 };
 
 class Object {
@@ -178,7 +179,7 @@ public:
             add_points_to_player(player);
         }
         if(layers_count != 0 ) {
-            if ((game_duration_ticks / layers_count) < current_round_tick) {
+            if ((game_duration_ticks / (layers_count + 1)) < current_round_tick) {
                 current_round_tick = 0;
                 next_stage();
             }
@@ -209,7 +210,7 @@ private:
 
 class Obstruction : public  Object {
 public:
-    Obstruction(int id, Point pos, int h, int w): Object(Type::STATIC_OBJECT, id, pos, Model(h,w)) {};
+    Obstruction(int id, Point pos, int w, int h): Object(Type::STATIC_OBJECT, id, pos, Model(w,h)) {};
     void update() override {}
 };
 

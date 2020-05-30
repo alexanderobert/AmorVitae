@@ -35,8 +35,8 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         id.setString(std::to_string(x.first));
         pts.setString(std::to_string(x.second));
 
-        id.setFillColor(sf::Color::Red);
-        pts.setFillColor(sf::Color::Red);
+        id.setColor(sf::Color::Red);
+        pts.setColor(sf::Color::Red);
 
         id.setCharacterSize(30);
         pts.setCharacterSize(30);
@@ -130,7 +130,7 @@ void GraphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obst
     std::vector<sf::RectangleShape> obs;
 
     for (ObstructionInterface obstacle : obstacleData) {
-        sf::RectangleShape obsModel(sf::Vector2f(100, 100));
+        sf::RectangleShape obsModel(sf::Vector2f(obstacle.model.width, obstacle.model.height));
         obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
         obsModel.setFillColor(sf::Color::Black);
 
@@ -204,7 +204,7 @@ void GraphicsManager::displayMainMenu() {
 
     sf::Text menu;
     menu.setFont(font);
-    menu.setFillColor(sf::Color::Red);
+    menu.setColor(sf::Color::Red);
     menu.setString("Play");
     menu.setCharacterSize(50);
     menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
@@ -218,7 +218,7 @@ void GraphicsManager::displayWin() {
 
     sf::Text menu;
     menu.setFont(font);
-    menu.setFillColor(sf::Color::Red);
+    menu.setColor(sf::Color::Red);
     menu.setString("Win");
     menu.setCharacterSize(50);
     menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
@@ -232,7 +232,7 @@ void GraphicsManager::displayLose() {
 
     sf::Text menu;
     menu.setFont(font);
-    menu.setFillColor(sf::Color::Red);
+    menu.setColor(sf::Color::Red);
     menu.setString("Lose");
     menu.setCharacterSize(50);
     menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
