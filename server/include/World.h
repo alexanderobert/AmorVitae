@@ -25,6 +25,7 @@ public:
           netServer(port), player_count(player_count), layers_count(lay_count), ring_radius(r_radius){
         game_duration = game_duration_minute * SECONDS_PER_MINUTE;
         tick_duration = 1 / FRAMES_PER_SECOND;
+        map_centre = Point(WINDOW_W / 2, WINDOW_H / 2);
     }
     void game_start();
 
@@ -33,6 +34,7 @@ private:
     ObjectManager objectManager;
     std::queue<std::shared_ptr<Event>> queque_event;
     NetServer netServer;
+    Point map_centre;
     double tick_duration;
     double game_duration;
     int player_count;
@@ -102,7 +104,7 @@ void World::game_start() {
     boost::posix_time::time_duration current_game_duration;
     boost::posix_time::time_duration current_tick_duration;
     auto last_tick = boost::posix_time::microsec_clock::universal_time();
-    while (current_game_duration.seconds() < game_duration) {
+    while (current_game_duration.total_seconds() < game_duration) {
         auto curr_time = boost::posix_time::microsec_clock::universal_time();
         current_tick_duration = curr_time - last_tick;
         if ((current_tick_duration.total_milliseconds() / 1000.0) > tick_duration) {
@@ -128,9 +130,9 @@ void World::serve_user(User& user) {
 }
 
 std::shared_ptr<Player> World::init_user(User &user) {
-
-    Point position((WINDOW_W / 2), 100 * (user.get_username() + 1));
-    std::shared_ptr<Player> player = std::make_shared<Player>(user.get_username(), position);
+    int id = user.get_username();
+    Point position(map_centre.x + (pow(-1, id) * 300), map_centre.y + (pow(-1, player_count - id) * 300));
+    std::shared_ptr<Player> player = std::make_shared<Player>(id, position);
     return player;
 }
 
@@ -147,9 +149,17 @@ void World::set_start_object() {
     objectManager.update_objects(bll);
 
 
-    std::shared_ptr<Obstruction> obs = std::make_shared<Obstruction>(objectManager.pick_enable_id(), Point(100, 100), 100, 100);
-    objectManager.update_objects(obs);
+    std::shared_ptr<Obstruction> obs1 = std::make_shared<Obstruction>(objectManager.pick_enable_id(), Point(460, 280), 30, 250);
+    objectManager.update_objects(obs1);
 
+    std::shared_ptr<Obstruction> obs2 = std::make_shared<Obstruction>(objectManager.pick_enable_id(), Point(520, 200), 250, 30);
+    objectManager.update_objects(obs2);
+
+    std::shared_ptr<Obstruction> obs3 = std::make_shared<Obstruction>(objectManager.pick_enable_id(), Point(800, 280), 30, 250);
+    objectManager.update_objects(obs3);
+
+    std::shared_ptr<Obstruction> obs4 = std::make_shared<Obstruction>(objectManager.pick_enable_id(), Point(520, 560), 250, 30);
+    objectManager.update_objects(obs4);
 }
 
 #endif //AVM_WORLD_H

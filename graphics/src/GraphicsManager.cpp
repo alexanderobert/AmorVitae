@@ -130,7 +130,7 @@ void GraphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obst
     std::vector<sf::RectangleShape> obs;
 
     for (ObstructionInterface obstacle : obstacleData) {
-        sf::RectangleShape obsModel(sf::Vector2f(100, 100));
+        sf::RectangleShape obsModel(sf::Vector2f(obstacle.model.width, obstacle.model.height));
         obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
         obsModel.setFillColor(sf::Color::Black);
 

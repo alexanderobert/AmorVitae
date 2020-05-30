@@ -167,6 +167,10 @@ include_directories(
 add_executable(AmorVitaeServer server/src/main.cpp ${SERVER} ${NET_SERVER})
 add_executable(server_test ${TEST_SERVER})
 add_executable(AmorVitaeClient client/src/main.cpp ${CLIENT} ${GRAPHICS} ${NET_CLIENT})
+add_executable(AmorVitaeClient2 client/src/main.cpp ${CLIENT} ${GRAPHICS} ${NET_CLIENT})
+target_link_libraries(AmorVitaeClient2 ${SFML_LIBRARIES})
+target_link_libraries(AmorVitaeClient2 ${Boost_LIBRARIES})
+
 
 target_link_libraries(AmorVitaeServer ${Boost_LIBRARIES})
 target_link_libraries(AmorVitaeClient ${SFML_LIBRARIES})
