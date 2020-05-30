@@ -1,5 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include <boost/date_time.hpp>
 
 #include <actionManager.h>
 #include <actionServer.h>
@@ -8,26 +7,35 @@
 #include <struct_Config.h>
 
 int main() {
+
+    int game_duration = 120;
+
     actionServer action;
     actionManager user;
 
     Config configWindow;
     user.defineResolution(configWindow);
 
-    //action.connectClient();
-
     GraphicsManager graph(configWindow, user);
 
-    while(graph.isOpen()){
+    auto round_start = boost::posix_time::microsec_clock::universal_time();
+    boost::posix_time::time_duration current_game_duration;
+
+    std::vector<std::shared_ptr<ObjectInterface>> objects;
+
+    while((graph.isOpen()) && ((current_game_duration.seconds() < game_duration))){
+
         if(!user.isGame){
             graph.displayMainMenu();
 
         } else{
-            auto objects = action.getMessage();
 
+            objects = action.getMessage();
             graph.object(objects);
-
             action.updatePosition(objects);
+
+            auto curr_time = boost::posix_time::microsec_clock::universal_time();
+            current_game_duration = curr_time - round_start;
         }
 
         graph.handleEvent(user, action);
@@ -36,5 +44,17 @@ int main() {
 
     }
 
+    if(action.checkWinner(objects)) {
+        graph.displayWin();
+    }
+    else
+        graph.displayLose();
+
+    graph.display();
+
+    sleep(5);
+
     return 0;
 }
+
+

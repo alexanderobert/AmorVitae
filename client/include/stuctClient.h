@@ -1,5 +1,4 @@
 const static int DEFAULT_BULLET_SPEED_CLIENT = 10;
-//const static int DEFAULT_PLAYER_SPEED_CLIENT = 5;
 #include <map>
 
 struct PointInterface {
@@ -24,7 +23,6 @@ enum DirectionInterface {
     right
 };
 
-//блок формирования сообщения для отправки
 struct MousePosition {
     int x;
     int y;
@@ -63,7 +61,6 @@ enum Type {
     MAP_OBJECT
 };
 
-//Объект получаемый от сервера
 struct ObjectInterface {
     enum Type {
         STATIC_OBJECT,
@@ -125,4 +122,3 @@ struct BulletInterface:ObjectInterface {
     int iniciator_ID;
     int speed;
 };
-//конец блока формирования получения сообщения

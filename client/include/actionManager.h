@@ -13,8 +13,8 @@
 class actionManager {
 
 public:
-    void sendMove(actionServer &action, DirectionInterface); //при нажатии WASD
-    void sendBlink(actionServer &action); //при нажатии Space
+    void sendMove(actionServer &action, DirectionInterface);
+    void sendBlink(actionServer &action);
 
     void actionUser(sf::RenderWindow &window, sf::Event &, actionServer &);
     void makeIcon(sf::RenderWindow &window);

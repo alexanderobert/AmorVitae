@@ -16,8 +16,6 @@
 
 #include <SFML/System.hpp>
 
-
-//класс для отправки и получения
 class actionServer {
 
 private:
@@ -44,7 +42,10 @@ public:
     void updatePosition(const std::vector<std::shared_ptr<ObjectInterface>> &);
     void updateSight(sf::Vector2f);
 
+    bool checkWinner(const std::vector<std::shared_ptr<ObjectInterface>> &);
+
     std::vector<std::shared_ptr<ObjectInterface>> getMessage();
+
 };
 
 #endif //CLIENT_ACTIONSERVER_H

@@ -32,6 +32,10 @@ public:
 
     void displayMainMenu();
 
+    void displayWin();
+
+    void displayLose();
+
     bool isOpen() const;
 
     void close();

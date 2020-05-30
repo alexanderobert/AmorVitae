@@ -47,7 +47,7 @@ void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actio
         }
     };
 
-    while (window.pollEvent(event)) {} // чтобы коно было активно
+    while (window.pollEvent(event)) {}
 }
 
 void actionManager::makeIcon(sf::RenderWindow &window) {

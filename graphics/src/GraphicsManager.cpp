@@ -211,3 +211,31 @@ void GraphicsManager::displayMainMenu() {
 
     window->draw(menu);
 }
+
+void GraphicsManager::displayWin() {
+    sf::Font font;
+    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
+
+    sf::Text menu;
+    menu.setFont(font);
+    menu.setFillColor(sf::Color::Red);
+    menu.setString("Win");
+    menu.setCharacterSize(50);
+    menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+
+    window->draw(menu);
+}
+
+void GraphicsManager::displayLose() {
+    sf::Font font;
+    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
+
+    sf::Text menu;
+    menu.setFont(font);
+    menu.setFillColor(sf::Color::Red);
+    menu.setString("Lose");
+    menu.setCharacterSize(50);
+    menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+
+    window->draw(menu);
+}
