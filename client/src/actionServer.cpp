@@ -77,11 +77,6 @@ bool actionServer::checkWinner(const std::vector<std::shared_ptr<ObjectInterface
         }
     }
 
-    if(idOfWinner  == myId){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return idOfWinner == myId;
 
 }

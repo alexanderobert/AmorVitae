@@ -26,16 +26,16 @@ struct Point {
     double x, y;
     Point() = default;
     Point(double xpos, double ypos): x(xpos), y(ypos) {}
-    Point operator+ (const Point& rhs) {
+    Point operator+ (const Point& rhs) const {
         return {this->x + rhs.x, this->y + rhs.y};
     }
-    Point operator- (const Point& rhs) {
+    Point operator- (const Point& rhs) const {
         return {this->x - rhs.x, this->y - rhs.y};
     }
-    Point operator* (double value) {
+    Point operator* (double value) const {
         return {this->x * value, this->y * value};
     }
-    double distance_between(const Point& other) {
+    double distance_between(const Point& other) const {
         return sqrt(pow((this->x - other.x), 2) + pow((this->y - other.y), 2));
     }
 
@@ -80,11 +80,11 @@ public:
         next_blink_tick();
         return state_;
     }
-    bool is_shot_avaible() {
+    bool is_shot_avaible() const {
         return !is_shot_cd;
     }
 
-    bool is_blink_avaible() {
+    bool is_blink_avaible() const {
         return !is_blink_cd;
     }
 
@@ -152,7 +152,7 @@ public:
     PlayerState state_;
     Point sight;
     double speed;
-    Point normalize(const Vector& vec) {
+    Point normalize(const Vector& vec) const {
         double t1 = vec.to.x - vec.from.x;
         double t2 = vec.to.y - vec.from.y;
         double l = sqrt(t1 * t1 + t2 * t2);
@@ -198,7 +198,7 @@ private:
         int position_rating = (map_centr.distance_between(player->position) / ring_radius);
         if (position_rating < layers_count) {
             players_pts[player->ID] += pts_table[pts_table.size() - position_rating];
- //           std::cout << "ID: " << player->ID << " +PTS: " << pts_table[position_rating] << std::endl;
+            //           std::cout << "ID: " << player->ID << " +PTS: " << pts_table[position_rating] << std::endl;
         }
     }
     int current_round_tick;

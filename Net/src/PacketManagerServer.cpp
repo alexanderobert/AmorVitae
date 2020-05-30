@@ -49,7 +49,7 @@ std::string PacketManagerServer::packet_handle_server(std::unordered_map<int, st
                 case 4: {
                     auto ptr = std::static_pointer_cast<Obstruction>(object[j]);
                     tree.put("type", "static");
-                    tree.put("x", (int)ptr->position.x);
+                    tree.put("x", (int)ptr->position.x );
                     tree.put("y", (int)ptr->position.y);
                     tree.put("model.width", ptr->model.width);
                     tree.put("model.height", ptr->model.height);

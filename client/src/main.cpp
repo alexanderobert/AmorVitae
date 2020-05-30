@@ -24,6 +24,7 @@ int main() {
     std::vector<std::shared_ptr<ObjectInterface>> objects;
 
     while((graph.isOpen()) && ((current_game_duration.total_seconds() < game_duration))){
+
         if(!user.isGame){
             graph.displayMainMenu();
 
@@ -43,11 +44,11 @@ int main() {
 
     }
 
-    if(action.checkWinner(objects)) {
+    if (action.checkWinner(objects)) {
         graph.displayWin();
-    }
-    else
+    } else {
         graph.displayLose();
+    }
 
     graph.display();
 
