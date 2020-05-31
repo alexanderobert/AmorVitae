@@ -33,7 +33,7 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         pts.setFont(font);
 
         if (x.first == 0) {
-            id.setString("Xitriy_Johnny");
+            id.setString("Me");
         } else {
             id.setString("Griyazniy_Billy");
         }
