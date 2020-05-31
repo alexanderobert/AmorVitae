@@ -262,14 +262,15 @@ void GraphicsManager::displayMainMenu() {
 void GraphicsManager::displayWin() {
 //    sf::Font font;
 //    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
-//
-    sf::RectangleShape winMessage;
+
+    sf::RectangleShape winMessage(sf::Vector2f(500, 500));
+    //sf::Text winMessage;
     winMessage.setTexture(&win);
 //    winMessage.setFont(font);
 //    winMessage.setColor(sf::Color::Red);
 //    winMessage.setString("Win");
 //    winMessage.setCharacterSize(50);
-    winMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+    winMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 250, config.windowHeight / 2 - 250));
 
     window->draw(winMessage);
 }
@@ -278,13 +279,14 @@ void GraphicsManager::displayLose() {
 //    sf::Font font;
 //    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
 
-    sf::RectangleShape lossMessage;
-    lossMessage.setTexture(&lose);
-    //    lossMessage.setFont(font);
+    //sf::Text lossMessage;
+    sf::RectangleShape lossMessage(sf::Vector2f(700, 700));
+    //lossMessage.setTexture(&lose);
+//        lossMessage.setFont(font);
 //    lossMessage.setColor(sf::Color::Red);
 //    lossMessage.setString("Lose");
 //    lossMessage.setCharacterSize(50);
-    lossMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+    lossMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 350, config.windowHeight / 2 - 350));
 
     window->draw(lossMessage);
 }
