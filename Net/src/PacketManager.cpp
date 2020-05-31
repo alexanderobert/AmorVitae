@@ -20,10 +20,12 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                 int id = tree.get("id", 0);
                 std::string x = tree.get("x", "");
                 std::string y = tree.get("y", "");
+                std::string sight_x = tree.get("sight_x", "");
+                std::string sight_y = tree.get("sight_y", "");
                 struct PlayerInterface pl(ObjectInterface::Type::PLAYER_OBJECT, id, {
                     (stod(x)),
                             (stod(y))},
-                {15, 15});
+                {15, 15}, {{0,0},{stod(sight_x), stod(sight_y)}});
                 std::shared_ptr<ObjectInterface> ptr = std::make_shared<PlayerInterface>(pl);
                 vector.push_back(ptr);
                 break;

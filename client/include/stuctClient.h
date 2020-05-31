@@ -84,8 +84,8 @@ struct PlayerInterface:ObjectInterface {
         STATE_FLYING
     };
     State state_;
-    PlayerInterface(Type t, int id, PointInterface pos, ModelInterface mod): ObjectInterface(t, id, pos, mod),
-                                                                             sight({1,1}, {0,0}), speed(50) {}
+    PlayerInterface(Type t, int id, PointInterface pos, ModelInterface mod,  VectorInterface sight): ObjectInterface(t, id, pos, mod),
+                                                                             sight(sight), speed(50) {}
 
 };
 
