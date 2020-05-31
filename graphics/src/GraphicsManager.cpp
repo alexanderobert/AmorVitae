@@ -58,16 +58,20 @@ GraphicsManager::GraphicsManager(Config config, actionManager &user) : config(co
             sf::Style::Titlebar | sf::Style::Close
     );
     window->setMouseCursorVisible(false);
-    menu = new Menu(config.windowWidth, config.windowHeight);
+    //menu = new Menu(config.windowWidth, config.windowHeight);
     open = true;
 
     user.makeIcon(*window); //создание иконки из actionManager
 
-    if (!background_texture.loadFromFile("../graphics/textures/backgroundvoda.jpg")) {
+    if (!menu_texture.loadFromFile("../graphics/textures/menu_background.jpg")) {
         std::cout << "texture load failed" << std::endl;
     }
 
-    if (!player_texture.loadFromFile("../graphics/textures/player.png")) {
+    if (!background_texture.loadFromFile("../graphics/textures/space_background.jpeg")) {
+        std::cout << "texture load failed" << std::endl;
+    }
+
+    if (!player_texture.loadFromFile("../graphics/textures/my_player_texture.png")) {
         std::cout << "texture load failed" << std::endl;
     }
 
@@ -77,6 +81,9 @@ GraphicsManager::GraphicsManager(Config config, actionManager &user) : config(co
 
     background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
     background.setTexture(&background_texture);
+
+    menu.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+    menu.setTexture(&menu_texture);
 
     mapColors.emplace_back(sf::Color::White);
     mapColors.emplace_back(sf::Color(204, 227, 249));
@@ -93,6 +100,7 @@ bool GraphicsManager::isOpen() const {
 void GraphicsManager::close() {
     window->close();
     open = false;
+    delete window;
 }
 
 void GraphicsManager::handleEvent(actionManager &user, actionServer &action) {
@@ -107,12 +115,16 @@ void GraphicsManager::clear() {
 void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData) {
     std::vector<PlayerModel> buff;
 
+
+
     for (PlayerInterface player : playerData) {
         PlayerModel playerModel(
                 player.position.x,
                 player.position.y,
                 player.model.width,
-                player.model.height
+                player.model.height,
+                player.sight.to.x,
+                player.sight.to.y
         );
         buff.push_back(playerModel);
     }
@@ -199,15 +211,15 @@ void GraphicsManager::object(const std::vector<std::shared_ptr<ObjectInterface>>
 }
 
 void GraphicsManager::displayMainMenu() {
-    sf::Font font;
-    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
-
-    sf::Text menu;
-    menu.setFont(font);
-    menu.setColor(sf::Color::Red);
-    menu.setString("Play");
-    menu.setCharacterSize(50);
-    menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+//    sf::Font font;
+//    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
+//
+//    sf::Text menu;
+//    menu.setFont(font);
+//    menu.setColor(sf::Color::Red);
+//    menu.setString("Play");
+//    menu.setCharacterSize(50);
+//    menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
 
     window->draw(menu);
 }
@@ -216,26 +228,26 @@ void GraphicsManager::displayWin() {
     sf::Font font;
     if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
 
-    sf::Text menu;
-    menu.setFont(font);
-    menu.setColor(sf::Color::Red);
-    menu.setString("Win");
-    menu.setCharacterSize(50);
-    menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+    sf::Text winMessage;
+    winMessage.setFont(font);
+    winMessage.setColor(sf::Color::Red);
+    winMessage.setString("Win");
+    winMessage.setCharacterSize(50);
+    winMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
 
-    window->draw(menu);
+    window->draw(winMessage);
 }
 
 void GraphicsManager::displayLose() {
     sf::Font font;
     if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
 
-    sf::Text menu;
-    menu.setFont(font);
-    menu.setColor(sf::Color::Red);
-    menu.setString("Lose");
-    menu.setCharacterSize(50);
-    menu.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
+    sf::Text lossMessage;
+    lossMessage.setFont(font);
+    lossMessage.setColor(sf::Color::Red);
+    lossMessage.setString("Lose");
+    lossMessage.setCharacterSize(50);
+    lossMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
 
-    window->draw(menu);
+    window->draw(lossMessage);
 }

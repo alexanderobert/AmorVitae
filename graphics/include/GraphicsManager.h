@@ -50,7 +50,6 @@ public:
 
 private:
     sf::RenderWindow *window;
-    Menu *menu;
 
     struct Config config;
     bool open;
@@ -58,8 +57,11 @@ private:
     std::vector<sf::Color> mapColors;
 
     sf::RectangleShape background;
+    sf::RectangleShape menu;
     sf::Texture background_texture;
+    sf::Texture menu_texture;
     sf::Texture player_texture;
+    sf::Texture enemy_player_texture;
     sf::Texture bullet_texture;
 
 };

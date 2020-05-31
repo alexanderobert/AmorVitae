@@ -9,7 +9,7 @@ class PlayerModel {
 public:
     PlayerModel();
 
-    PlayerModel(float startX, float startY, float width, float height);
+    PlayerModel(float startX, float startY, float width, float height, float sightToX, float sightToY);
 
     virtual ~PlayerModel();
 
@@ -19,12 +19,16 @@ public:
 
     void setPosition(float x, float y);
 
+    int getID() { return id; }
+
 private:
+    int id;
     sf::Sprite model;
     sf::Vector2f position;
     float width;
     float height;
-    sf::Color color;
+    float sightToX;
+    float sightToY;
 };
 
 #endif
