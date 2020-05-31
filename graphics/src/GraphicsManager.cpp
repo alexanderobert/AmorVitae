@@ -32,9 +32,9 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         id.setFont(font);
         pts.setFont(font);
 
-        if(x.first  == 0 ){
+        if (x.first == 0) {
             id.setString("Xitriy_Johnny");
-        } else{
+        } else {
             id.setString("Griyazniy_Billy");
         }
 
@@ -133,7 +133,6 @@ void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
     std::vector<PlayerModel> buff;
 
 
-
     for (PlayerInterface player : playerData) {
 //        std::cout<<player.sight.to.x<<std::endl;
 //        std::cout<<player.sight.to.y<<std::endl;
@@ -152,7 +151,9 @@ void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
     }
 
     buff[0].setTexture(player_texture);
-    buff[1].setTexture(enemy_player_texture);
+
+    if (buff.size() > 1)
+        buff[1].setTexture(enemy_player_texture);
 
     sf::RenderStates renderStates;
     for (auto &it : buff) {
