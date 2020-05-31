@@ -18,10 +18,7 @@ void NetClient::connect_to_server(std::string addr_server, int port) {
     sock->connect(ep);
     char id_user[1];
     socket_ptr->read_some(buffer(id_user, 1));
-    std::istringstream iss (id_user, std::istringstream::in);
-    int val;
-    iss >> val;
-    id = val;
+    id = static_cast<int>(id_user[0]); 
 }
 
 
