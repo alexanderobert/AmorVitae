@@ -140,8 +140,8 @@ void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
 //        std::cout<<player.sight.to.y<<std::endl;
 
         PlayerModel playerModel(
-                player.position.x,
-                player.position.y,
+                player.position.x - player.model.width / 2,
+                player.position.y - player.model.height / 2,
                 player.model.width,
                 player.model.height,
                 player.sight.to.x,
