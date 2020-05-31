@@ -13,6 +13,7 @@ void actionManager::actionUser(sf::RenderWindow &window, sf::Event &event, actio
     if (!isGame) {
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Return))) {
             action.connectClient();
+
             isGame = true;
         }
 

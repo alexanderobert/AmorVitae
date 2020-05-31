@@ -42,17 +42,17 @@ PlayerModel::PlayerModel(float startX, float startY, float width, float height, 
         : width(width), height(height), sightToX(sightToX), sightToY(sightToY) {
     position.x = startX;
     position.y = startY;
-
-    Vector2D p1(startX, startY);
-    Vector2D p2(sightToY, sightToY);
-    Vector2D p3(startX, startY - 1);
-
-    float rad = Vector2D::angle(p2-p1, p3-p1);
-    float deg = rad * 180.0 / M_PI;
+//
+//    Vector2D p1(startX, startY);
+//    Vector2D p2(sightToX * 10 + startX, sightToY * 10 + startY);
+//    Vector2D p3(startX, startY - 1);
+//
+//    float rad = Vector2D::angle(p2-p1, p3-p1);
+//    float deg = rad * 180.0 / M_PI;
 
     model.setPosition(position.x, position.y);
-    //model.setOrigin(position.x, position.y);
-    model.rotate(-deg);
+    //model.setOrigin(position.x + 7, position.y + 7);
+    //model.rotate(deg);
     //model.rotate(30);
 }
 

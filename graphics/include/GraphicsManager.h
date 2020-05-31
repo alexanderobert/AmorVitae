@@ -63,6 +63,8 @@ private:
     sf::Texture player_texture;
     sf::Texture enemy_player_texture;
     sf::Texture bullet_texture;
+    sf::Texture win;
+    sf::Texture lose;
 
 };
 

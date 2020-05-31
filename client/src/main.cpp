@@ -23,12 +23,15 @@ int main() {
 
     std::vector<std::shared_ptr<ObjectInterface>> objects;
 
+    bool flag = true;
+
     while((graph.isOpen()) && ((current_game_duration.total_seconds() < game_duration))){
 
         if(!user.isGame){
             graph.displayMainMenu();
 
         } else{
+            graph.setMyID(action.myId);
 
             objects = action.getMessage();
             graph.object(objects);

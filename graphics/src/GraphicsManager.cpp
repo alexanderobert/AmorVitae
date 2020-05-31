@@ -32,16 +32,21 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         id.setFont(font);
         pts.setFont(font);
 
-        id.setString(std::to_string(x.first));
+        if(x.first  == 0 ){
+            id.setString("Xitriy_Johnny");
+        } else{
+            id.setString("Griyazniy_Billy");
+        }
+
         pts.setString(std::to_string(x.second));
 
-        id.setColor(sf::Color::Red);
-        pts.setColor(sf::Color::Red);
+        id.setColor(sf::Color::White);
+        pts.setColor(sf::Color::White);
 
-        id.setCharacterSize(30);
-        pts.setCharacterSize(30);
+        id.setCharacterSize(20);
+        pts.setCharacterSize(20);
 
-        id.setPosition(-50 + config.windowWidth * 9 / 10, config.windowHeight * 1 / 10 - 50 + 50 * x.first);
+        id.setPosition(-250 + config.windowWidth * 9 / 10, config.windowHeight * 1 / 10 - 50 + 50 * x.first);
         pts.setPosition(-50 + config.windowWidth * 9 / 10 + 30, config.windowHeight * 1 / 10 - 50 + 50 * x.first);
 
         window->draw(id);
@@ -71,11 +76,23 @@ GraphicsManager::GraphicsManager(Config config, actionManager &user) : config(co
         std::cout << "texture load failed" << std::endl;
     }
 
-    if (!player_texture.loadFromFile("../graphics/textures/my_player_texture.png")) {
+    if (!player_texture.loadFromFile("../graphics/textures/UFO2.png")) {
+        std::cout << "texture load failed" << std::endl;
+    }
+
+    if (!enemy_player_texture.loadFromFile("../graphics/textures/UFO3.png")) {
         std::cout << "texture load failed" << std::endl;
     }
 
     if (!bullet_texture.loadFromFile("../graphics/textures/bullet.png")) {
+        std::cout << "texture load failed" << std::endl;
+    }
+
+    if (!win.loadFromFile("../graphics/textures/you_win.png")) {
+        std::cout << "texture load failed" << std::endl;
+    }
+
+    if (!lose.loadFromFile("../graphics/textures/you_lose.png")) {
         std::cout << "texture load failed" << std::endl;
     }
 
@@ -118,6 +135,11 @@ void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
 
 
     for (PlayerInterface player : playerData) {
+//        std::cout<<player.sight.to.x<<std::endl;
+//        std::cout<<player.sight.to.y<<std::endl;
+//        std::cout<<player.sight.to.x<<std::endl;
+//        std::cout<<player.sight.to.y<<std::endl;
+
         PlayerModel playerModel(
                 player.position.x,
                 player.position.y,
@@ -129,9 +151,21 @@ void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
         buff.push_back(playerModel);
     }
 
+    buff[0].setTexture(player_texture);
+    buff[1].setTexture(enemy_player_texture);
+
     sf::RenderStates renderStates;
     for (auto &it : buff) {
-        it.setTexture(player_texture);
+//        if(it.getID() == myID){
+////
+////        } else {
+////            it.setTexture(enemy_player_texture);
+////            }
+//        it.
+//        if(it.getID() == myID){
+//
+//        }
+
         it.draw(*window, renderStates);
     }
 
@@ -144,7 +178,7 @@ void GraphicsManager::drawObstacle(const std::vector<ObstructionInterface> &obst
     for (ObstructionInterface obstacle : obstacleData) {
         sf::RectangleShape obsModel(sf::Vector2f(obstacle.model.width, obstacle.model.height));
         obsModel.setPosition(sf::Vector2f(obstacle.position.x, obstacle.position.y));
-        obsModel.setFillColor(sf::Color::Black);
+        obsModel.setFillColor(sf::Color::Red);
 
         obs.push_back(obsModel);
     }
@@ -225,28 +259,30 @@ void GraphicsManager::displayMainMenu() {
 }
 
 void GraphicsManager::displayWin() {
-    sf::Font font;
-    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
-
-    sf::Text winMessage;
-    winMessage.setFont(font);
-    winMessage.setColor(sf::Color::Red);
-    winMessage.setString("Win");
-    winMessage.setCharacterSize(50);
+//    sf::Font font;
+//    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
+//
+    sf::RectangleShape winMessage;
+    winMessage.setTexture(&win);
+//    winMessage.setFont(font);
+//    winMessage.setColor(sf::Color::Red);
+//    winMessage.setString("Win");
+//    winMessage.setCharacterSize(50);
     winMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
 
     window->draw(winMessage);
 }
 
 void GraphicsManager::displayLose() {
-    sf::Font font;
-    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
+//    sf::Font font;
+//    if (!font.loadFromFile("../graphics/fonts/arial.ttf")) {/* handle error */}
 
-    sf::Text lossMessage;
-    lossMessage.setFont(font);
-    lossMessage.setColor(sf::Color::Red);
-    lossMessage.setString("Lose");
-    lossMessage.setCharacterSize(50);
+    sf::RectangleShape lossMessage;
+    lossMessage.setTexture(&lose);
+    //    lossMessage.setFont(font);
+//    lossMessage.setColor(sf::Color::Red);
+//    lossMessage.setString("Lose");
+//    lossMessage.setCharacterSize(50);
     lossMessage.setPosition(sf::Vector2f(config.windowWidth / 2 - 50, config.windowHeight / 2 - 50));
 
     window->draw(lossMessage);
