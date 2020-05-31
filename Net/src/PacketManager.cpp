@@ -25,7 +25,7 @@ std::vector<std::shared_ptr<ObjectInterface>> PacketManager::packet_adaptation_c
                 struct PlayerInterface pl(ObjectInterface::Type::PLAYER_OBJECT, id, {
                     (stod(x)),
                             (stod(y))},
-                {15, 15}, {{0,0},{stod(sight_x), stod(sight_y)}});
+                {20, 20}, {{0,0},{stod(sight_x), stod(sight_y)}});
                 std::shared_ptr<ObjectInterface> ptr = std::make_shared<PlayerInterface>(pl);
                 vector.push_back(ptr);
                 break;

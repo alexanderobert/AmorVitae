@@ -140,7 +140,7 @@ private:
 
 class Player : public Object {
 public:
-    Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(15,15)),
+    Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(20,20)),
                                sight(1, 0), speed(DEFAULT_PLAYER_SPEED) {};
     void update() override {
         if (state_.get_state() == PlayerState::STATE_FLYING) {
