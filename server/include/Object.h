@@ -11,12 +11,12 @@
 #include <cmath>
 #include <iostream>
 
-const static double DEFAULT_BULLET_SPEED = 15;
-const static double DEFAULT_PLAYER_SPEED = 2;
-const static int SHOT_COULDOWN_TICKS = 50;
+const static double DEFAULT_BULLET_SPEED = 20;
+const static double DEFAULT_PLAYER_SPEED = 3;
+const static int SHOT_COULDOWN_TICKS = 15;
 const static int BLINK_COULDOWN_TICKS = 120;
 const static int BULLET_TICKS_LIVETIME = 250;
-const static int FLYING_DURATION = 20;
+const static int FLYING_DURATION = 15;
 
 const static int WINDOW_H = 800;
 const static int WINDOW_W = 1280;
@@ -140,7 +140,7 @@ private:
 
 class Player : public Object {
 public:
-    Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(20,20)),
+    Player(int id, Point pos): Object(Type::PLAYER_OBJECT, id, pos, Model(26,26)),
                                sight(1, 0), speed(DEFAULT_PLAYER_SPEED) {};
     void update() override {
         if (state_.get_state() == PlayerState::STATE_FLYING) {

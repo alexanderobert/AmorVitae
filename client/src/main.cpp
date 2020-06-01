@@ -55,7 +55,7 @@ int main() {
 
     graph.display();
 
-    sleep(5);
+    sleep(15);
 
     return 0;
 }

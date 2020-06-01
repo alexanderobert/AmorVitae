@@ -32,11 +32,19 @@ void GraphicsManager::drawMap(const std::vector<MapInterface> &map) {
         id.setFont(font);
         pts.setFont(font);
 
-        if (x.first == 0) {
-            id.setString("Me");
-        } else {
+
+        if (x.first == 1) {
             id.setString("Griyazniy_Billy");
+        } else if (x.first == 2) {
+            id.setString("Xitriy_Johnny");
+        } else if (x.first == 3) {
+            id.setString("Lzhiviy_Garry");
+        } else if (x.first == 0) {
+            id.setString("Bugs_Bunny");
         }
+
+        if (x.first == myID)
+            id.setString("Me");
 
         pts.setString(std::to_string(x.second));
 
@@ -140,8 +148,8 @@ void GraphicsManager::drawPlayer(const std::vector<PlayerInterface> &playerData)
 //        std::cout<<player.sight.to.y<<std::endl;
 
         PlayerModel playerModel(
-                player.position.x - player.model.width / 2,
-                player.position.y - player.model.height / 2,
+                player.position.x,
+                player.position.y,
                 player.model.width,
                 player.model.height,
                 player.sight.to.x,
@@ -281,7 +289,7 @@ void GraphicsManager::displayLose() {
 
     //sf::Text lossMessage;
     sf::RectangleShape lossMessage(sf::Vector2f(700, 700));
-    //lossMessage.setTexture(&lose);
+    lossMessage.setTexture(&lose);
 //        lossMessage.setFont(font);
 //    lossMessage.setColor(sf::Color::Red);
 //    lossMessage.setString("Lose");
