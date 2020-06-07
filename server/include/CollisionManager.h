@@ -17,7 +17,7 @@ public:
     void resolve_collision(std::shared_ptr<Object> lhs_obj, std::shared_ptr<Object> rhs_obj);
 private:
 
-    bool is_collided(std::shared_ptr<Object> lhs_obj, std::shared_ptr<Object> rhs_obj) const ;
+    bool is_collided(std::shared_ptr<Object> lhs_obj, std::shared_ptr<Object> rhs_obj) const;
 
     void resolve_collision(std::shared_ptr<Player> player, std::shared_ptr<Obstruction> obstruct);
     void resolve_collision(std::shared_ptr<Player> player, std::shared_ptr<Bullet> bullet);

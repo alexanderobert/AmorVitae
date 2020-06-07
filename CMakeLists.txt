@@ -42,7 +42,6 @@ set(
         server/include/CollisionManager.h
         server/include/Object.h
         server/include/Event.h
-        server/include/EventManager.h
         server/include/World.h
         server/include/ObjectManager.h
 )

@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../include/ObjectManager.h"
+#include <ObjectManager.h>
 
 TEST(some_test, ok) {
 
